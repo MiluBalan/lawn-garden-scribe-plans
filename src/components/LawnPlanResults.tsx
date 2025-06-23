@@ -1,8 +1,13 @@
-
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Droplets, Scissors, Leaf, Bug, CheckCircle } from 'lucide-react';
+import { Calendar, Droplets, Scissors, Leaf, Bug, CheckCircle, ArrowLeft } from 'lucide-react';
+import RegionalSoilProfile from './RegionalSoilProfile';
+import GrowthPotentialChart from './GrowthPotentialChart';
+import WeatherChart from './WeatherChart';
+import SoilAnalysisCard from './SoilAnalysisCard';
+import { useWeatherData } from '../hooks/useWeatherData';
 
 interface LawnPlanResultsProps {
   lawnData: any;
@@ -10,6 +15,8 @@ interface LawnPlanResultsProps {
 }
 
 const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
+  const { weatherData, loading: weatherLoading } = useWeatherData(lawnData.location);
+
   const getSizeDisplay = () => {
     if (lawnData.size.startsWith('custom_')) {
       return `${lawnData.size.split('_')[1]} sq ft`;
@@ -35,6 +42,38 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
       'unknown': 'Mixed/Unknown'
     };
     return grassMap[lawnData.grassType] || 'Unknown';
+  };
+
+  // Mock data for soil composition
+  const soilComposition = [
+    { name: 'Silt', value: 45, color: '#dc2626' },
+    { name: 'Sand', value: 35, color: '#0ea5e9' },
+    { name: 'Clay', value: 20, color: '#65a30d' }
+  ];
+
+  // Mock nutrient data
+  const nutrients = [
+    {
+      name: 'Potassium',
+      level: 75,
+      status: 'sufficient' as const,
+      description: 'Vital to grass ability to endure stress',
+      letter: 'K',
+      color: '#8b5cf6'
+    },
+    {
+      name: 'Phosphorus', 
+      level: 45,
+      status: 'needs_more' as const,
+      description: 'An energy source in plant metabolism',
+      letter: 'P',
+      color: '#f59e0b'
+    }
+  ];
+
+  const soilProperties = {
+    organicMatter: 3.2,
+    pH: 6.8
   };
 
   const generateSchedule = () => {
@@ -128,45 +167,55 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
           </p>
         </div>
 
-        {/* Lawn Summary */}
-        <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center">Lawn Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="text-center">
-                <h4 className="font-semibold text-gray-900 mb-2">Size</h4>
-                <p className="text-gray-600">{getSizeDisplay()}</p>
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-gray-900 mb-2">Grass Type</h4>
-                <p className="text-gray-600">{getGrassDisplay()}</p>
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-gray-900 mb-2">Location</h4>
-                <p className="text-gray-600">{lawnData.location}</p>
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-gray-900 mb-2">Sunlight</h4>
-                <p className="text-gray-600 capitalize">{lawnData.sunlight?.replace('_', ' ')}</p>
-              </div>
+        {/* Regional Soil Profile */}
+        <div className="mb-8">
+          <RegionalSoilProfile
+            location={lawnData.location}
+            soilComposition={soilComposition}
+            grassType={getGrassDisplay()}
+            lawnSize={getSizeDisplay()}
+          />
+        </div>
+
+        {/* Weather and Growth Charts */}
+        {!weatherLoading && weatherData && (
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <GrowthPotentialChart data={weatherData.growthPotential} />
+            <WeatherChart
+              title="Temperature"
+              data={weatherData.temperature}
+              color="#dc2626"
+              unit="°F"
+            />
+            <WeatherChart
+              title="Rainfall"
+              data={weatherData.rainfall}
+              color="#0ea5e9"
+              unit="inches"
+            />
+            <div className="md:col-span-1">
+              <Card className="border-0 shadow-lg bg-white/90 backdrop-blur h-full">
+                <CardContent className="p-6 flex items-center justify-center">
+                  <div className="text-center">
+                    <h4 className="font-semibold text-gray-900 mb-2">Climate Summary</h4>
+                    <p className="text-gray-600 text-sm">
+                      Based on your location in {lawnData.location}, your lawn experiences optimal 
+                      growing conditions in spring and fall with moderate summer stress.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-            
-            {lawnData.problems && lawnData.problems.length > 0 && (
-              <div className="mt-6 pt-6 border-t">
-                <h4 className="font-semibold text-gray-900 mb-3">Issues to Address:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {lawnData.problems.map((problem: string) => (
-                    <Badge key={problem} variant="outline" className="capitalize">
-                      {problem.replace('_', ' ')}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          </div>
+        )}
+
+        {/* Soil Analysis */}
+        <div className="mb-8">
+          <SoilAnalysisCard
+            nutrients={nutrients}
+            soilProperties={soilProperties}
+          />
+        </div>
 
         {/* Seasonal Schedule */}
         <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
@@ -219,6 +268,7 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
             variant="outline"
             className="border-green-300 text-green-700 hover:bg-green-50 px-8 py-3"
           >
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Create Another Plan
           </Button>
           <div>
