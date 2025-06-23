@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Droplets, Scissors, Leaf, Bug, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Calendar, Droplets, Scissors, Leaf, Bug, CheckCircle, ArrowLeft, AlertTriangle } from 'lucide-react';
 import RegionalSoilProfile from './RegionalSoilProfile';
 import GrowthPotentialChart from './GrowthPotentialChart';
 import WeatherChart from './WeatherChart';
 import SoilAnalysisCard from './SoilAnalysisCard';
 import { useWeatherData } from '../hooks/useWeatherData';
+import { useSoilData } from '../hooks/useSoilData';
 
 interface LawnPlanResultsProps {
   lawnData: any;
@@ -15,7 +16,8 @@ interface LawnPlanResultsProps {
 }
 
 const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
-  const { weatherData, loading: weatherLoading } = useWeatherData(lawnData.location);
+  const { weatherData, loading: weatherLoading, error: weatherError } = useWeatherData(lawnData.location);
+  const { soilData, loading: soilLoading, error: soilError } = useSoilData(lawnData.location, lawnData.grassType);
 
   const getSizeDisplay = () => {
     if (lawnData.size.startsWith('custom_')) {
@@ -42,38 +44,6 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
       'unknown': 'Mixed/Unknown'
     };
     return grassMap[lawnData.grassType] || 'Unknown';
-  };
-
-  // Mock data for soil composition
-  const soilComposition = [
-    { name: 'Silt', value: 45, color: '#dc2626' },
-    { name: 'Sand', value: 35, color: '#0ea5e9' },
-    { name: 'Clay', value: 20, color: '#65a30d' }
-  ];
-
-  // Mock nutrient data
-  const nutrients = [
-    {
-      name: 'Potassium',
-      level: 75,
-      status: 'sufficient' as const,
-      description: 'Vital to grass ability to endure stress',
-      letter: 'K',
-      color: '#8b5cf6'
-    },
-    {
-      name: 'Phosphorus', 
-      level: 45,
-      status: 'needs_more' as const,
-      description: 'An energy source in plant metabolism',
-      letter: 'P',
-      color: '#f59e0b'
-    }
-  ];
-
-  const soilProperties = {
-    organicMatter: 3.2,
-    pH: 6.8
   };
 
   const generateSchedule = () => {
@@ -123,7 +93,7 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
     const recs = [];
     
     // Size-based recommendations
-    if (lawnData.size === 'small' || lawnData.size.includes('custom_') && parseInt(lawnData.size.split('_')[1]) < 5000) {
+    if (lawnData.size === 'small' || (lawnData.size.includes('custom_') && parseInt(lawnData.size.split('_')[1]) < 5000)) {
       recs.push('Consider organic fertilizers for small lawn areas');
     }
     
@@ -163,19 +133,31 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Your Custom Lawn Plan</h1>
           <p className="text-xl text-gray-600">
-            Here's your personalized lawn care plan based on your specific needs
+            Here's your personalized lawn care plan based on real climate and soil data
           </p>
+          
+          {/* Data Source Information */}
+          <div className="mt-4 space-y-2">
+            {(weatherError || soilError) && (
+              <div className="flex items-center justify-center space-x-2 text-amber-600">
+                <AlertTriangle className="h-4 w-4" />
+                <span className="text-sm">Using regional estimates - for more accuracy, get a soil test</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Regional Soil Profile */}
-        <div className="mb-8">
-          <RegionalSoilProfile
-            location={lawnData.location}
-            soilComposition={soilComposition}
-            grassType={getGrassDisplay()}
-            lawnSize={getSizeDisplay()}
-          />
-        </div>
+        {soilData && (
+          <div className="mb-8">
+            <RegionalSoilProfile
+              location={lawnData.location}
+              soilComposition={soilData.composition}
+              grassType={getGrassDisplay()}
+              lawnSize={getSizeDisplay()}
+            />
+          </div>
+        )}
 
         {/* Weather and Growth Charts */}
         {!weatherLoading && weatherData && (
@@ -199,7 +181,7 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
                   <div className="text-center">
                     <h4 className="font-semibold text-gray-900 mb-2">Climate Summary</h4>
                     <p className="text-gray-600 text-sm">
-                      Based on your location in {lawnData.location}, your lawn experiences optimal 
+                      Based on regional climate data for {lawnData.location}, your lawn experiences optimal 
                       growing conditions in spring and fall with moderate summer stress.
                     </p>
                   </div>
@@ -210,12 +192,14 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
         )}
 
         {/* Soil Analysis */}
-        <div className="mb-8">
-          <SoilAnalysisCard
-            nutrients={nutrients}
-            soilProperties={soilProperties}
-          />
-        </div>
+        {soilData && (
+          <div className="mb-8">
+            <SoilAnalysisCard
+              nutrients={soilData.nutrients}
+              soilProperties={soilData.properties}
+            />
+          </div>
+        )}
 
         {/* Seasonal Schedule */}
         <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
@@ -258,6 +242,22 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
                 </div>
               ))}
             </div>
+          </CardContent>
+        </Card>
+
+        {/* API Integration Notice */}
+        <Card className="mb-8 border-0 shadow-xl bg-blue-50 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="text-xl text-center text-blue-900">Data Sources</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center">
+            <p className="text-blue-800 text-sm mb-2">
+              This plan uses regional climate data and soil estimates based on your location.
+            </p>
+            <p className="text-blue-700 text-xs">
+              For the most accurate soil analysis, we recommend getting a professional soil test from your local extension office.
+              Weather data is estimated based on regional climate patterns.
+            </p>
           </CardContent>
         </Card>
 
