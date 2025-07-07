@@ -20,7 +20,7 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
   const { soilData, loading: soilLoading, error: soilError } = useSoilData(lawnData.location, lawnData.grassType);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8">

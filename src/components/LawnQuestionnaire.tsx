@@ -8,6 +8,8 @@ import LawnSizeStep from './LawnSizeStep';
 import GrassTypeStep from './GrassTypeStep';
 import ProblemAreasStep from './ProblemAreasStep';
 import LocationStep from './LocationStep';
+import SprinklerSystemStep from './SprinklerSystemStep';
+import AnalysisAnimation from './AnalysisAnimation';
 import LawnPlanResults from './LawnPlanResults';
 
 interface LawnQuestionnaireProps {
@@ -16,16 +18,20 @@ interface LawnQuestionnaireProps {
 
 const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [showAnalysis, setShowAnalysis] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [lawnData, setLawnData] = useState({
     size: '',
     grassType: '',
     location: '',
     problems: [] as string[],
     sunlight: '',
-    soilType: ''
+    soilType: '',
+    sprinklerSystem: '',
+    sprinklerFrequency: ''
   });
 
-  const totalSteps = 4;
+  const totalSteps = 5;
   const progress = (currentStep / totalSteps) * 100;
 
   const updateLawnData = (data: Partial<typeof lawnData>) => {
@@ -36,7 +42,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     } else {
-      setCurrentStep(5); // Results step
+      setShowAnalysis(true);
     }
   };
 
@@ -46,18 +52,33 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     }
   };
 
-  if (currentStep === 5) {
-    return <LawnPlanResults lawnData={lawnData} onRestart={() => {
-      setCurrentStep(1);
-      setLawnData({
-        size: '',
-        grassType: '',
-        location: '',
-        problems: [],
-        sunlight: '',
-        soilType: ''
-      });
-    }} />;
+  const handleAnalysisComplete = () => {
+    setShowAnalysis(false);
+    setShowResults(true);
+  };
+
+  const handleRestart = () => {
+    setShowResults(false);
+    setShowAnalysis(false);
+    setCurrentStep(1);
+    setLawnData({
+      size: '',
+      grassType: '',
+      location: '',
+      problems: [],
+      sunlight: '',
+      soilType: '',
+      sprinklerSystem: '',
+      sprinklerFrequency: ''
+    });
+  };
+
+  if (showResults) {
+    return <LawnPlanResults lawnData={lawnData} onRestart={handleRestart} />;
+  }
+
+  if (showAnalysis) {
+    return <AnalysisAnimation onComplete={handleAnalysisComplete} />;
   }
 
   const renderStep = () => {
@@ -70,6 +91,8 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         return <LocationStep data={lawnData} onUpdate={updateLawnData} />;
       case 4:
         return <ProblemAreasStep data={lawnData} onUpdate={updateLawnData} />;
+      case 5:
+        return <SprinklerSystemStep data={lawnData} onUpdate={updateLawnData} />;
       default:
         return null;
     }
@@ -81,6 +104,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       case 2: return 'Grass Type';
       case 3: return 'Location & Conditions';
       case 4: return 'Problem Areas';
+      case 5: return 'Watering System';
       default: return '';
     }
   };
@@ -91,12 +115,13 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       case 2: return lawnData.grassType !== '';
       case 3: return lawnData.location !== '' && lawnData.sunlight !== '';
       case 4: return true; // Problems are optional
+      case 5: return lawnData.sprinklerSystem !== '' && (lawnData.sprinklerSystem === 'no' || lawnData.sprinklerFrequency !== '');
       default: return false;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -121,7 +146,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         </div>
 
         {/* Step Content */}
-        <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
+        <Card className="mb-8 border shadow-xl bg-white">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl text-gray-900">{getStepTitle()}</CardTitle>
           </CardHeader>
