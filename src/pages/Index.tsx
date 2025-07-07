@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Leaf, MapPin, Bug, Droplets, Shield, Sprout, Package, Award, Globe, CheckCircle } from 'lucide-react';
 import LawnQuestionnaire from '@/components/LawnQuestionnaire';
+import AnimatedSoilChart from '@/components/AnimatedSoilChart';
 
 const Index = () => {
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
@@ -93,6 +94,42 @@ const Index = () => {
           </Card>
         </div>
 
+        {/* How It Works */}
+        <div className="bg-gray-50 rounded-2xl p-8 shadow-lg mb-16">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            How It Works
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                1
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Answer Questions</h3>
+              <p className="text-gray-600">
+                Tell us about your lawn size, grass type, and current challenges
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                2
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Get Your Plan</h3>
+              <p className="text-gray-600">
+                Receive a customized lawn care plan with specific recommendations
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                3
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Achieve Results</h3>
+              <p className="text-gray-600">
+                Follow your plan and watch your lawn transform into its best version
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Powered by Real Soil Data Section */}
         <div className="bg-gray-50 rounded-2xl p-8 shadow-lg mb-16">
           <div className="text-center mb-8">
@@ -132,29 +169,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="bg-white rounded-lg p-6 shadow-md">
-              <div className="text-center">
-                <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                <h4 className="font-semibold text-gray-900 mb-2">Soil Data Analysis</h4>
-                <p className="text-sm text-gray-600 mb-4">
-                  Real soil composition data from your location
-                </p>
-                <div className="space-y-2 text-left">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">pH Level:</span>
-                    <span className="text-sm font-medium">6.8 (Optimal)</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Organic Matter:</span>
-                    <span className="text-sm font-medium">3.2%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-600">Nitrogen:</span>
-                    <span className="text-sm font-medium">Medium</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AnimatedSoilChart />
           </div>
         </div>
 
@@ -229,57 +244,32 @@ const Index = () => {
                 reduced nitrogen runoff, and eco-friendly formulas all support a healthier planet—one yard at a time.
               </p>
             </div>
-
-            <div className="text-center flex items-center justify-center">
-              <div className="space-y-4">
-                <p className="text-lg font-semibold text-gray-900">
-                  👉 Join thousands of homeowners switching to smarter, safer lawn care with BioGrowth Organics.
-                </p>
-                <Button 
-                  onClick={() => setShowQuestionnaire(true)}
-                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg"
-                >
-                  Start My Custom Plan
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
+      </div>
 
-        {/* How It Works */}
-        <div className="bg-gray-50 rounded-2xl p-8 shadow-lg">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            How It Works
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                1
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Answer Questions</h3>
-              <p className="text-gray-600">
-                Tell us about your lawn size, grass type, and current challenges
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                2
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Get Your Plan</h3>
-              <p className="text-gray-600">
-                Receive a customized lawn care plan with specific recommendations
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                3
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Achieve Results</h3>
-              <p className="text-gray-600">
-                Follow your plan and watch your lawn transform into its best version
-              </p>
-            </div>
+      {/* Join Thousands Section with Lush Lawn Background */}
+      <div 
+        className="relative py-24 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiIGZpbGw9IiMyMmM1NWUiLz48cGF0aCBkPSJNMCAxMDgwSDk2MEw5NjAgNTQwSDEwODBIMTA4MFYxMDgwSDE5MjBWMEg5NjBWNTQwSDkwMFY0MDBIMTMyMFY2MDBIMTkwMFYxMDgwWiIgZmlsbD0iIzE2YTM0YSIgZmlsbC1vcGFjaXR5PSIwLjIiLz48L3N2Zz4=')`
+        }}
+      >
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl font-bold text-white mb-6">
+              Join Thousands of Homeowners Switching to Smarter, Safer Lawn Care
+            </h2>
+            <p className="text-xl text-white mb-8 opacity-90">
+              Transform your lawn with BioGrowth Organics' science-backed, family-safe approach to lawn care.
+            </p>
+            <Button 
+              onClick={() => setShowQuestionnaire(true)}
+              className="bg-green-600 hover:bg-green-700 text-white px-12 py-4 text-xl rounded-xl shadow-2xl transition-all duration-300 hover:shadow-3xl hover:scale-105"
+            >
+              Start My Custom Plan
+              <ArrowRight className="ml-3 h-6 w-6" />
+            </Button>
           </div>
         </div>
       </div>
