@@ -124,20 +124,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     <div className="min-h-screen bg-white py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Button 
-            variant="ghost" 
-            onClick={currentStep === 1 ? onBack : prevStep}
-            className="text-gray-600 hover:text-gray-900"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900">Custom Lawn Plan</h1>
-            <p className="text-gray-600">Step {currentStep} of {totalSteps}</p>
-          </div>
-          <div className="w-16"></div> {/* Spacer for alignment */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-gray-900">Custom Lawn Plan</h1>
+          <p className="text-gray-600">Step {currentStep} of {totalSteps}</p>
         </div>
 
         {/* Progress Bar */}
@@ -156,7 +145,15 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         </Card>
 
         {/* Navigation */}
-        <div className="flex justify-end">
+        <div className="flex justify-between items-center">
+          <Button 
+            variant="ghost" 
+            onClick={currentStep === 1 ? onBack : prevStep}
+            className="text-gray-600 hover:text-gray-900"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
           <Button
             onClick={nextStep}
             disabled={!canProceed()}
