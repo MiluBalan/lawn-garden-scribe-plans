@@ -222,7 +222,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         )}
 
         {/* Step Content */}
-        <Card className="mb-8 border shadow-xl bg-white">
+        <Card className="mb-8 shadow-xl bg-white">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl text-gray-900">{getStepTitle()}</CardTitle>
           </CardHeader>
