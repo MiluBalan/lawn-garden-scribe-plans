@@ -4,23 +4,29 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import PlanTypeStep from './PlanTypeStep';
 import LawnSizeStep from './LawnSizeStep';
 import GrassTypeStep from './GrassTypeStep';
 import ProblemAreasStep from './ProblemAreasStep';
 import LocationStep from './LocationStep';
 import SprinklerSystemStep from './SprinklerSystemStep';
+import PlantTypeStep from './PlantTypeStep';
+import GardenSizeStep from './GardenSizeStep';
 import AnalysisAnimation from './AnalysisAnimation';
 import LawnPlanResults from './LawnPlanResults';
+import GardenPlanResults from './GardenPlanResults';
 
 interface LawnQuestionnaireProps {
   onBack: () => void;
 }
 
 const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0); // Start at 0 for plan type selection
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [lawnData, setLawnData] = useState({
+  const [planData, setPlanData] = useState({
+    planType: '', // 'lawn' or 'garden'
+    // Lawn specific fields
     size: '',
     grassType: '',
     location: '',
@@ -28,18 +34,30 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     sunlight: '',
     soilType: '',
     sprinklerSystem: '',
-    sprinklerFrequency: ''
+    sprinklerFrequency: '',
+    // Garden specific fields
+    plantType: '',
+    gardenSize: ''
   });
 
-  const totalSteps = 5;
-  const progress = (currentStep / totalSteps) * 100;
+  const getTotalSteps = () => {
+    if (planData.planType === 'lawn') {
+      return 6; // Plan type + 5 lawn steps
+    } else if (planData.planType === 'garden') {
+      return 4; // Plan type + 3 garden steps
+    }
+    return 1; // Just plan type selection
+  };
 
-  const updateLawnData = (data: Partial<typeof lawnData>) => {
-    setLawnData(prev => ({ ...prev, ...data }));
+  const progress = getTotalSteps() > 1 ? ((currentStep + 1) / getTotalSteps()) * 100 : 0;
+
+  const updatePlanData = (data: Partial<typeof planData>) => {
+    setPlanData(prev => ({ ...prev, ...data }));
   };
 
   const nextStep = () => {
-    if (currentStep < totalSteps) {
+    const totalSteps = getTotalSteps();
+    if (currentStep < totalSteps - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       setShowAnalysis(true);
@@ -47,7 +65,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   };
 
   const prevStep = () => {
-    if (currentStep > 1) {
+    if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -60,8 +78,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   const handleRestart = () => {
     setShowResults(false);
     setShowAnalysis(false);
-    setCurrentStep(1);
-    setLawnData({
+    setCurrentStep(0);
+    setPlanData({
+      planType: '',
       size: '',
       grassType: '',
       location: '',
@@ -69,12 +88,18 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       sunlight: '',
       soilType: '',
       sprinklerSystem: '',
-      sprinklerFrequency: ''
+      sprinklerFrequency: '',
+      plantType: '',
+      gardenSize: ''
     });
   };
 
   if (showResults) {
-    return <LawnPlanResults lawnData={lawnData} onRestart={handleRestart} />;
+    if (planData.planType === 'lawn') {
+      return <LawnPlanResults lawnData={planData} onRestart={handleRestart} />;
+    } else {
+      return <GardenPlanResults gardenData={planData} onRestart={handleRestart} onBack={onBack} />;
+    }
   }
 
   if (showAnalysis) {
@@ -82,42 +107,100 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   }
 
   const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return <LawnSizeStep data={lawnData} onUpdate={updateLawnData} />;
-      case 2:
-        return <GrassTypeStep data={lawnData} onUpdate={updateLawnData} />;
-      case 3:
-        return <LocationStep data={lawnData} onUpdate={updateLawnData} />;
-      case 4:
-        return <ProblemAreasStep data={lawnData} onUpdate={updateLawnData} />;
-      case 5:
-        return <SprinklerSystemStep data={lawnData} onUpdate={updateLawnData} />;
-      default:
-        return null;
+    if (currentStep === 0) {
+      return <PlanTypeStep selectedType={planData.planType} onTypeChange={(type) => updatePlanData({ planType: type })} />;
     }
+
+    if (planData.planType === 'lawn') {
+      switch (currentStep) {
+        case 1:
+          return <LawnSizeStep data={planData} onUpdate={updatePlanData} />;
+        case 2:
+          return <GrassTypeStep data={planData} onUpdate={updatePlanData} />;
+        case 3:
+          return <LocationStep data={planData} onUpdate={updatePlanData} />;
+        case 4:
+          return <ProblemAreasStep data={planData} onUpdate={updatePlanData} />;
+        case 5:
+          return <SprinklerSystemStep data={planData} onUpdate={updatePlanData} />;
+        default:
+          return null;
+      }
+    } else if (planData.planType === 'garden') {
+      switch (currentStep) {
+        case 1:
+          return <PlantTypeStep selectedType={planData.plantType} onTypeChange={(type) => updatePlanData({ plantType: type })} />;
+        case 2:
+          return <GardenSizeStep selectedSize={planData.gardenSize} onSizeChange={(size) => updatePlanData({ gardenSize: size })} />;
+        case 3:
+          return <LocationStep data={planData} onUpdate={updatePlanData} />;
+        default:
+          return null;
+      }
+    }
+
+    return null;
   };
 
   const getStepTitle = () => {
-    switch (currentStep) {
-      case 1: return 'Lawn Size';
-      case 2: return 'Grass Type';
-      case 3: return 'Location & Conditions';
-      case 4: return 'Problem Areas';
-      case 5: return 'Watering System';
-      default: return '';
+    if (currentStep === 0) {
+      return 'Choose Your Plan Type';
     }
+
+    if (planData.planType === 'lawn') {
+      switch (currentStep) {
+        case 1: return 'Lawn Size';
+        case 2: return 'Grass Type';
+        case 3: return 'Location & Conditions';
+        case 4: return 'Problem Areas';
+        case 5: return 'Watering System';
+        default: return '';
+      }
+    } else if (planData.planType === 'garden') {
+      switch (currentStep) {
+        case 1: return 'Plant Type';
+        case 2: return 'Garden Size';
+        case 3: return 'Location & Conditions';
+        default: return '';
+      }
+    }
+
+    return '';
   };
 
   const canProceed = () => {
-    switch (currentStep) {
-      case 1: return lawnData.size !== '';
-      case 2: return lawnData.grassType !== '';
-      case 3: return lawnData.location !== '' && lawnData.sunlight !== '';
-      case 4: return true; // Problems are optional
-      case 5: return lawnData.sprinklerSystem !== '' && (lawnData.sprinklerSystem === 'no' || lawnData.sprinklerFrequency !== '');
-      default: return false;
+    if (currentStep === 0) {
+      return planData.planType !== '';
     }
+
+    if (planData.planType === 'lawn') {
+      switch (currentStep) {
+        case 1: return planData.size !== '';
+        case 2: return planData.grassType !== '';
+        case 3: return planData.location !== '' && planData.sunlight !== '';
+        case 4: return true; // Problems are optional
+        case 5: return planData.sprinklerSystem !== '' && (planData.sprinklerSystem === 'no' || planData.sprinklerFrequency !== '');
+        default: return false;
+      }
+    } else if (planData.planType === 'garden') {
+      switch (currentStep) {
+        case 1: return planData.plantType !== '';
+        case 2: return planData.gardenSize !== '';
+        case 3: return planData.location !== '';
+        default: return false;
+      }
+    }
+
+    return false;
+  };
+
+  const getPlanTitle = () => {
+    if (planData.planType === 'lawn') {
+      return 'Custom Lawn Plan';
+    } else if (planData.planType === 'garden') {
+      return 'Custom Garden Plan';
+    }
+    return 'Custom Plan';
   };
 
   return (
@@ -125,14 +208,18 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Custom Lawn Plan</h1>
-          <p className="text-gray-600">Step {currentStep} of {totalSteps}</p>
+          <h1 className="text-2xl font-bold text-gray-900">{getPlanTitle()}</h1>
+          {currentStep > 0 && (
+            <p className="text-gray-600">Step {currentStep} of {getTotalSteps() - 1}</p>
+          )}
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-8">
-          <Progress value={progress} className="h-2 bg-gray-200" />
-        </div>
+        {currentStep > 0 && (
+          <div className="mb-8">
+            <Progress value={progress} className="h-2 bg-gray-200" />
+          </div>
+        )}
 
         {/* Step Content */}
         <Card className="mb-8 border shadow-xl bg-white">
@@ -148,7 +235,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         <div className="flex justify-between items-center">
           <Button 
             variant="ghost" 
-            onClick={currentStep === 1 ? onBack : prevStep}
+            onClick={currentStep === 0 ? onBack : prevStep}
             className="text-gray-600 hover:text-gray-900"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -159,7 +246,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
             disabled={!canProceed()}
             className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {currentStep === totalSteps ? 'Generate Plan' : 'Next Step'}
+            {currentStep === getTotalSteps() - 1 ? 'Generate Plan' : 'Next Step'}
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
