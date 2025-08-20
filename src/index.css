@@ -101,3 +101,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .pattern-dots-yellow-green {
+    background-color: #fefce8;
+    background-image: radial-gradient(circle, #dcfce7 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  .pattern-subtle-yellow-green {
+    background: linear-gradient(45deg, #fefce8 25%, transparent 25%), 
+                linear-gradient(-45deg, #fefce8 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #dcfce7 75%), 
+                linear-gradient(-45deg, transparent 75%, #dcfce7 75%);
+    background-size: 30px 30px;
+    background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+  }
+}

@@ -10,49 +10,72 @@ interface PlanTypeStepProps {
 
 const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-4">
-        <h2 className="text-2xl font-bold text-gray-900">
-          What can we help with?
-        </h2>
-        <p className="text-gray-600">
-          Select the type of plan you'd like to create
-        </p>
+    <div className="space-y-12">
+      {/* Banner Section */}
+      <div className="pattern-subtle-yellow-green rounded-2xl p-8 md:p-12">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="space-y-6">
+            <h1 className="text-4xl font-bold text-gray-900">
+              Choose Your Perfect Plan
+            </h1>
+            <p className="text-xl text-gray-700">
+              Whether you want a lush green lawn or a thriving garden, we have the perfect organic solution for you.
+            </p>
+            <p className="text-gray-600">
+              Select your plan type below to get started with your personalized care program.
+            </p>
+          </div>
+          <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center">
+            <span className="text-gray-500 text-lg">Lifestyle Image Placeholder</span>
+          </div>
+        </div>
       </div>
 
-      <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-        <div className="space-y-2">
-          <RadioGroupItem value="lawn" id="lawn" className="peer sr-only" />
-          <Label
-            htmlFor="lawn"
-            className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-200 rounded-lg cursor-pointer bg-white peer-data-[state=checked]:border-green-500 peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
-          >
-            <Card className="w-full h-full flex flex-col items-center justify-center border-none shadow-none bg-transparent">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-3">
-                <Leaf className="h-8 w-8 text-green-600" />
-              </div>
-              <span className="text-lg font-semibold text-gray-900">Lawn</span>
-              <span className="text-sm text-gray-500 text-center">Get a custom lawn care plan</span>
-            </Card>
-          </Label>
+      {/* Plan Selection */}
+      <div className="space-y-8">
+        <div className="text-center space-y-4">
+          <h2 className="text-3xl font-bold text-gray-900">
+            What can we help with?
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Select the type of plan you'd like to create
+          </p>
         </div>
 
-        <div className="space-y-2">
-          <RadioGroupItem value="garden" id="garden" className="peer sr-only" />
-          <Label
-            htmlFor="garden"
-            className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-200 rounded-lg cursor-pointer bg-white peer-data-[state=checked]:border-green-500 peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
-          >
-            <Card className="w-full h-full flex flex-col items-center justify-center border-none shadow-none bg-transparent">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-3">
-                <Sprout className="h-8 w-8 text-green-600" />
+        <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="space-y-2">
+            <RadioGroupItem value="lawn" id="lawn" className="peer sr-only" />
+            <Label
+              htmlFor="lawn"
+              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:ring-4 peer-data-[state=checked]:ring-green-200 hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                  <Leaf className="h-10 w-10 text-green-600" />
+                </div>
+                <span className="text-2xl font-semibold text-gray-900">Lawn</span>
+                <span className="text-gray-500 text-center mt-2">Get a custom lawn care plan</span>
               </div>
-              <span className="text-lg font-semibold text-gray-900">Garden</span>
-              <span className="text-sm text-gray-500 text-center">Get a custom garden plan</span>
-            </Card>
-          </Label>
-        </div>
-      </RadioGroup>
+            </Label>
+          </div>
+
+          <div className="space-y-2">
+            <RadioGroupItem value="garden" id="garden" className="peer sr-only" />
+            <Label
+              htmlFor="garden"
+              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:ring-4 peer-data-[state=checked]:ring-green-200 hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                  <Sprout className="h-10 w-10 text-green-600" />
+                </div>
+                <span className="text-2xl font-semibold text-gray-900">Garden</span>
+                <span className="text-gray-500 text-center mt-2">Get a custom garden plan</span>
+              </div>
+            </Label>
+          </div>
+        </RadioGroup>
+      </div>
     </div>
   );
 };

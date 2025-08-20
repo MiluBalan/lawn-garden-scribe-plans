@@ -72,6 +72,17 @@ const WhyBioGrowthSection = () => {
             reduced nitrogen runoff, and eco-friendly formulas all support a healthier planet—one yard at a time.
           </p>
         </div>
+
+        <div className="text-center">
+          <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Package className="h-8 w-8 text-indigo-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-3">Science-Backed Results</h3>
+          <p className="text-gray-600">
+            Our formulations are developed with leading soil scientists and backed by years of research. Every product 
+            is tested and proven to deliver consistent, measurable improvements to your lawn's health and appearance.
+          </p>
+        </div>
       </div>
     </div>
   );

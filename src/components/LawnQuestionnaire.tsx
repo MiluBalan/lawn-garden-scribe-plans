@@ -15,6 +15,7 @@ import GardenSizeStep from './GardenSizeStep';
 import AnalysisAnimation from './AnalysisAnimation';
 import LawnPlanResults from './LawnPlanResults';
 import GardenPlanResults from './GardenPlanResults';
+import GreenBackgroundSection from './GreenBackgroundSection';
 
 interface LawnQuestionnaireProps {
   onBack: () => void;
@@ -222,14 +223,16 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         )}
 
         {/* Step Content */}
-        <Card className="mb-8 bg-white">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl text-gray-900">{getStepTitle()}</CardTitle>
-          </CardHeader>
-          <CardContent className="p-8">
-            {renderStep()}
-          </CardContent>
-        </Card>
+        <div className="mb-8">
+          {renderStep()}
+        </div>
+
+        {/* Green Background Section for Plan Type and Garden Steps */}
+        {(currentStep === 0 || (planData.planType === 'garden' && currentStep > 0)) && (
+          <div className="mb-8">
+            <GreenBackgroundSection />
+          </div>
+        )}
 
         {/* Navigation */}
         <div className="flex justify-between items-center">

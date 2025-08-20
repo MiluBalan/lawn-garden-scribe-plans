@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Square, SquareCheck, SquareCheckBig } from 'lucide-react';
+import { Flower, Carrot, Apple } from 'lucide-react';
 
 interface GardenSizeStepProps {
   selectedSize: string;
@@ -10,68 +10,85 @@ interface GardenSizeStepProps {
 
 const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => {
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-4">
-        <h2 className="text-2xl font-bold text-gray-900">
-          How big is your garden?
-        </h2>
-        <p className="text-gray-600">
-          This helps us recommend the right amount of products
-        </p>
+    <div className="space-y-12">
+      {/* Banner Section */}
+      <div className="bg-gray-200 rounded-2xl p-8 md:p-12 h-64 flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold text-gray-900">
+            Choose Your Garden Size
+          </h1>
+          <p className="text-xl text-gray-700">
+            Understanding your garden size helps us recommend the right amount of products for optimal results.
+          </p>
+          <p className="text-gray-600">
+            Select your garden size from the options below to get the perfect plan.
+          </p>
+        </div>
       </div>
 
-      <RadioGroup value={selectedSize} onValueChange={onSizeChange} className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div className="space-y-2">
-          <RadioGroupItem value="extra-small" id="extra-small" className="peer sr-only" />
-          <Label
-            htmlFor="extra-small"
-            className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-200 rounded-lg cursor-pointer bg-white peer-data-[state=checked]:border-green-500 peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
-          >
-            <Card className="w-full h-full flex flex-col items-center justify-center border-none shadow-none bg-transparent">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Square className="h-6 w-6 text-blue-600" />
-              </div>
-              <span className="text-lg font-semibold text-gray-900">Extra Small</span>
-              <span className="text-sm text-gray-500 text-center px-4">Container gardens, small raised beds</span>
-              <span className="text-xs text-gray-400 mt-1">Under 25 sq ft</span>
-            </Card>
-          </Label>
+      <div className="space-y-8">
+        <div className="text-center space-y-4">
+          <h2 className="text-3xl font-bold text-gray-900">
+            How big is your garden?
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Select the size that best matches your garden
+          </p>
         </div>
 
-        <div className="space-y-2">
-          <RadioGroupItem value="small-medium" id="small-medium" className="peer sr-only" />
-          <Label
-            htmlFor="small-medium"
-            className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-200 rounded-lg cursor-pointer bg-white peer-data-[state=checked]:border-green-500 peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
-          >
-            <Card className="w-full h-full flex flex-col items-center justify-center border-none shadow-none bg-transparent">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <SquareCheck className="h-7 w-7 text-green-600" />
+        <RadioGroup value={selectedSize} onValueChange={onSizeChange} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="space-y-2">
+            <RadioGroupItem value="extra-small" id="extra-small" className="peer sr-only" />
+            <Label
+              htmlFor="extra-small"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-blue-50 peer-data-[state=checked]:ring-4 peer-data-[state=checked]:ring-blue-200 hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center p-6">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                  <Flower className="h-10 w-10 text-blue-600" />
+                </div>
+                <span className="text-2xl font-semibold text-gray-900">Extra Small</span>
+                <span className="text-gray-500 text-center mt-2">Container gardens, small planters</span>
+                <span className="text-sm text-gray-400 mt-1">Less than 50 sq ft</span>
               </div>
-              <span className="text-lg font-semibold text-gray-900">Small to Medium</span>
-              <span className="text-sm text-gray-500 text-center px-4">Backyard garden beds</span>
-              <span className="text-xs text-gray-400 mt-1">25-200 sq ft</span>
-            </Card>
-          </Label>
-        </div>
+            </Label>
+          </div>
 
-        <div className="space-y-2">
-          <RadioGroupItem value="large" id="large" className="peer sr-only" />
-          <Label
-            htmlFor="large"
-            className="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-200 rounded-lg cursor-pointer bg-white peer-data-[state=checked]:border-green-500 peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
-          >
-            <Card className="w-full h-full flex flex-col items-center justify-center border-none shadow-none bg-transparent">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <SquareCheckBig className="h-8 w-8 text-purple-600" />
+          <div className="space-y-2">
+            <RadioGroupItem value="small-medium" id="small-medium" className="peer sr-only" />
+            <Label
+              htmlFor="small-medium"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:ring-4 peer-data-[state=checked]:ring-green-200 hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center p-6">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                  <Carrot className="h-10 w-10 text-green-600" />
+                </div>
+                <span className="text-2xl font-semibold text-gray-900">Small to Medium</span>
+                <span className="text-gray-500 text-center mt-2">Raised beds, small garden plots</span>
+                <span className="text-sm text-gray-400 mt-1">50-500 sq ft</span>
               </div>
-              <span className="text-lg font-semibold text-gray-900">Large</span>
-              <span className="text-sm text-gray-500 text-center px-4">Extensive gardens, multiple beds</span>
-              <span className="text-xs text-gray-400 mt-1">200+ sq ft</span>
-            </Card>
-          </Label>
-        </div>
-      </RadioGroup>
+            </Label>
+          </div>
+
+          <div className="space-y-2">
+            <RadioGroupItem value="large" id="large" className="peer sr-only" />
+            <Label
+              htmlFor="large"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-orange-50 peer-data-[state=checked]:ring-4 peer-data-[state=checked]:ring-orange-200 hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+            >
+              <div className="w-full h-full flex flex-col items-center justify-center p-6">
+                <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                  <Apple className="h-10 w-10 text-orange-600" />
+                </div>
+                <span className="text-2xl font-semibold text-gray-900">Large</span>
+                <span className="text-gray-500 text-center mt-2">Extensive gardens, multiple plots</span>
+                <span className="text-sm text-gray-400 mt-1">500+ sq ft</span>
+              </div>
+            </Label>
+          </div>
+        </RadioGroup>
+      </div>
     </div>
   );
 };
