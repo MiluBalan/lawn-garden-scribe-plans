@@ -10,10 +10,10 @@ interface PlanTypeStepProps {
 
 const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
   return (
-    <div className="space-y-12">
+    <div className="space-y-16 px-4">
       {/* Banner Section */}
-      <div className="pattern-subtle-yellow-green rounded-2xl p-8 md:p-12">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+      <div className="bg-background rounded-2xl p-8 md:p-12">
+        <div className="grid md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
           <div className="space-y-6">
             <h1 className="text-4xl font-bold text-gray-900">
               Choose Your Perfect Plan
@@ -32,7 +32,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
       </div>
 
       {/* Plan Selection */}
-      <div className="space-y-8">
+      <div className="space-y-12 max-w-7xl mx-auto">
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold text-gray-900">
             What can we help with?
@@ -42,12 +42,12 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
           </p>
         </div>
 
-        <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+        <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
           <div className="space-y-2">
             <RadioGroupItem value="lawn" id="lawn" className="peer sr-only" />
             <Label
               htmlFor="lawn"
-              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:ring-4 peer-data-[state=checked]:ring-green-200 hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
             >
               <div className="w-full h-full flex flex-col items-center justify-center">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
@@ -63,7 +63,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
             <RadioGroupItem value="garden" id="garden" className="peer sr-only" />
             <Label
               htmlFor="garden"
-              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:ring-4 peer-data-[state=checked]:ring-green-200 hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl"
+              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
             >
               <div className="w-full h-full flex flex-col items-center justify-center">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
