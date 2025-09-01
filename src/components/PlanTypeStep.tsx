@@ -46,12 +46,12 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
           </p>
         </div>
 
-        <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+        <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
           <div className="space-y-2">
             <RadioGroupItem value="lawn" id="lawn" className="peer sr-only" />
             <Label
               htmlFor="lawn"
-              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:border-green-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
@@ -67,7 +67,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
             <RadioGroupItem value="garden" id="garden" className="peer sr-only" />
             <Label
               htmlFor="garden"
-              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-40 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:border-green-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">

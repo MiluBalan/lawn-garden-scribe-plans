@@ -41,12 +41,12 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
           </p>
         </div>
 
-        <RadioGroup value={selectedSize} onValueChange={onSizeChange} className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <RadioGroup value={selectedSize} onValueChange={onSizeChange} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="space-y-2">
             <RadioGroupItem value="extra-small" id="extra-small" className="peer sr-only" />
             <Label
               htmlFor="extra-small"
-              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-blue-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-blue-50 peer-data-[state=checked]:border-blue-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4">
@@ -63,7 +63,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
             <RadioGroupItem value="small-medium" id="small-medium" className="peer sr-only" />
             <Label
               htmlFor="small-medium"
-              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-green-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-green-50 peer-data-[state=checked]:border-green-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
@@ -80,7 +80,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
             <RadioGroupItem value="large" id="large" className="peer sr-only" />
             <Label
               htmlFor="large"
-              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-orange-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-orange-50 peer-data-[state=checked]:border-orange-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-4">

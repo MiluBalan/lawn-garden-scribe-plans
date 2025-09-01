@@ -51,6 +51,11 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Custom shadows for selectable items */
+    --shadow-card: 0 2px 10px -2px hsl(0 0% 0% / 0.1);
+    --shadow-card-hover: 0 4px 20px -4px hsl(0 0% 0% / 0.15);
+    --shadow-card-selected: 0 6px 30px -6px hsl(0 0% 0% / 0.2);
   }
 
   .dark {
@@ -89,6 +94,11 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Custom shadows for selectable items - dark mode */
+    --shadow-card: 0 2px 10px -2px hsl(0 0% 0% / 0.3);
+    --shadow-card-hover: 0 4px 20px -4px hsl(0 0% 0% / 0.4);
+    --shadow-card-selected: 0 6px 30px -6px hsl(0 0% 0% / 0.5);
   }
 }
 

@@ -42,12 +42,12 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
           </p>
         </div>
 
-        <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <RadioGroup value={selectedType} onValueChange={onTypeChange} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="space-y-2">
             <RadioGroupItem value="flowers" id="flowers" className="peer sr-only" />
             <Label
               htmlFor="flowers"
-              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-pink-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-pink-50 peer-data-[state=checked]:border-pink-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mb-4">
@@ -63,7 +63,7 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
             <RadioGroupItem value="vegetables" id="vegetables" className="peer sr-only" />
             <Label
               htmlFor="vegetables"
-              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-orange-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-orange-50 peer-data-[state=checked]:border-orange-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-4">
@@ -79,7 +79,7 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
             <RadioGroupItem value="fruits" id="fruits" className="peer sr-only" />
             <Label
               htmlFor="fruits"
-              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-white peer-data-[state=checked]:bg-red-50 hover:bg-gray-50 transition-all"
+              className="flex flex-col items-center justify-center w-full h-48 rounded-2xl cursor-pointer bg-card border border-border shadow-[var(--shadow-card)] peer-data-[state=checked]:bg-red-50 peer-data-[state=checked]:border-red-200 peer-data-[state=checked]:shadow-[var(--shadow-card-selected)] hover:bg-gray-50 hover:shadow-[var(--shadow-card-hover)] transition-all duration-200"
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-4">
