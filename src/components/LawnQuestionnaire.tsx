@@ -205,54 +205,51 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8">
-      <div className="container mx-auto px-4 max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">{getPlanTitle()}</h1>
-          {currentStep > 0 && (
-            <p className="text-gray-600">Step {currentStep} of {getTotalSteps() - 1}</p>
-          )}
-        </div>
-
+    <div className="min-h-screen bg-white">
+      <div className="w-full">
         {/* Progress Bar */}
         {currentStep > 0 && (
-          <div className="mb-8">
-            <Progress value={progress} className="h-2 bg-gray-200" />
+          <div className="px-4 py-4">
+            <div className="max-w-4xl mx-auto">
+              <p className="text-center text-gray-600 mb-4">Step {currentStep} of {getTotalSteps() - 1}</p>
+              <Progress value={progress} className="h-2 bg-gray-200" />
+            </div>
           </div>
         )}
 
         {/* Step Content */}
-        <div className="mb-8">
+        <div className="w-full">
           {renderStep()}
         </div>
 
-        {/* Green Background Section for Plan Type and Garden Steps */}
+        {/* Navigation */}
+        <div className="px-4 py-8">
+          <div className="max-w-4xl mx-auto flex justify-between items-center">
+            <Button 
+              variant="ghost" 
+              onClick={currentStep === 0 ? onBack : prevStep}
+              className="text-gray-600 hover:text-gray-900"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            <Button
+              onClick={nextStep}
+              disabled={!canProceed()}
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {currentStep === getTotalSteps() - 1 ? 'Generate Plan' : 'Next Step'}
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Green Background Section for Plan Type and Garden Steps - Full Width at Bottom */}
         {(currentStep === 0 || (planData.planType === 'garden' && currentStep > 0)) && (
-          <div className="mb-8">
+          <div className="w-full">
             <GreenBackgroundSection />
           </div>
         )}
-
-        {/* Navigation */}
-        <div className="flex justify-between items-center">
-          <Button 
-            variant="ghost" 
-            onClick={currentStep === 0 ? onBack : prevStep}
-            className="text-gray-600 hover:text-gray-900"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          <Button
-            onClick={nextStep}
-            disabled={!canProceed()}
-            className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {currentStep === getTotalSteps() - 1 ? 'Generate Plan' : 'Next Step'}
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-        </div>
       </div>
     </div>
   );
