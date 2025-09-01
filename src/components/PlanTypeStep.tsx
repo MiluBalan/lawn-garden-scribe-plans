@@ -25,8 +25,12 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
               Select your plan type below to get started with your personalized care program.
             </p>
           </div>
-          <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center">
-            <span className="text-gray-500 text-lg">Lifestyle Image Placeholder</span>
+          <div className="rounded-lg h-64 overflow-hidden">
+            <img 
+              src="/lovable-uploads/db85985e-15ff-4e59-ae15-aabef79078ef.png" 
+              alt="Professional lawn care specialist applying BioGrowth organic treatment" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>
