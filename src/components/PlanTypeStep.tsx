@@ -15,7 +15,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
       <div className="bg-background rounded-2xl p-8 md:p-12">
         <div className="grid md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
           <div className="space-y-6">
-            <h1 className="text-4xl font-bold text-gray-900">
+            <h1 className="text-5xl font-bold text-green-600">
               Choose Your Perfect Plan
             </h1>
             <p className="text-xl text-gray-700">
@@ -25,7 +25,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
               Select your plan type below to get started with your personalized care program.
             </p>
           </div>
-          <div className="rounded-lg h-64 overflow-hidden">
+          <div className="rounded-lg h-full overflow-hidden">
             <img 
               src="/lovable-uploads/db85985e-15ff-4e59-ae15-aabef79078ef.png" 
               alt="Professional lawn care specialist applying BioGrowth organic treatment" 
