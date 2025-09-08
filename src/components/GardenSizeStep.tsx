@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Flower, Carrot, Apple } from 'lucide-react';
+import { Sprout, Trees, TreePine } from 'lucide-react';
 
 interface GardenSizeStepProps {
   selectedSize: string;
@@ -50,7 +50,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                  <Flower className="h-10 w-10 text-blue-600" />
+                  <Sprout className="h-10 w-10 text-blue-600" />
                 </div>
                 <span className="text-2xl font-semibold text-gray-900">Extra Small</span>
                 <span className="text-gray-500 text-center mt-2">Container gardens, small planters</span>
@@ -67,7 +67,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                  <Carrot className="h-10 w-10 text-green-600" />
+                  <Trees className="h-10 w-10 text-green-600" />
                 </div>
                 <span className="text-2xl font-semibold text-gray-900">Small to Medium</span>
                 <span className="text-gray-500 text-center mt-2">Raised beds, small garden plots</span>
@@ -84,7 +84,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
             >
               <div className="w-full h-full flex flex-col items-center justify-center p-6">
                 <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-                  <Apple className="h-10 w-10 text-orange-600" />
+                  <TreePine className="h-10 w-10 text-orange-600" />
                 </div>
                 <span className="text-2xl font-semibold text-gray-900">Large</span>
                 <span className="text-gray-500 text-center mt-2">Extensive gardens, multiple plots</span>
