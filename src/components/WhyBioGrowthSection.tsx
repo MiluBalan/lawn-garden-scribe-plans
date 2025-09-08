@@ -2,7 +2,7 @@ import { Shield, Sprout, Package, Award, Globe } from 'lucide-react';
 
 const WhyBioGrowthSection = () => {
   return (
-    <div className="bg-green-50 rounded-2xl p-8 shadow-lg mb-16">
+    <div className="bg-white rounded-2xl p-8 mb-16">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           Why BioGrowth Organics?
