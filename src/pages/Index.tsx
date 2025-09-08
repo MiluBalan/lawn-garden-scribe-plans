@@ -8,8 +8,20 @@ import SoilScienceSection from '@/components/SoilScienceSection';
 import WhyBioGrowthSection from '@/components/WhyBioGrowthSection';
 import JoinThousandsSection from '@/components/JoinThousandsSection';
 
-const Index = () => {
+interface IndexProps {
+  onStartPlan?: () => void;
+}
+
+const Index = ({ onStartPlan }: IndexProps) => {
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+
+  const handleStartPlan = () => {
+    if (onStartPlan) {
+      onStartPlan();
+    } else {
+      setShowQuestionnaire(true);
+    }
+  };
 
   if (showQuestionnaire) {
     return <LawnQuestionnaire onBack={() => setShowQuestionnaire(false)} />;
@@ -18,13 +30,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-16">
-        <HeroSection onStartPlan={() => setShowQuestionnaire(true)} />
+        <HeroSection onStartPlan={handleStartPlan} />
         <FeaturesGrid />
         <HowItWorksSection />
         <SoilScienceSection />
         <WhyBioGrowthSection />
       </div>
-      <JoinThousandsSection onStartPlan={() => setShowQuestionnaire(true)} />
+      <JoinThousandsSection onStartPlan={handleStartPlan} />
     </div>
   );
 };
