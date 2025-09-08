@@ -1,20 +1,36 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { MapPin } from 'lucide-react';
 
 const AnimatedSoilChart = () => {
   const [animatedValues, setAnimatedValues] = useState({ ph: 0, organic: 0, nitrogen: 0 });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnimatedValues({ ph: 68, organic: 32, nitrogen: 60 });
-    }, 500);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+            setTimeout(() => {
+              setAnimatedValues({ ph: 68, organic: 32, nitrogen: 60 });
+            }, 200);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
 
-    return () => clearTimeout(timer);
-  }, []);
+    if (chartRef.current) {
+      observer.observe(chartRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-md">
+    <div ref={chartRef} className="bg-white rounded-lg p-6 shadow-md">
       <div className="text-center mb-6">
         <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
         <h4 className="font-semibold text-gray-900 mb-2">Soil Data Analysis</h4>
