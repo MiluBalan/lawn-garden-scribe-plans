@@ -20,7 +20,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
 
   return (
     <header className="w-full bg-white/95 backdrop-blur-sm py-4 px-6 sticky top-0 z-50 shadow-md border-b border-gray-100">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex items-center gap-12">
         <div 
           onClick={handleLogoClick}
           className="cursor-pointer transition-transform hover:scale-105"
