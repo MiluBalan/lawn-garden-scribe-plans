@@ -9,8 +9,7 @@ const HeroSection = ({ onStartPlan }: HeroSectionProps) => {
   return (
     <div className="text-center mb-16">
       <h1 className="text-5xl font-bold text-gray-900 mb-6">
-        Get Your Custom
-        <span className="text-green-600 block">Lawn Care Plan</span>
+        Get Your Custom Plan
       </h1>
       <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
         Answer a few questions about your lawn and receive a personalized care plan 
