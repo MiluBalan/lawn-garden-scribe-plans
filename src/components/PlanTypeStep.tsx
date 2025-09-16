@@ -12,17 +12,18 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
   return (
     <div className="space-y-16 px-4">
       {/* Banner Section */}
-      <div className="bg-background rounded-2xl p-8 md:p-12">
-        <div className="grid md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
+      <div className="bg-gray-50 rounded-2xl p-8 md:p-12">
+        <div className="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
           <div className="space-y-6">
-            <h1 className="text-5xl font-bold text-green-600">
-              Choose Your Perfect Plan
+            <h1 className="text-5xl font-bold text-gray-900 leading-tight">
+              A custom plan starts<br />
+              with <span className="italic text-gray-700">your choice</span>
             </h1>
             <p className="text-xl text-gray-700">
-              Whether you want a lush green lawn or a thriving garden, we have the perfect organic solution for you.
+              Over <span className="font-bold text-green-600">50,000</span> personalized plans created!
             </p>
-            <p className="text-gray-600">
-              Select your plan type below to get started with your personalized care program.
+            <p className="text-lg text-gray-600">
+              Whether you want a lush green lawn or a thriving garden, choose your plan type below to get started with your personalized care program.
             </p>
           </div>
           <div className="rounded-lg h-full overflow-hidden">
