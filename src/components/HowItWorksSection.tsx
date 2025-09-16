@@ -1,3 +1,5 @@
+import { ClipboardList, FileText, Trophy } from 'lucide-react';
+
 const HowItWorksSection = () => {
   return (
     <div className="pattern-dots-yellow-green rounded-2xl p-8 mb-16">
@@ -6,8 +8,8 @@ const HowItWorksSection = () => {
       </h2>
       <div className="grid md:grid-cols-3 gap-8">
         <div className="text-center">
-          <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-            1
+          <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <ClipboardList className="h-6 w-6" />
           </div>
           <h3 className="text-xl font-semibold mb-2 text-gray-900">Answer Questions</h3>
           <p className="text-gray-600">
@@ -15,8 +17,8 @@ const HowItWorksSection = () => {
           </p>
         </div>
         <div className="text-center">
-          <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-            2
+          <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <FileText className="h-6 w-6" />
           </div>
           <h3 className="text-xl font-semibold mb-2 text-gray-900">Get Your Plan</h3>
           <p className="text-gray-600">
@@ -24,8 +26,8 @@ const HowItWorksSection = () => {
           </p>
         </div>
         <div className="text-center">
-          <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-            3
+          <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+            <Trophy className="h-6 w-6" />
           </div>
           <h3 className="text-xl font-semibold mb-2 text-gray-900">Achieve Results</h3>
           <p className="text-gray-600">
