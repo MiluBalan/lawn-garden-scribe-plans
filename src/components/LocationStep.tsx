@@ -64,7 +64,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
   ];
 
   return (
-    <div className="space-y-8 px-16">
+    <div className="space-y-8 px-24">
       <div className="text-center mb-8">
         <p className="text-lg text-gray-600">
           Your location and environmental conditions help us create the most accurate care plan for your specific situation.
