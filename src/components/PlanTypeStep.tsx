@@ -37,7 +37,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
       </div>
 
       {/* Plan Selection */}
-      <div className="space-y-12 max-w-7xl mx-auto">
+      <div className="space-y-12 max-w-7xl mx-auto mb-20">
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold text-gray-900">
             What can we help with?
