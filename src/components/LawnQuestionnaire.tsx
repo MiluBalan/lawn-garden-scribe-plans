@@ -209,7 +209,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       <div className="w-full">
         {/* Progress Bar */}
         {currentStep > 0 && (
-          <div className="px-4 py-4">
+          <div className="px-8 py-4">
             <div className="max-w-4xl mx-auto">
               <p className="text-center text-gray-600 mb-4">Step {currentStep} of {getTotalSteps() - 1}</p>
               <Progress value={progress} className="h-2 bg-gray-200" />
@@ -223,7 +223,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         </div>
 
         {/* Navigation */}
-        <div className="px-6 py-12">
+        <div className="px-8 py-12">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
             <Button 
               variant="ghost" 
