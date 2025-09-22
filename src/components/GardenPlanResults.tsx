@@ -77,11 +77,10 @@ const GardenPlanResults = ({ gardenData, onBack, onRestart }: GardenPlanResultsP
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="mb-8">
           <Button
-            variant="outline"
+            variant="secondary"
             onClick={onBack}
-            className="mb-4 flex items-center space-x-2"
+            className="mb-4 bg-gray-100 hover:bg-gray-200 text-gray-700"
           >
-            <ArrowLeft className="h-4 w-4" />
             <span>Back to Results</span>
           </Button>
           
@@ -187,8 +186,8 @@ const GardenPlanResults = ({ gardenData, onBack, onRestart }: GardenPlanResultsP
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               onClick={onRestart}
-              variant="outline"
-              className="px-8 py-3"
+              variant="secondary"
+              className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700"
             >
               Create Another Plan
             </Button>

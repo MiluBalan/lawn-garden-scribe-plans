@@ -11,10 +11,9 @@ const LawnPlanActions = ({ onRestart }: LawnPlanActionsProps) => {
     <div className="text-center space-y-4">
       <Button
         onClick={onRestart}
-        variant="outline"
-        className="border-green-300 text-green-700 hover:bg-green-50 px-8 py-3"
+        variant="secondary"
+        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-3"
       >
-        <ArrowLeft className="mr-2 h-4 w-4" />
         Create Another Plan
       </Button>
       <div>

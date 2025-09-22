@@ -25,12 +25,11 @@ const QuestionnaireNavigation = ({
   return (
     <div className="flex justify-between items-center pt-8 border-t border-gray-200">
       <Button
-        variant="outline"
+        variant="secondary"
         onClick={onPrevious}
         disabled={isFirstStep}
-        className="flex items-center space-x-2 px-6 py-3"
+        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3"
       >
-        <ArrowLeft className="h-4 w-4" />
         <span>Previous</span>
       </Button>
 
