@@ -226,11 +226,10 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         <div className="px-8 py-12">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
             <Button 
-              variant="ghost" 
+              variant="secondary" 
               onClick={currentStep === 0 ? onBack : prevStep}
-              className="text-gray-600 hover:text-gray-900"
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
               Back
             </Button>
             <Button

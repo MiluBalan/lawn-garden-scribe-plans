@@ -86,7 +86,7 @@ const ProblemAreasStep = ({ data, onUpdate }: ProblemAreasStepProps) => {
   };
 
   return (
-    <div className="space-y-6 px-24">
+    <div className="space-y-6 px-16 max-w-3xl mx-auto">
       <div className="text-center mb-8">
         <p className="text-lg text-gray-600">
           Select any issues you're currently experiencing with your lawn. Don't worry if you don't have any problems - we'll still create a maintenance plan to keep your lawn healthy!
