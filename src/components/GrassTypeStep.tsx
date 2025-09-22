@@ -67,7 +67,7 @@ const GrassTypeStep = ({ data, onUpdate }: GrassTypeStepProps) => {
   ];
 
   return (
-    <div className="space-y-6 px-8 max-w-2xl mx-auto">
+    <div className="space-y-6 px-8 max-w-[60rem] mx-auto">
       <div className="text-center mb-8">
         <p className="text-lg text-gray-600">
           Identifying your grass type is crucial for proper care. Different grasses have unique needs for fertilization, watering, and maintenance.
