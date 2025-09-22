@@ -35,7 +35,7 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
       <div className="space-y-12 max-w-7xl mx-auto">
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold text-gray-900">
-            What type of plants can we help with?
+            What would you like to grow? <span className="text-red-500">*</span>
           </h2>
           <p className="text-gray-600 text-lg">
             Choose the primary focus of your garden

@@ -34,7 +34,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
       <div className="space-y-12 max-w-7xl mx-auto">
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold text-gray-900">
-            How big is your garden?
+            How big is your garden? <span className="text-red-500">*</span>
           </h2>
           <p className="text-gray-600 text-lg">
             Select the size that best matches your garden

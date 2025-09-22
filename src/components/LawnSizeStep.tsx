@@ -36,6 +36,9 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
   return (
     <div className="space-y-6 px-8 max-w-[60rem] mx-auto">
       <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          How big is your lawn? <span className="text-red-500">*</span>
+        </h2>
         <p className="text-lg text-gray-600">
           Let's start by understanding the size of your lawn. This helps us recommend the right amount of products and care.
         </p>

@@ -21,6 +21,11 @@ const SprinklerSystemStep = ({ data, onUpdate }: SprinklerSystemStepProps) => {
 
   return (
     <div className="space-y-8 px-8 max-w-[60rem] mx-auto">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          Automated Sprinkler System <span className="text-red-500">*</span>
+        </h2>
+      </div>
       <div>
         <h3 className="text-xl font-semibold text-gray-900 mb-6">
           Do you have an automated sprinkler system?

@@ -74,7 +74,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
       {/* Location Input */}
       <div className="space-y-4">
         <Label htmlFor="location" className="text-lg font-semibold text-gray-900">
-          What's your location? (City, State or ZIP code)
+          What's your location? (City, State or ZIP code) <span className="text-red-500">*</span>
         </Label>
         <Input
           id="location"
@@ -91,7 +91,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
 
       {/* Sunlight Conditions */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-900">How much sunlight does your lawn receive?</h3>
+        <h3 className="text-lg font-semibold text-gray-900">How much sunlight does your lawn receive? <span className="text-red-500">*</span></h3>
         <div className="grid md:grid-cols-2 gap-4">
           {sunlightOptions.map((option) => (
             <Card 
