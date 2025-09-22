@@ -20,7 +20,7 @@ const SprinklerSystemStep = ({ data, onUpdate }: SprinklerSystemStepProps) => {
   };
 
   return (
-    <div className="space-y-8 px-16 max-w-3xl mx-auto">
+    <div className="space-y-8 px-8 max-w-2xl mx-auto">
       <div>
         <h3 className="text-xl font-semibold text-gray-900 mb-6">
           Do you have an automated sprinkler system?
