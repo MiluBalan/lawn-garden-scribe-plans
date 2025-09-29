@@ -29,7 +29,7 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
           <div className="rounded-lg h-64 overflow-hidden">
             <img 
               src={gardenPlantingImage} 
-              alt="Aerial view of green farmland with red tractor spraying crops across vast agricultural fields" 
+              alt="Hands planting purple flowers with gardening tools and soil" 
               className="w-full h-full object-cover"
             />
           </div>
