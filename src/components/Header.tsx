@@ -87,7 +87,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
                 <Button 
                   variant="ghost" 
                   onClick={onStartPlan}
-                  className="text-gray-700 hover:text-primary font-medium justify-start"
+                  className="text-gray-700 hover:text-primary font-semibold justify-start text-lg"
                 >
                   Custom Plan
                 </Button>
@@ -96,7 +96,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
                 <Button 
                   variant="ghost" 
                   onClick={handleShopClick}
-                  className="text-gray-700 hover:text-primary font-medium justify-start"
+                  className="text-gray-700 hover:text-primary font-semibold justify-start text-lg"
                 >
                   Shop
                 </Button>
@@ -105,7 +105,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
                 <Button 
                   variant="ghost" 
                   onClick={handleContactClick}
-                  className="text-gray-700 hover:text-primary font-medium justify-start"
+                  className="text-gray-700 hover:text-primary font-semibold justify-start text-lg"
                 >
                   Contact Us
                 </Button>
