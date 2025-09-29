@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Flower, Carrot, Apple } from 'lucide-react';
+import gardenPlantingImage from '@/assets/garden-planting.jpg';
 
 interface PlantTypeStepProps {
   selectedType: string;
@@ -25,8 +26,12 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
               Choose your plant type below to get personalized recommendations and care tips.
             </p>
           </div>
-          <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center">
-            <span className="text-gray-500 text-lg">Before/After Garden Image</span>
+          <div className="rounded-lg h-64 overflow-hidden">
+            <img 
+              src={gardenPlantingImage} 
+              alt="Hands planting purple flowers with gardening tools and soil" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>
