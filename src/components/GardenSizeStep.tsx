@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Sprout, Trees, TreePine } from 'lucide-react';
-import farmlandImage from '@/assets/farmland-aerial.jpg';
+import farmlandImage from '@/assets/gradenSize.jpg';
 
 interface GardenSizeStepProps {
   selectedSize: string;
@@ -26,7 +26,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
               Select your garden size from the options below to get the perfect plan.
             </p>
           </div>
-          <div className="rounded-lg h-64 overflow-hidden">
+          <div className="rounded-lg h-full overflow-hidden">
             <img 
               src={farmlandImage} 
               alt="Aerial view of green farmland with red tractor spraying crops across vast agricultural fields" 

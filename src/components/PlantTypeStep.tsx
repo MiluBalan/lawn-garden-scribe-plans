@@ -26,7 +26,7 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
               Choose your plant type below to get personalized recommendations and care tips.
             </p>
           </div>
-          <div className="rounded-lg h-64 overflow-hidden">
+          <div className="rounded-lg h-full overflow-hidden">
             <img 
               src={gardenPlantingImage} 
               alt="Hands planting purple flowers with gardening tools and soil" 
