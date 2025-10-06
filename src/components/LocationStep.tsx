@@ -1,7 +1,10 @@
 
+import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useZipcodeAutocomplete } from '@/hooks/useZipcodeAutocomplete';
+import { MapPin } from 'lucide-react';
 
 interface LocationStepProps {
   data: any;
@@ -9,6 +12,45 @@ interface LocationStepProps {
 }
 
 const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [inputValue, setInputValue] = useState(data.location || '');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  
+  const { suggestions } = useZipcodeAutocomplete(inputValue);
+
+  useEffect(() => {
+    setInputValue(data.location || '');
+  }, [data.location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node) &&
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleInputChange = (value: string) => {
+    setInputValue(value);
+    onUpdate({ location: value });
+    setShowSuggestions(true);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);
+    onUpdate({ location: suggestion });
+    setShowSuggestions(false);
+  };
+
   const sunlightOptions = [
     {
       value: 'full_sun',
@@ -72,18 +114,41 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
       </div>
 
       {/* Location Input */}
-      <div className="space-y-4">
+      <div className="space-y-4 relative">
         <Label htmlFor="location" className="text-lg font-semibold text-gray-900">
           What's your location? (City, State or ZIP code) <span className="text-red-500">*</span>
         </Label>
-        <Input
-          id="location"
-          type="text"
-          value={data.location}
-          onChange={(e) => onUpdate({ location: e.target.value })}
-          placeholder="e.g., Austin, TX or 78701"
-          className="text-lg p-4"
-        />
+        <div className="relative">
+          <Input
+            ref={inputRef}
+            id="location"
+            type="text"
+            value={inputValue}
+            onChange={(e) => handleInputChange(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            placeholder="e.g., Austin, TX or 78701"
+            className="text-lg p-4"
+          />
+          
+          {showSuggestions && suggestions.length > 0 && (
+            <div
+              ref={suggestionsRef}
+              className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto"
+            >
+              {suggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => handleSuggestionClick(suggestion.formatted)}
+                  className="w-full px-4 py-3 text-left hover:bg-green-50 transition-colors flex items-center gap-2 border-b border-gray-100 last:border-b-0"
+                >
+                  <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <span className="text-gray-900">{suggestion.formatted}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         <p className="text-sm text-gray-500">
           This helps us provide climate-specific recommendations and timing for your lawn care activities.
         </p>
