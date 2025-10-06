@@ -66,6 +66,40 @@ export const useSoilData = (location: string, grassType: string) => {
   return { soilData, loading, error };
 };
 
+// Map ZIP code to regional soil profile
+const mapZipCodeToRegion = (zipCode: number): string => {
+  // Northeast: 00000-14999
+  if (zipCode >= 0 && zipCode <= 14999) {
+    return 'northeast';
+  }
+  // Southeast: 20000-39999 (including VA, WV, DC down to FL)
+  else if (zipCode >= 20000 && zipCode <= 39999) {
+    return 'southeast';
+  }
+  // Midwest: 40000-56999, 60000-62999 (OH, IN, MI, IL, WI, MN, IA, MO, ND, SD, NE)
+  else if ((zipCode >= 40000 && zipCode <= 56999) || (zipCode >= 60000 && zipCode <= 62999)) {
+    return 'midwest';
+  }
+  // South Central: 63000-79999 (KS, OK, TX, AR)
+  else if (zipCode >= 63000 && zipCode <= 79999) {
+    return 'southcentral';
+  }
+  // Southwest: 80000-89999 (CO, UT, AZ, NM, NV)
+  else if (zipCode >= 80000 && zipCode <= 89999) {
+    return 'southwest';
+  }
+  // Northwest: 97000-99999 (OR, WA)
+  else if (zipCode >= 97000 && zipCode <= 99999) {
+    return 'northwest';
+  }
+  // California: 90000-96999
+  else if (zipCode >= 90000 && zipCode <= 96999) {
+    return 'southwest';
+  }
+  // Default to midwest for any other ranges
+  return 'midwest';
+};
+
 // Generate realistic soil data based on geographic region and grass type
 const getRegionalSoilData = (location: string, grassType: string): SoilData => {
   const locationLower = location.toLowerCase();
@@ -73,16 +107,37 @@ const getRegionalSoilData = (location: string, grassType: string): SoilData => {
   // Determine soil region
   let soilRegion = 'midwest'; // default
   
-  if (locationLower.includes('florida') || locationLower.includes('georgia') || locationLower.includes('alabama')) {
-    soilRegion = 'southeast';
-  } else if (locationLower.includes('texas') || locationLower.includes('oklahoma') || locationLower.includes('kansas')) {
-    soilRegion = 'southcentral';
-  } else if (locationLower.includes('california') || locationLower.includes('arizona') || locationLower.includes('nevada')) {
-    soilRegion = 'southwest';
-  } else if (locationLower.includes('oregon') || locationLower.includes('washington') || locationLower.includes('idaho')) {
-    soilRegion = 'northwest';
-  } else if (locationLower.includes('maine') || locationLower.includes('vermont') || locationLower.includes('new hampshire')) {
-    soilRegion = 'northeast';
+  // Check if location is a ZIP code (5-digit number)
+  const zipMatch = location.match(/\b(\d{5})\b/);
+  
+  if (zipMatch) {
+    const zipCode = parseInt(zipMatch[1]);
+    soilRegion = mapZipCodeToRegion(zipCode);
+  } else {
+    // Use state name matching for non-ZIP inputs
+    if (locationLower.includes('florida') || locationLower.includes('georgia') || 
+        locationLower.includes('alabama') || locationLower.includes('mississippi') || 
+        locationLower.includes('south carolina') || locationLower.includes('north carolina') ||
+        locationLower.includes('louisiana')) {
+      soilRegion = 'southeast';
+    } else if (locationLower.includes('texas') || locationLower.includes('oklahoma') || 
+               locationLower.includes('kansas') || locationLower.includes('arkansas')) {
+      soilRegion = 'southcentral';
+    } else if (locationLower.includes('california') || locationLower.includes('arizona') || 
+               locationLower.includes('nevada') || locationLower.includes('new mexico') ||
+               locationLower.includes('utah')) {
+      soilRegion = 'southwest';
+    } else if (locationLower.includes('oregon') || locationLower.includes('washington') || 
+               locationLower.includes('idaho') || locationLower.includes('montana') ||
+               locationLower.includes('wyoming')) {
+      soilRegion = 'northwest';
+    } else if (locationLower.includes('maine') || locationLower.includes('vermont') || 
+               locationLower.includes('new hampshire') || locationLower.includes('massachusetts') ||
+               locationLower.includes('connecticut') || locationLower.includes('rhode island') ||
+               locationLower.includes('new york') || locationLower.includes('pennsylvania') ||
+               locationLower.includes('new jersey')) {
+      soilRegion = 'northeast';
+    }
   }
 
   const soilProfiles = {
