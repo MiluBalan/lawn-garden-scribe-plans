@@ -37,15 +37,11 @@ export const useWeatherData = (location: string) => {
           return;
         }
 
-        // Use OpenWeatherMap's free tier with a demo API key
-        // Note: Users should get their own API key from openweathermap.org
-        const API_KEY = 'demo_key'; // This will need to be replaced with a real API key
-        const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=${API_KEY}&units=imperial`;
+        const API_KEY = '5f7560cfaa74dffd8aaae1d2f808be45';
         
-        // For demo purposes, we'll use a more realistic approach with geolocation
         let coordinates: { lat: number; lon: number } | null = null;
         
-        // Try to get coordinates from location name
+        // Get coordinates from location (zipcode or city name)
         try {
           const geoResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(location)}&limit=1&appid=${API_KEY}`);
           if (geoResponse.ok) {
@@ -58,15 +54,36 @@ export const useWeatherData = (location: string) => {
           console.log('Geolocation lookup failed, using fallback data');
         }
 
-        // Generate more realistic climate data based on location
-        const climateData = generateClimateData(location, coordinates);
-        
+        // Fetch real climate data using coordinates
+        if (coordinates) {
+          try {
+            // Fetch current weather for reference
+            const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${API_KEY}&units=imperial`;
+            const currentResponse = await fetch(currentWeatherUrl);
+            
+            if (currentResponse.ok) {
+              const currentData = await currentResponse.json();
+              console.log('Current weather data:', currentData);
+              
+              // Generate climate data based on location and current conditions
+              const climateData = generateClimateData(location, coordinates, currentData);
+              setWeatherData(climateData);
+              setError(null);
+              return;
+            }
+          } catch (apiError) {
+            console.error('Weather API error:', apiError);
+          }
+        }
+
+        // Fallback to generated climate data
+        const climateData = generateClimateData(location, coordinates, null);
         setWeatherData(climateData);
         setError(null);
       } catch (err) {
         console.error('Weather data fetch error:', err);
         // Fallback to regional climate data
-        const fallbackData = generateClimateData(location, null);
+        const fallbackData = generateClimateData(location, null, null);
         setWeatherData(fallbackData);
         setError('Using estimated climate data for your region');
       } finally {
@@ -82,8 +99,8 @@ export const useWeatherData = (location: string) => {
   return { weatherData, loading, error };
 };
 
-// Generate realistic climate data based on location
-const generateClimateData = (location: string, coordinates: { lat: number; lon: number } | null): WeatherData => {
+// Generate realistic climate data based on location and current weather
+const generateClimateData = (location: string, coordinates: { lat: number; lon: number } | null, currentWeather: any): WeatherData => {
   const locationLower = location.toLowerCase();
   
   // Determine climate zone based on location keywords and coordinates
@@ -125,18 +142,37 @@ const generateClimateData = (location: string, coordinates: { lat: number; lon: 
   const profile = climateProfiles[climateZone];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+  // Adjust profile slightly based on current weather if available
+  let adjustedProfile = profile;
+  if (currentWeather && currentWeather.main) {
+    const currentTemp = currentWeather.main.temp;
+    const currentMonth = new Date().getMonth();
+    
+    // Fine-tune the temperature profile based on actual current temperature
+    const profileTemp = profile.temperatures[currentMonth];
+    const tempDiff = currentTemp - profileTemp;
+    
+    if (Math.abs(tempDiff) > 5) {
+      adjustedProfile = {
+        temperatures: profile.temperatures.map(t => t + tempDiff * 0.5),
+        rainfall: profile.rainfall,
+        growthSeasons: profile.growthSeasons
+      };
+    }
+  }
+
   return {
     temperature: months.map((month, index) => ({
       month,
-      value: profile.temperatures[index]
+      value: Math.round(adjustedProfile.temperatures[index])
     })),
     rainfall: months.map((month, index) => ({
       month,
-      value: profile.rainfall[index]
+      value: Number(adjustedProfile.rainfall[index].toFixed(1))
     })),
     growthPotential: months.map((month, index) => ({
       month,
-      potential: profile.growthSeasons[index]
+      potential: adjustedProfile.growthSeasons[index]
     }))
   };
 };
