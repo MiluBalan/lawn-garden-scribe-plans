@@ -143,17 +143,17 @@ const getRegionalSoilData = (location: string, grassType: string): SoilData => {
   const soilProfiles = {
     southeast: {
       composition: [
-        { name: 'Sand', value: 60, color: '#f59e0b' },
-        { name: 'Silt', value: 25, color: '#dc2626' },
-        { name: 'Clay', value: 15, color: '#65a30d' }
+        { name: 'Sand', value: 60, color: '#2687A0' },
+        { name: 'Silt', value: 25, color: '#E17765' },
+        { name: 'Clay', value: 15, color: '#347856' }
       ],
       ph: 5.8,
       organicMatter: 2.1
     },
     southwest: {
       composition: [
-        { name: 'Sand', value: 45, color: '#f59e0b' },
-        { name: 'Silt', value: 35, color: '#dc2626' },
+        { name: 'Sand', value: 45, color: '#2687A0' },
+        { name: 'Silt', value: 35, color: '#E17765' },
         { name: 'Clay', value: 20, color: '#65a30d' }
       ],
       ph: 7.2,
@@ -161,8 +161,8 @@ const getRegionalSoilData = (location: string, grassType: string): SoilData => {
     },
     midwest: {
       composition: [
-        { name: 'Silt', value: 45, color: '#dc2626' },
-        { name: 'Sand', value: 35, color: '#f59e0b' },
+        { name: 'Silt', value: 45, color: '#E17765' },
+        { name: 'Sand', value: 35, color: '#2687A0' },
         { name: 'Clay', value: 20, color: '#65a30d' }
       ],
       ph: 6.8,
@@ -170,8 +170,8 @@ const getRegionalSoilData = (location: string, grassType: string): SoilData => {
     },
     northeast: {
       composition: [
-        { name: 'Silt', value: 40, color: '#dc2626' },
-        { name: 'Sand', value: 35, color: '#f59e0b' },
+        { name: 'Silt', value: 40, color: '#E17765' },
+        { name: 'Sand', value: 35, color: '#2687A0' },
         { name: 'Clay', value: 25, color: '#65a30d' }
       ],
       ph: 6.5,
@@ -179,9 +179,9 @@ const getRegionalSoilData = (location: string, grassType: string): SoilData => {
     },
     northwest: {
       composition: [
-        { name: 'Silt', value: 50, color: '#dc2626' },
+        { name: 'Silt', value: 50, color: '#E17765' },
         { name: 'Clay', value: 30, color: '#65a30d' },
-        { name: 'Sand', value: 20, color: '#f59e0b' }
+        { name: 'Sand', value: 20, color: '#2687A0' }
       ],
       ph: 6.2,
       organicMatter: 4.1
@@ -189,8 +189,8 @@ const getRegionalSoilData = (location: string, grassType: string): SoilData => {
     southcentral: {
       composition: [
         { name: 'Clay', value: 45, color: '#65a30d' },
-        { name: 'Silt', value: 35, color: '#dc2626' },
-        { name: 'Sand', value: 20, color: '#f59e0b' }
+        { name: 'Silt', value: 35, color: '#E17765' },
+        { name: 'Sand', value: 20, color: '#2687A0' }
       ],
       ph: 7.5,
       organicMatter: 2.5
