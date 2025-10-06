@@ -116,7 +116,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
       {/* Location Input */}
       <div className="space-y-4 relative">
         <Label htmlFor="location" className="text-lg font-semibold text-gray-900">
-          What's your location? (City, State or ZIP code) <span className="text-red-500">*</span>
+          Zip code <span className="text-red-500">*</span>
         </Label>
         <div className="relative">
           <Input
