@@ -1,13 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Leaf, MapPin, Bug, Droplets } from 'lucide-react';
+import { MapPin, Bug, Droplets } from 'lucide-react';
+import grassTexture from '@/assets/grass-texture.jpg';
 
 const FeaturesGrid = () => {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white">
+      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white overflow-hidden">
         <CardHeader className="text-center pb-4">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Leaf className="h-8 w-8 text-green-600" />
+          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-green-100">
+            <img 
+              src={grassTexture} 
+              alt="Grass texture" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <CardTitle className="text-lg text-gray-900">Grass Type Analysis</CardTitle>
         </CardHeader>
