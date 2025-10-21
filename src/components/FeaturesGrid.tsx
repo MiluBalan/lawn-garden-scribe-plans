@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Bug, Droplets } from 'lucide-react';
+import { Bug, Droplets } from 'lucide-react';
 import grassTexture from '@/assets/grass-texture.jpg';
+import locationMap from '@/assets/location-map.jpg';
 
 const FeaturesGrid = () => {
   return (
@@ -23,10 +24,14 @@ const FeaturesGrid = () => {
         </CardContent>
       </Card>
 
-      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white">
+      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white overflow-hidden">
         <CardHeader className="text-center pb-4">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <MapPin className="h-8 w-8 text-blue-600" />
+          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-blue-100">
+            <img 
+              src={locationMap} 
+              alt="Location map" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <CardTitle className="text-lg text-gray-900">Location Based</CardTitle>
         </CardHeader>
