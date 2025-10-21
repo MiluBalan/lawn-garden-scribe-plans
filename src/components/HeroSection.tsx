@@ -9,7 +9,7 @@ interface HeroSectionProps {
 const HeroSection = ({ onStartPlan }: HeroSectionProps) => {
   return (
     <div 
-      className="relative text-center mb-16 py-32 bg-cover bg-center rounded-2xl overflow-hidden"
+      className="relative text-center py-32 bg-cover bg-center overflow-hidden"
       style={{ backgroundImage: `url(${heroLawn})` }}
     >
       {/* Dark overlay */}

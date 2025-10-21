@@ -29,8 +29,8 @@ const Index = ({ onStartPlan }: IndexProps) => {
 
   return (
     <div className="min-h-screen bg-white">
+      <HeroSection onStartPlan={handleStartPlan} />
       <div className="container mx-auto px-4 py-16">
-        <HeroSection onStartPlan={handleStartPlan} />
         <FeaturesGrid />
         <HowItWorksSection />
         <SoilScienceSection />
