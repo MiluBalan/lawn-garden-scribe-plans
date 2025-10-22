@@ -16,8 +16,7 @@ const SoilScienceSection = () => {
       <div className="grid md:grid-cols-2 gap-8 mb-8">
         <div>
           <p className="text-gray-600 mb-6">
-            Using advanced soil datasets (like SoilGrids and USDA soil maps) combined with climate insights from your ZIP code, 
-            we build a tailored plan that supports healthy roots, stronger grass, and long-term soil improvement.
+            We use advanced soil and climate data from your ZIP code to create a tailored plan for stronger grass, healthy roots, and lasting soil health.
           </p>
           
           <div className="space-y-4">
@@ -29,10 +28,6 @@ const SoilScienceSection = () => {
             <div className="flex items-start space-x-3">
               <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
               <p className="text-gray-600">We match products to your region's rainfall, temperature, and growing conditions.</p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-              <p className="text-gray-600">We make sure every treatment serves a purpose—not just surface green.</p>
             </div>
           </div>
           

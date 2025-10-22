@@ -51,7 +51,7 @@ const HowItWorksSection = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3 text-gray-900">Answer Questions</h3>
             <p className="text-gray-600">
-              Enter your information to ensure your details are safe and more secure
+              Take our 5-minute quiz to personalize your lawn care based on your lawn size, grass type, and challenges.
             </p>
           </div>
           
@@ -68,7 +68,7 @@ const HowItWorksSection = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3 text-gray-900">Get Your Plan</h3>
             <p className="text-gray-600">
-              Receive customized lawn care recommendations tailored to your specific needs
+             Get a science-backed lawn care plan with tailored products and schedules based on your local climate, soil, and grass type.
             </p>
           </div>
           
@@ -85,7 +85,7 @@ const HowItWorksSection = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3 text-gray-900">Achieve Results</h3>
             <p className="text-gray-600">
-              Track your progress and watch your lawn transform with quality results
+              Follow your personalized plan to grow a vibrant, healthy lawn with our organic, soil-first approach.
             </p>
           </div>
         </div>

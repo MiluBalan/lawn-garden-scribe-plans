@@ -10,11 +10,6 @@ const WhyBioGrowthSection = () => {
         <p className="text-xl text-gray-700 mb-2">
           Organic Lawn Care You Can Trust—From the Ground Up
         </p>
-        <p className="text-gray-600 max-w-4xl mx-auto">
-          At BioGrowth Organics, we believe a truly healthy lawn starts below the surface. That's why every plan, 
-          product, and process we use is designed to improve soil health, promote sustainable growth, and protect 
-          the people and pets who enjoy your yard most.
-        </p>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 place-items-center">
@@ -24,8 +19,7 @@ const WhyBioGrowthSection = () => {
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-3">Family-Safe, Pet-Safe Formulas</h3>
           <p className="text-gray-600">
-            Our products are made with natural, non-toxic ingredients that are safe for your kids, pets, and the planet. 
-            No synthetic chemicals, no harsh residues—just effective, earth-friendly care.
+            Safe, natural lawn care for kids, pets, and the planet-no harsh chemicals.
           </p>
         </div>
 
@@ -35,8 +29,7 @@ const WhyBioGrowthSection = () => {
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-3">Soil-First, Always</h3>
           <p className="text-gray-600">
-            We don't just treat the grass—we nurture the living ecosystem beneath it. Our plan is built to enhance 
-            microbial activity, improve organic matter, and restore long-term soil balance, naturally.
+           We nurture your lawn’s ecosystem, boosting microbes, organic matter, and long-term soil health naturally.
           </p>
         </div>
 
@@ -46,9 +39,8 @@ const WhyBioGrowthSection = () => {
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-3">Flexible, Hassle-Free Subscriptions</h3>
           <p className="text-gray-600">
-            Whether you're starting from scratch or maintaining your lawn year-round, our customizable plans adapt to 
-            your needs. Pause, skip, or adjust your shipments anytime with ease—no hidden fees, no stress.
-          </p>
+           Our customizable plans adapt to your lawn year-round, with easy pause, skip, or adjust options-no hidden fees.
+   </p>
         </div>
 
         <div className="text-center">
@@ -57,8 +49,7 @@ const WhyBioGrowthSection = () => {
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-3">100% Satisfaction Guarantee</h3>
           <p className="text-gray-600">
-            We stand behind our products and your results. If you're not satisfied, we'll make it right—no questions asked. 
-            Your lawn's success is our top priority.
+          We guarantee your lawn’s success—if you’re not satisfied, we’ll make it right, no questions asked.
           </p>
         </div>
 
@@ -68,8 +59,7 @@ const WhyBioGrowthSection = () => {
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-3">Better for the Environment</h3>
           <p className="text-gray-600">
-            We're proud to offer a greener alternative to traditional lawn care. Our carbon-conscious packaging, 
-            reduced nitrogen runoff, and eco-friendly formulas all support a healthier planet—one yard at a time.
+            We offer eco-friendly lawn care with sustainable packaging, reduced runoff, and planet-safe formulas.
           </p>
         </div>
 
@@ -79,8 +69,7 @@ const WhyBioGrowthSection = () => {
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-3">Science-Backed Results</h3>
           <p className="text-gray-600">
-            Our formulations are developed with leading soil scientists and backed by years of research. Every product 
-            is tested and proven to deliver consistent, measurable improvements to your lawn's health and appearance.
+           Our products, developed with top soil scientists, are proven to consistently improve your lawn’s health and appearance.
           </p>
         </div>
       </div>
