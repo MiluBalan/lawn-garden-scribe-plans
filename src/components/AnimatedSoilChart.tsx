@@ -1,6 +1,6 @@
-
 import { useEffect, useState, useRef } from 'react';
 import { MapPin } from 'lucide-react';
+import usMapBg from '@/assets/us-map-bg.jpg';
 
 const AnimatedSoilChart = () => {
   const [animatedValues, setAnimatedValues] = useState({ ph: 0, organic: 0, nitrogen: 0 });
@@ -30,7 +30,16 @@ const AnimatedSoilChart = () => {
   }, [hasAnimated]);
 
   return (
-    <div ref={chartRef} className="bg-white rounded-lg p-6 shadow-md">
+    <div 
+      ref={chartRef} 
+      className="relative rounded-lg p-6 shadow-md bg-cover bg-center overflow-hidden"
+      style={{ backgroundImage: `url(${usMapBg})` }}
+    >
+      {/* Overlay for readability */}
+      <div className="absolute inset-0 bg-white/90 backdrop-blur-sm"></div>
+      
+      {/* Content */}
+      <div className="relative z-10">
       <div className="text-center mb-6">
         <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
         <h4 className="font-semibold text-gray-900 mb-2">Soil Data Analysis</h4>
@@ -78,6 +87,7 @@ const AnimatedSoilChart = () => {
             ></div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
