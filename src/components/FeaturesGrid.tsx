@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bug } from 'lucide-react';
 import grassTexture from '@/assets/grass-texture.jpg';
 import locationMap from '@/assets/location-map.jpg';
 import wateringSprinkler from '@/assets/watering-sprinkler.jpg';
+import problemAreas from '@/assets/problem-areas.jpg';
 
 const FeaturesGrid = () => {
   return (
@@ -43,10 +43,14 @@ const FeaturesGrid = () => {
         </CardContent>
       </Card>
 
-      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white">
+      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white overflow-hidden">
         <CardHeader className="text-center pb-4">
-          <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Bug className="h-8 w-8 text-orange-600" />
+          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-orange-100">
+            <img 
+              src={problemAreas} 
+              alt="Problem areas in plants" 
+              className="w-full h-full object-cover"
+            />
           </div>
           <CardTitle className="text-lg text-gray-900">Problem Areas</CardTitle>
         </CardHeader>
