@@ -36,7 +36,7 @@ const AnimatedSoilChart = () => {
       style={{ backgroundImage: `url(${usMapBg})` }}
     >
       {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-white/70"></div>
+      <div className="absolute inset-0 bg-white/20"></div>
       
       {/* Content */}
       <div className="relative z-10">
