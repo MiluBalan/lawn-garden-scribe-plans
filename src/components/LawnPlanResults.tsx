@@ -5,6 +5,7 @@ import WeatherAndGrowthCharts from './WeatherAndGrowthCharts';
 import SoilAnalysisCard from './SoilAnalysisCard';
 import SeasonalScheduleCard from './SeasonalScheduleCard';
 import RecommendationsCard from './RecommendationsCard';
+import ProductRecommendationsCard from './ProductRecommendationsCard';
 import DataSourceNotice from './DataSourceNotice';
 import LawnPlanActions from './LawnPlanActions';
 import { useWeatherData } from '../hooks/useWeatherData';
@@ -66,6 +67,9 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
 
         {/* Key Recommendations */}
         <RecommendationsCard lawnData={lawnData} />
+
+        {/* Product Recommendations from Shopify */}
+        <ProductRecommendationsCard />
 
         {/* Data Source Notice */}
         <DataSourceNotice />
