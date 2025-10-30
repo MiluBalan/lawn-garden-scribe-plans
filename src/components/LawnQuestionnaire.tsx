@@ -60,6 +60,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     const totalSteps = getTotalSteps();
     if (currentStep < totalSteps - 1) {
       setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
     } else {
       setShowAnalysis(true);
     }
@@ -68,6 +69,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      window.scrollTo(0, 0);
     }
   };
 
