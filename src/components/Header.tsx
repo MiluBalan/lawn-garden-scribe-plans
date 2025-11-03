@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, Search, User, ShoppingCart } from 'lucide-react';
 import {
   Drawer,
   DrawerClose,
@@ -19,16 +19,16 @@ const Header = ({ onStartPlan }: HeaderProps) => {
     window.location.href = '/';
   };
 
-  const handleShopClick = () => {
-    window.open('https://biogrowthorganics.com/', '_blank');
-  };
-
-  const handleContactClick = () => {
-    window.open('https://biogrowthorganics.com/pages/contact-us', '_blank');
-  };
+  const navItems = [
+    { label: 'HOME', href: '/', onClick: () => window.location.href = '/' },
+    { label: 'SHOP ALL', href: 'https://biogrowthorganics.com/', onClick: () => window.open('https://biogrowthorganics.com/', '_blank') },
+    { label: 'PLANT VITAMINS', href: 'https://biogrowthorganics.com/collections/plant-vitamins', onClick: () => window.open('https://biogrowthorganics.com/collections/plant-vitamins', '_blank') },
+    { label: 'ENZYMPLUS', href: 'https://biogrowthorganics.com/products/enzymplus', onClick: () => window.open('https://biogrowthorganics.com/products/enzymplus', '_blank') },
+    { label: 'BLOGS', href: 'https://biogrowthorganics.com/blogs/news', onClick: () => window.open('https://biogrowthorganics.com/blogs/news', '_blank') },
+  ];
 
   return (
-    <header className="w-full bg-white/95 backdrop-blur-sm py-4 px-6 sticky top-0 z-50 shadow-md border-b border-gray-100">
+    <header className="w-full bg-[#4A7C59] py-4 px-6 sticky top-0 z-50 shadow-md">
       <div className="container mx-auto flex items-center justify-between">
         <div 
           onClick={handleLogoClick}
@@ -42,29 +42,46 @@ const Header = ({ onStartPlan }: HeaderProps) => {
         </div>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Button 
-            variant="ghost" 
-            onClick={onStartPlan}
-            className="text-gray-700 hover:text-primary font-medium"
-          >
-            Custom Plan
-          </Button>
-          <Button 
-            variant="ghost" 
-            onClick={handleShopClick}
-            className="text-gray-700 hover:text-primary font-medium"
-          >
-            Shop
-          </Button>
-          <Button 
-            variant="ghost" 
-            onClick={handleContactClick}
-            className="text-gray-700 hover:text-primary font-medium"
-          >
-            Contact Us
-          </Button>
+        <nav className="hidden lg:flex items-center gap-8">
+          {navItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={item.onClick}
+              className="text-white font-bold text-sm hover:text-white/80 transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
         </nav>
+
+        {/* Desktop Icons */}
+        <div className="hidden lg:flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="text-white hover:text-white/80 hover:bg-white/10"
+          >
+            <Search className="h-5 w-5" />
+            <span className="sr-only">Search</span>
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="text-white hover:text-white/80 hover:bg-white/10"
+          >
+            <User className="h-5 w-5" />
+            <span className="sr-only">Account</span>
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="text-white hover:text-white/80 hover:bg-white/10"
+            onClick={() => window.open('https://biogrowthorganics.com/cart', '_blank')}
+          >
+            <ShoppingCart className="h-5 w-5" />
+            <span className="sr-only">Cart</span>
+          </Button>
+        </div>
 
         {/* Mobile Navigation */}
         <Drawer>
@@ -72,7 +89,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
             <Button 
               variant="ghost" 
               size="icon"
-              className="md:hidden text-gray-700 hover:text-primary"
+              className="lg:hidden text-white hover:text-white/80 hover:bg-white/10"
             >
               <Menu className="h-6 w-6" />
               <span className="sr-only">Open menu</span>
@@ -83,31 +100,26 @@ const Header = ({ onStartPlan }: HeaderProps) => {
               <DrawerTitle>Navigation</DrawerTitle>
             </DrawerHeader>
             <div className="flex flex-col gap-4 p-4 pb-8">
+              {navItems.map((item) => (
+                <DrawerClose key={item.label} asChild>
+                  <Button 
+                    variant="ghost" 
+                    onClick={item.onClick}
+                    className="text-gray-700 hover:text-primary font-semibold justify-start text-lg"
+                  >
+                    {item.label}
+                  </Button>
+                </DrawerClose>
+              ))}
               <DrawerClose asChild>
                 <Button 
                   variant="ghost" 
-                  onClick={onStartPlan}
-                  className="text-gray-700 hover:text-primary font-semibold justify-start text-lg"
+                  size="icon"
+                  className="justify-start"
+                  onClick={() => window.open('https://biogrowthorganics.com/cart', '_blank')}
                 >
-                  Custom Plan
-                </Button>
-              </DrawerClose>
-              <DrawerClose asChild>
-                <Button 
-                  variant="ghost" 
-                  onClick={handleShopClick}
-                  className="text-gray-700 hover:text-primary font-semibold justify-start text-lg"
-                >
-                  Shop
-                </Button>
-              </DrawerClose>
-              <DrawerClose asChild>
-                <Button 
-                  variant="ghost" 
-                  onClick={handleContactClick}
-                  className="text-gray-700 hover:text-primary font-semibold justify-start text-lg"
-                >
-                  Contact Us
+                  <ShoppingCart className="h-5 w-5 mr-2" />
+                  Cart
                 </Button>
               </DrawerClose>
             </div>
