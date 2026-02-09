@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useZipcodeAutocomplete } from '@/hooks/useZipcodeAutocomplete';
 import { MapPin } from 'lucide-react';
+import LocationMapPreview from './LocationMapPreview';
 
 interface LocationStepProps {
   data: any;
@@ -152,6 +153,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
         <p className="text-sm text-gray-500">
           This helps us provide climate-specific recommendations and timing for your lawn care activities.
         </p>
+        <LocationMapPreview location={inputValue} />
       </div>
 
       {/* Sunlight Conditions */}
