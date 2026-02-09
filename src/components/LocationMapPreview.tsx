@@ -63,17 +63,17 @@ const LocationMapPreview = ({ location }: LocationMapPreviewProps) => {
   const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lon - 0.05},${coords.lat - 0.03},${coords.lon + 0.05},${coords.lat + 0.03}&layer=mapnik&marker=${coords.lat},${coords.lon}`;
 
   return (
-    <div className="mt-4 rounded-xl overflow-hidden border-2 border-green-200 shadow-sm">
+    <div className="mt-6 rounded-xl overflow-hidden border-2 border-green-200 shadow-md animate-fade-in">
       <div className="relative">
         <iframe
           title="Location Map"
           src={mapUrl}
-          className="w-full h-48 border-0"
+          className="w-full h-72 border-0"
           loading="lazy"
         />
       </div>
       {displayName && (
-        <div className="bg-green-50 px-4 py-2 flex items-center gap-2">
+        <div className="bg-green-50 px-4 py-3 flex items-center gap-2">
           <MapPin className="h-4 w-4 text-green-600 flex-shrink-0" />
           <span className="text-sm text-green-800 truncate">{displayName}</span>
         </div>
