@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import backgroundPattern from '@/assets/background-pattern.webp';
 
 interface JoinThousandsSectionProps {
   onStartPlan: () => void;
@@ -8,7 +9,8 @@ interface JoinThousandsSectionProps {
 const JoinThousandsSection = ({ onStartPlan }: JoinThousandsSectionProps) => {
   return (
     <div 
-      className="relative py-24 bg-green-50 pattern-dots-yellow-green"
+      className="relative py-24 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${backgroundPattern})` }}
     >
       <div className="container mx-auto px-4 text-center">
         <div className="max-w-4xl mx-auto">
