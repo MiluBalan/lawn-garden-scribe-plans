@@ -3,8 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Calculator, Home } from 'lucide-react';
-import { useState } from 'react';
+import { Calculator, Home, MapPin } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { useZipcodeAutocomplete } from '@/hooks/useZipcodeAutocomplete';
+import LocationMapPreview from './LocationMapPreview';
 
 interface LawnSizeStepProps {
   data: any;
