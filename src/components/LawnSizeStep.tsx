@@ -18,6 +18,43 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
   const [showCalculator, setShowCalculator] = useState(false);
   const [length, setLength] = useState('');
   const [width, setWidth] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [inputValue, setInputValue] = useState(data.location || '');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  
+  const { suggestions } = useZipcodeAutocomplete(inputValue);
+
+  useEffect(() => {
+    setInputValue(data.location || '');
+  }, [data.location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node) &&
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLocationChange = (value: string) => {
+    setInputValue(value);
+    onUpdate({ location: value });
+    setShowSuggestions(true);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);
+    onUpdate({ location: suggestion });
+    setShowSuggestions(false);
+  };
 
   const sizeOptions = [
     { label: 'Small (Under 5,000 sq ft)', value: 'small', icon: '🏠' },
