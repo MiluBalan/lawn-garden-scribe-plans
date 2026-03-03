@@ -178,9 +178,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
 
     if (planData.planType === 'lawn') {
       switch (currentStep) {
-        case 1: return planData.size !== '';
+        case 1: return planData.size !== '' && planData.location !== '';
         case 2: return planData.grassType !== '';
-        case 3: return planData.location !== '' && planData.sunlight !== '';
+        case 3: return planData.sunlight !== '';
         case 4: return true; // Problems are optional
         case 5: return planData.sprinklerSystem !== '' && (planData.sprinklerSystem === 'no' || planData.sprinklerFrequency !== '');
         default: return false;
