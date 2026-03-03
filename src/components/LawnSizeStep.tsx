@@ -83,6 +83,48 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
         </p>
       </div>
 
+      {/* Zip Code Input */}
+      <div className="space-y-4 relative mb-8">
+        <Label htmlFor="location" className="text-lg font-semibold text-gray-900">
+          Zip code <span className="text-red-500">*</span>
+        </Label>
+        <div className="relative">
+          <Input
+            ref={inputRef}
+            id="location"
+            type="text"
+            value={inputValue}
+            onChange={(e) => handleLocationChange(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            placeholder="e.g., Austin, TX or 78701"
+            className="text-lg p-4"
+          />
+          
+          {showSuggestions && suggestions.length > 0 && (
+            <div
+              ref={suggestionsRef}
+              className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto"
+            >
+              {suggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => handleSuggestionClick(suggestion.formatted)}
+                  className="w-full px-4 py-3 text-left hover:bg-green-50 transition-colors flex items-center gap-2 border-b border-gray-100 last:border-b-0"
+                >
+                  <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <span className="text-gray-900">{suggestion.formatted}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <p className="text-sm text-gray-500">
+          This helps us provide climate-specific recommendations and timing for your lawn care activities.
+        </p>
+        <LocationMapPreview location={inputValue} />
+      </div>
+
       {/* Size Options */}
       <div className="grid md:grid-cols-2 gap-4 mb-6">
         {sizeOptions.map((option) => (
