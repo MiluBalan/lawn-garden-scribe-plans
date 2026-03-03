@@ -34,7 +34,7 @@ const Index = ({ onStartPlan }: IndexProps) => {
         <FeaturesGrid />
         <HowItWorksSection />
         <SoilScienceSection />
-        <WhyBioGrowthSection />
+        {/* <WhyBioGrowthSection /> */}
       </div>
       <JoinThousandsSection onStartPlan={handleStartPlan} />
     </div>
