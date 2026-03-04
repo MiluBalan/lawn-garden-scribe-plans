@@ -59,8 +59,7 @@ const LocationMapPreview = ({ location }: LocationMapPreviewProps) => {
 
   if (!coords) return null;
 
-  const zoom = 12;
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${coords.lon - 0.05},${coords.lat - 0.03},${coords.lon + 0.05},${coords.lat + 0.03}&layer=mapnik&marker=${coords.lat},${coords.lon}`;
+  const mapUrl = `https://www.google.com/maps?q=${coords.lat},${coords.lon}&z=12&output=embed`;
 
   return (
     <div className="mt-6 rounded-xl overflow-hidden border-2 border-green-200 shadow-md animate-fade-in">
