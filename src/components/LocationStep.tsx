@@ -1,5 +1,4 @@
 
-import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface LocationStepProps {
@@ -8,6 +7,27 @@ interface LocationStepProps {
 }
 
 const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
+  const sunlightOptions = [
+    { value: 'full_sun', label: 'Full Sun', description: '6+ hours of direct sunlight daily', icon: '☀️' },
+    { value: 'partial_sun', label: 'Partial Sun', description: '4-6 hours of direct sunlight daily', icon: '⛅' },
+    { value: 'partial_shade', label: 'Partial Shade', description: '2-4 hours of direct sunlight daily', icon: '🌤️' },
+    { value: 'full_shade', label: 'Full Shade', description: 'Less than 2 hours of direct sunlight daily', icon: '🌳' },
+  ];
+
+  const soilTypes = [
+    { value: 'clay', label: 'Clay Soil', description: 'Heavy, dense soil that retains water', icon: '🧱' },
+    { value: 'sandy', label: 'Sandy Soil', description: 'Light, well-draining soil', icon: '🏖️' },
+    { value: 'loamy', label: 'Loamy Soil', description: 'Balanced mix of sand, silt, and clay', icon: '🌱' },
+    { value: 'unknown', label: 'Not Sure', description: "We'll provide general recommendations", icon: '❓' },
+  ];
+
+  return (
+    <div className="space-y-8 px-8 max-w-[60rem] mx-auto">
+      <div className="text-center mb-8">
+        <p className="text-lg text-gray-600">
+          Your environmental conditions help us create the most accurate care plan for your specific situation.
+        </p>
+      </div>
 
       {/* Sunlight Conditions */}
       <div className="space-y-4">
