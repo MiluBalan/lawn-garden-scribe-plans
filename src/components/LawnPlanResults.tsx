@@ -27,19 +27,19 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Your Custom Lawn Plan</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+</h1>
           <p className="text-xl text-gray-600">
             Here's your personalized lawn care plan based on real climate and soil data
           </p>
           
           {/* Data Source Information */}
           <div className="mt-4 space-y-2">
-            {(weatherError || soilError) && (
-              <div className="flex items-center justify-center space-x-2 text-amber-600">
+            {(weatherError || soilError) && <div className="flex items-center justify-center space-x-2 text-amber-600">
                 <AlertTriangle className="h-4 w-4" />
                 <span className="text-sm">Using regional estimates - for more accuracy, get a soil test</span>
               </div>
-            )}
+            }
           </div>
         </div>
 
@@ -47,19 +47,19 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
         <LawnSummaryCard lawnData={lawnData} soilData={soilData} />
 
         {/* Weather and Growth Charts */}
-        {!weatherLoading && weatherData && (
-          <WeatherAndGrowthCharts weatherData={weatherData} location={lawnData.location} />
-        )}
+        {!weatherLoading && weatherData &&
+        <WeatherAndGrowthCharts weatherData={weatherData} location={lawnData.location} />
+        }
 
         {/* Soil Analysis */}
-        {soilData && (
-          <div className="mb-8">
+        {soilData &&
+        <div className="mb-8">
             <SoilAnalysisCard
-              nutrients={soilData.nutrients}
-              soilProperties={soilData.properties}
-            />
+            nutrients={soilData.nutrients}
+            soilProperties={soilData.properties} />
+          
           </div>
-        )}
+        }
 
         {/* Seasonal Schedule */}
         <SeasonalScheduleCard grassType={lawnData.grassType} />
@@ -73,8 +73,8 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
         {/* Action Buttons */}
         <LawnPlanActions onRestart={onRestart} />
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default LawnPlanResults;
