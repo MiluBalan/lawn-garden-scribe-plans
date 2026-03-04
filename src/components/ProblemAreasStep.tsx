@@ -88,8 +88,11 @@ const ProblemAreasStep = ({ data, onUpdate }: ProblemAreasStepProps) => {
   return (
     <div className="space-y-6 px-8 max-w-[60rem] mx-auto">
       <div className="text-center mb-8">
-        <p className="text-lg text-gray-600">
-          Select any issues you're currently experiencing with your lawn. Don't worry if you don't have any problems - we'll still create a maintenance plan to keep your lawn healthy!
+        <h2 className="text-2xl font-bold text-foreground">
+          Select any issues you're currently experiencing with your lawn.
+        </h2>
+        <p className="text-base text-muted-foreground mt-2">
+          Don't worry if you don't have any problems - we'll still create a maintenance plan to keep your lawn healthy!
         </p>
       </div>
 
