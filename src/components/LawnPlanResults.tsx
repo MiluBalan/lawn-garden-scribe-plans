@@ -78,7 +78,7 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
         <DataSourceNotice />
 
         {/* Action Buttons */}
-        <LawnPlanActions onRestart={onRestart} />
+        <LawnPlanActions onRestart={onRestart} onGetProducts={() => setShowPlans(true)} />
       </div>
     </div>);
 
