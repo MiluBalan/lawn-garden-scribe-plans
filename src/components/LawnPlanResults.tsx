@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import { CheckCircle, AlertTriangle } from 'lucide-react';
 import LawnSummaryCard from './LawnSummaryCard';
 import WeatherAndGrowthCharts from './WeatherAndGrowthCharts';
@@ -7,6 +8,7 @@ import SeasonalScheduleCard from './SeasonalScheduleCard';
 import RecommendationsCard from './RecommendationsCard';
 import DataSourceNotice from './DataSourceNotice';
 import LawnPlanActions from './LawnPlanActions';
+import SubscriptionPlans from './SubscriptionPlans';
 import { useWeatherData } from '../hooks/useWeatherData';
 import { useSoilData } from '../hooks/useSoilData';
 
@@ -16,8 +18,13 @@ interface LawnPlanResultsProps {
 }
 
 const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
+  const [showPlans, setShowPlans] = useState(false);
   const { weatherData, loading: weatherLoading, error: weatherError } = useWeatherData(lawnData.location);
   const { soilData, loading: soilLoading, error: soilError } = useSoilData(lawnData.location, lawnData.grassType);
+
+  if (showPlans) {
+    return <SubscriptionPlans lawnData={lawnData} onBack={() => setShowPlans(false)} onRestart={onRestart} />;
+  }
 
   return (
     <div className="min-h-screen bg-white py-8">
@@ -71,7 +78,7 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
         <DataSourceNotice />
 
         {/* Action Buttons */}
-        <LawnPlanActions onRestart={onRestart} />
+        <LawnPlanActions onRestart={onRestart} onGetProducts={() => setShowPlans(true)} />
       </div>
     </div>);
 

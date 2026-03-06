@@ -4,9 +4,10 @@ import { ArrowLeft } from 'lucide-react';
 
 interface LawnPlanActionsProps {
   onRestart: () => void;
+  onGetProducts?: () => void;
 }
 
-const LawnPlanActions = ({ onRestart }: LawnPlanActionsProps) => {
+const LawnPlanActions = ({ onRestart, onGetProducts }: LawnPlanActionsProps) => {
   return (
     <div className="text-center space-y-4">
       <Button
@@ -17,7 +18,7 @@ const LawnPlanActions = ({ onRestart }: LawnPlanActionsProps) => {
         Create Another Plan
       </Button>
       <div>
-        <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg">
+        <Button onClick={onGetProducts} className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg">
           Get Your Products
         </Button>
       </div>
