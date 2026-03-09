@@ -42,7 +42,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
           : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between h-16 px-4 md:px-6">
+      <div className="container mx-auto flex items-center justify-between h-20 px-4 md:px-6">
         {/* Logo */}
         <div
           onClick={handleLogoClick}
@@ -51,7 +51,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
           <img
             src="/lovable-uploads/028c60fb-4502-4611-ae0f-31039b7b3e9f.png"
             alt="BioGrowth"
-            className="h-8 w-auto"
+            className="h-12 w-auto"
           />
         </div>
 
@@ -61,7 +61,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
             <button
               key={link.label}
               onClick={link.onClick}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+              className={`px-5 py-2.5 rounded-full text-base font-semibold tracking-wide transition-all duration-200 ${
                 scrolled
                   ? 'text-foreground hover:bg-muted hover:text-brand'
                   : 'text-white/90 hover:text-white hover:bg-white/15'
@@ -72,10 +72,9 @@ const Header = ({ onStartPlan }: HeaderProps) => {
           ))}
           <Button
             onClick={onStartPlan}
-            size="sm"
-            className="ml-3 bg-brand hover:bg-brand-dark text-brand-foreground rounded-full px-5 font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+            className="ml-4 bg-brand hover:bg-brand-dark text-brand-foreground rounded-full px-7 py-3 text-base font-bold shadow-md hover:shadow-lg transition-all duration-200"
           >
-            <Leaf className="h-4 w-4 mr-1" />
+            <Leaf className="h-5 w-5 mr-1.5" />
             Get My Plan
           </Button>
         </nav>
