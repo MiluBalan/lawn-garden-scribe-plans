@@ -72,10 +72,9 @@ const Header = ({ onStartPlan }: HeaderProps) => {
           ))}
           <Button
             onClick={onStartPlan}
-            size="sm"
-            className="ml-3 bg-brand hover:bg-brand-dark text-brand-foreground rounded-full px-5 font-semibold shadow-md hover:shadow-lg transition-all duration-200"
+            className="ml-4 bg-brand hover:bg-brand-dark text-brand-foreground rounded-full px-7 py-3 text-base font-bold shadow-md hover:shadow-lg transition-all duration-200"
           >
-            <Leaf className="h-4 w-4 mr-1" />
+            <Leaf className="h-5 w-5 mr-1.5" />
             Get My Plan
           </Button>
         </nav>
