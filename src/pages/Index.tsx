@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import LawnQuestionnaire from '@/components/LawnQuestionnaire';
 import HeroSection from '@/components/HeroSection';
@@ -28,13 +27,12 @@ const Index = ({ onStartPlan }: IndexProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <HeroSection onStartPlan={handleStartPlan} />
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-20">
         <FeaturesGrid />
         <HowItWorksSection />
         <SoilScienceSection />
-        {/* <WhyBioGrowthSection /> */}
       </div>
       <JoinThousandsSection onStartPlan={handleStartPlan} />
     </div>
