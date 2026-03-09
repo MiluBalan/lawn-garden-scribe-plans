@@ -42,7 +42,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
           : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between h-16 px-4 md:px-6">
+      <div className="container mx-auto flex items-center justify-between h-20 px-4 md:px-6">
         {/* Logo */}
         <div
           onClick={handleLogoClick}
@@ -51,7 +51,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
           <img
             src="/lovable-uploads/028c60fb-4502-4611-ae0f-31039b7b3e9f.png"
             alt="BioGrowth"
-            className="h-8 w-auto"
+            className="h-12 w-auto"
           />
         </div>
 
