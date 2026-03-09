@@ -36,6 +36,14 @@
 
     --radius: 0.5rem;
 
+    --brand: 140 30% 35%;
+    --brand-foreground: 0 0% 100%;
+    --brand-light: 140 40% 95%;
+    --brand-accent: 140 50% 45%;
+    --brand-dark: 140 35% 25%;
+    --surface-warm: 40 30% 97%;
+    --surface-green: 140 30% 96%;
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
