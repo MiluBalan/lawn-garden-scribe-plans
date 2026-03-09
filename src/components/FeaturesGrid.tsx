@@ -1,83 +1,57 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import grassTexture from '@/assets/grass-texture.jpg';
-import locationMap from '@/assets/location-map.jpg';
-import wateringSprinkler from '@/assets/watering-sprinkler.jpg';
-import problemAreas from '@/assets/problem-areas.jpg';
+import { Card, CardContent } from '@/components/ui/card';
+import featureGrass from '@/assets/feature-grass-type.png';
+import featureLocation from '@/assets/feature-location.png';
+import featureProblems from '@/assets/feature-problems.png';
+import featureWatering from '@/assets/feature-watering.png';
+
+const features = [
+  {
+    image: featureGrass,
+    title: 'Grass Type Analysis',
+    description: 'Identify your grass type for targeted care recommendations',
+    bg: 'bg-surface-green',
+  },
+  {
+    image: featureLocation,
+    title: 'Location Based',
+    description: 'Climate-specific recommendations for your region',
+    bg: 'bg-blue-50',
+  },
+  {
+    image: featureProblems,
+    title: 'Problem Areas',
+    description: 'Target weeds, pests, and disease issues effectively',
+    bg: 'bg-orange-50',
+  },
+  {
+    image: featureWatering,
+    title: 'Watering Schedule',
+    description: 'Optimal watering times and frequency for your lawn',
+    bg: 'bg-sky-50',
+  },
+];
 
 const FeaturesGrid = () => {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white overflow-hidden">
-        <CardHeader className="text-center pb-4">
-          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-green-100">
-            <img 
-              src={grassTexture} 
-              alt="Grass texture" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <CardTitle className="text-lg text-gray-900">Grass Type Analysis</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-gray-600 text-center">
-            Identify your grass type for targeted care recommendations
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white overflow-hidden">
-        <CardHeader className="text-center pb-4">
-          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-blue-100">
-            <img 
-              src={locationMap} 
-              alt="Location map" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <CardTitle className="text-lg text-gray-900">Location Based</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-gray-600 text-center">
-            Climate-specific recommendations for your region
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white overflow-hidden">
-        <CardHeader className="text-center pb-4">
-          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-orange-100">
-            <img 
-              src={problemAreas} 
-              alt="Problem areas in plants" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <CardTitle className="text-lg text-gray-900">Problem Areas</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-gray-600 text-center">
-            Target weeds, pests, and disease issues effectively
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card className="border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white overflow-hidden">
-        <CardHeader className="text-center pb-4">
-          <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-purple-100">
-            <img 
-              src={wateringSprinkler} 
-              alt="Watering sprinkler" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <CardTitle className="text-lg text-gray-900">Watering Schedule</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-gray-600 text-center">
-            Optimal watering times and frequency for your lawn
-          </p>
-        </CardContent>
-      </Card>
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+      {features.map((feature) => (
+        <Card
+          key={feature.title}
+          className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-card overflow-hidden group"
+        >
+          <CardContent className="p-6 text-center">
+            <div className={`w-24 h-24 mx-auto mb-5 rounded-2xl ${feature.bg} flex items-center justify-center p-3 group-hover:scale-110 transition-transform duration-300`}>
+              <img
+                src={feature.image}
+                alt={feature.title}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 };
