@@ -21,6 +21,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Header onStartPlan={() => setShowQuestionnaire(true)} />
+          <div className="pt-16">
           {showQuestionnaire ? (
             <LawnQuestionnaire onBack={() => setShowQuestionnaire(false)} />
           ) : (
