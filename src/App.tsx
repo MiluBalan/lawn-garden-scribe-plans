@@ -21,16 +21,16 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Header onStartPlan={() => setShowQuestionnaire(true)} />
-          <div className="pt-16">
-          {showQuestionnaire ? (
-            <LawnQuestionnaire onBack={() => setShowQuestionnaire(false)} />
-          ) : (
-            <Routes>
-              <Route path="/" element={<Index onStartPlan={() => setShowQuestionnaire(true)} />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          )}
-        </BrowserRouter>
+          <main className="pt-16">
+            {showQuestionnaire ? (
+              <LawnQuestionnaire onBack={() => setShowQuestionnaire(false)} />
+            ) : (
+              <Routes>
+                <Route path="/" element={<Index onStartPlan={() => setShowQuestionnaire(true)} />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            )}
+          </main>
       </TooltipProvider>
     </QueryClientProvider>
   );
