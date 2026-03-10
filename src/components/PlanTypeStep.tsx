@@ -41,7 +41,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
             <img
               src="/lovable-uploads/db85985e-15ff-4e59-ae15-aabef79078ef.png"
               alt="Professional lawn care specialist applying BioGrowth organic treatment"
-              className="w-full h-full object-cover rounded-r-3xl"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
