@@ -78,11 +78,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className={`md:hidden p-2 rounded-lg transition-colors ${
-            scrolled
-              ? 'text-foreground hover:bg-muted'
-              : 'text-white hover:bg-white/15'
-          }`}
+          className="md:hidden p-2 rounded-lg transition-colors text-foreground hover:bg-muted"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
