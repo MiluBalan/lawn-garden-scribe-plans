@@ -36,10 +36,10 @@ const Header = ({ onStartPlan }: HeaderProps) => {
 
   return (
     <header
-      className={`w-full fixed top-0 z-50 transition-all duration-300 ${
+      className={`w-full fixed top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-border'
-          : 'bg-transparent'
+          ? 'shadow-lg border-b border-border'
+          : ''
       }`}
     >
       <div className="container mx-auto flex items-center justify-between h-20 px-4 md:px-6">
@@ -61,11 +61,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
             <button
               key={link.label}
               onClick={link.onClick}
-              className={`px-5 py-2.5 rounded-full text-base font-semibold tracking-wide transition-all duration-200 ${
-                scrolled
-                  ? 'text-foreground hover:bg-muted hover:text-brand'
-                  : 'text-white/90 hover:text-white hover:bg-white/15'
-              }`}
+              className="px-5 py-2.5 rounded-full text-base font-semibold tracking-wide transition-all duration-200 text-foreground hover:bg-muted hover:text-brand"
             >
               {link.label}
             </button>
@@ -82,11 +78,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className={`md:hidden p-2 rounded-lg transition-colors ${
-            scrolled
-              ? 'text-foreground hover:bg-muted'
-              : 'text-white hover:bg-white/15'
-          }`}
+          className="md:hidden p-2 rounded-lg transition-colors text-foreground hover:bg-muted"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
