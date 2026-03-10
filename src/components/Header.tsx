@@ -61,11 +61,7 @@ const Header = ({ onStartPlan }: HeaderProps) => {
             <button
               key={link.label}
               onClick={link.onClick}
-              className={`px-5 py-2.5 rounded-full text-base font-semibold tracking-wide transition-all duration-200 ${
-                scrolled
-                  ? 'text-foreground hover:bg-muted hover:text-brand'
-                  : 'text-white/90 hover:text-white hover:bg-white/15'
-              }`}
+              className="px-5 py-2.5 rounded-full text-base font-semibold tracking-wide transition-all duration-200 text-foreground hover:bg-muted hover:text-brand"
             >
               {link.label}
             </button>
