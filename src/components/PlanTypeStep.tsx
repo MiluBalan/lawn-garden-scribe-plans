@@ -9,9 +9,9 @@ interface PlanTypeStepProps {
 
 const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
   return (
-    <div className="space-y-16 px-4">
+    <div className="space-y-16">
       {/* Hero Banner */}
-      <div className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-3xl overflow-hidden">
+      <div className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-900 overflow-hidden -mx-4 sm:-mx-6 md:-mx-8 lg:-mx-12">
         <div className="absolute inset-0 opacity-10 pattern-dots-yellow-green" />
         <div className="relative grid md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
           <div className="space-y-6 p-8 md:p-12">
@@ -41,7 +41,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
             <img
               src="/lovable-uploads/db85985e-15ff-4e59-ae15-aabef79078ef.png"
               alt="Professional lawn care specialist applying BioGrowth organic treatment"
-              className="w-full h-full object-cover rounded-r-3xl"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
