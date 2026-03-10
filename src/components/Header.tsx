@@ -36,10 +36,10 @@ const Header = ({ onStartPlan }: HeaderProps) => {
 
   return (
     <header
-      className={`w-full fixed top-0 z-50 transition-all duration-300 ${
+      className={`w-full fixed top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-border'
-          : 'bg-transparent'
+          ? 'shadow-lg border-b border-border'
+          : ''
       }`}
     >
       <div className="container mx-auto flex items-center justify-between h-20 px-4 md:px-6">
