@@ -9,7 +9,7 @@ interface HeroSectionProps {
 const HeroSection = ({ onStartPlan }: HeroSectionProps) => {
   return (
     <div 
-      className="relative text-center pt-44 pb-36 md:pt-52 md:pb-44 bg-cover bg-center overflow-hidden -mt-16"
+      className="relative text-center pt-44 pb-36 md:pt-52 md:pb-44 bg-cover bg-center overflow-hidden -mt-16 rounded-none"
       style={{ backgroundImage: `url(${heroLawn})` }}
     >
       {/* Gradient overlay */}
