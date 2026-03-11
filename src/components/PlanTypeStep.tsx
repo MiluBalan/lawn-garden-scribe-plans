@@ -39,9 +39,9 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
           </div>
           <div className="hidden md:block h-full">
             <img
-              src="/lovable-uploads/db85985e-15ff-4e59-ae15-aabef79078ef.png"
-              alt="Professional lawn care specialist applying BioGrowth organic treatment"
-              className="w-full h-full object-cover"
+              src={lawnCareIllustration}
+              alt="Lawn care illustration"
+              className="w-full h-full object-contain p-8"
             />
           </div>
         </div>
