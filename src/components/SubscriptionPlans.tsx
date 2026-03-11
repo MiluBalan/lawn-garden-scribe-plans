@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check, ArrowLeft, Leaf, Sprout, Trees, Star } from 'lucide-react';
+import { Check, ArrowLeft, Leaf, Sprout, Trees, Star, Building2 } from 'lucide-react';
 
 interface SubscriptionPlansProps {
   lawnData: any;
@@ -24,6 +24,8 @@ const plans = [
     annualPrice: 24,
     period: '/month',
     highlighted: false,
+    tag: 'Great Value',
+    tagColor: 'bg-orange-500',
     accentColor: 'border-orange-400',
     btnClass: 'border-2 border-orange-400 text-orange-600 bg-white hover:bg-orange-50',
     priceColor: 'text-orange-500',
@@ -44,6 +46,8 @@ const plans = [
     annualPrice: 41,
     period: '/month',
     highlighted: true,
+    tag: 'Most Popular',
+    tagColor: 'bg-green-600',
     accentColor: 'border-green-500',
     btnClass: 'bg-green-600 text-white hover:bg-green-700',
     priceColor: 'text-green-600',
@@ -65,13 +69,19 @@ const plans = [
     annualPrice: 67,
     period: '/month',
     highlighted: false,
+    tag: 'Best Results',
+    tagColor: 'bg-cyan-500',
     accentColor: 'border-cyan-400',
     btnClass: 'border-2 border-cyan-400 text-cyan-600 bg-white hover:bg-cyan-50',
     priceColor: 'text-cyan-500',
   },
 ];
 
+
+
 const SubscriptionPlans = ({ lawnData, onBack, onRestart }: SubscriptionPlansProps) => {
+  const showBulkCard = lawnData?.lawnSize === 'xlarge';
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50/60 via-white to-white py-12">
       <div className="container mx-auto px-4 max-w-6xl">
@@ -97,7 +107,7 @@ const SubscriptionPlans = ({ lawnData, onBack, onRestart }: SubscriptionPlansPro
         </div>
 
         {/* Plans Grid — equal height via flex */}
-        <div className="grid md:grid-cols-3 gap-8 items-stretch mb-16">
+        <div className={`grid gap-8 items-stretch mb-16 ${showBulkCard ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3'}`}>
           {plans.map((plan) => (
             <Card
               key={plan.name}
@@ -107,11 +117,9 @@ const SubscriptionPlans = ({ lawnData, onBack, onRestart }: SubscriptionPlansPro
                   : 'border border-border hover:border-muted-foreground/30'
               }`}
             >
-              {plan.highlighted && (
-                <div className="bg-green-600 text-white text-xs font-bold uppercase tracking-wider text-center py-2 flex items-center justify-center gap-1">
-                  <Star className="h-3 w-3 fill-current" /> Most Popular
-                </div>
-              )}
+              <div className={`${plan.tagColor} text-white text-xs font-bold uppercase tracking-wider text-center py-2 flex items-center justify-center gap-1`}>
+                <Star className="h-3 w-3 fill-current" /> {plan.tag}
+              </div>
               <CardContent className="p-8 flex flex-col flex-1">
                 {/* Icon + Name */}
                 <div className="flex items-center gap-3 mb-4">
@@ -160,6 +168,56 @@ const SubscriptionPlans = ({ lawnData, onBack, onRestart }: SubscriptionPlansPro
               </CardContent>
             </Card>
           ))}
+
+          {/* Bulk / Enterprise Card — only for Extra Large lawns */}
+          {showBulkCard && (
+            <Card className="relative flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl rounded-2xl border border-border hover:border-muted-foreground/30">
+              <div className="bg-purple-600 text-white text-xs font-bold uppercase tracking-wider text-center py-2 flex items-center justify-center gap-1">
+                <Star className="h-3 w-3 fill-current" /> Bulk Purchase
+              </div>
+              <CardContent className="p-8 flex flex-col flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-11 h-11 rounded-full bg-purple-50 flex items-center justify-center">
+                    <Building2 className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-foreground">Enterprise</h2>
+                </div>
+
+                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                  Custom bulk pricing for extra-large properties, estates, and commercial landscapes.
+                </p>
+
+                <div className="mb-6 pb-6 border-b border-border">
+                  <span className="text-4xl font-extrabold text-purple-600">Custom</span>
+                  <p className="text-sm text-muted-foreground mt-1">Tailored to your needs</p>
+                </div>
+
+                <ul className="space-y-3 mb-8 flex-1">
+                  {[
+                    'Volume-based custom pricing',
+                    'Dedicated account manager',
+                    'On-site soil analysis',
+                    'Priority bulk shipping',
+                    'Flexible delivery schedule',
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2.5">
+                      <div className="mt-0.5 w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+                        <Check className="h-3 w-3 text-purple-600" />
+                      </div>
+                      <span className="text-sm text-foreground/80">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  className="w-full py-5 rounded-xl font-semibold text-base transition-all border-2 border-purple-400 text-purple-600 bg-white hover:bg-purple-50"
+                  onClick={() => window.open('https://biogrowthorganics.com/pages/contact-us', '_blank')}
+                >
+                  Contact Us
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Features Section */}
