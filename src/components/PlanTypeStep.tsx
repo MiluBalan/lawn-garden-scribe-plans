@@ -39,11 +39,11 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
             </div>
           </div>
           <div className="hidden md:block h-full">
-            <img
+            {/* <img
               src={lawnCareIllustration}
               alt="Lawn care illustration"
               className="w-full h-full object-contain p-8"
-            />
+            /> */}
           </div>
         </div>
       </div>
