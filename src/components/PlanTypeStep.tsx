@@ -1,6 +1,7 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Leaf, Sprout, ArrowRight, Users, Star, Shield } from 'lucide-react';
+import lawnCareIllustration from '@/assets/lawn-care-illustration.png';
 
 interface PlanTypeStepProps {
   selectedType: string;
@@ -39,9 +40,9 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
           </div>
           <div className="hidden md:block h-full">
             <img
-              src="/lovable-uploads/db85985e-15ff-4e59-ae15-aabef79078ef.png"
-              alt="Professional lawn care specialist applying BioGrowth organic treatment"
-              className="w-full h-full object-cover"
+              src={lawnCareIllustration}
+              alt="Lawn care illustration"
+              className="w-full h-full object-contain p-8"
             />
           </div>
         </div>
