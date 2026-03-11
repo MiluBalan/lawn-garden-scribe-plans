@@ -77,7 +77,7 @@ const plans = [
   },
 ];
 
-const isExtraLarge = lawnData?.lawnSize === 'xlarge';
+
 
 const SubscriptionPlans = ({ lawnData, onBack, onRestart }: SubscriptionPlansProps) => {
   const showBulkCard = lawnData?.lawnSize === 'xlarge';
