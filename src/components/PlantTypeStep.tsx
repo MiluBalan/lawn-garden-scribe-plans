@@ -1,7 +1,6 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Flower, Carrot, Apple, Sparkles } from 'lucide-react';
-import gardenPlantingImage from '@/assets/garden-planting.jpg';
+import { Flower, Carrot, Apple } from 'lucide-react';
 
 interface PlantTypeStepProps {
   selectedType: string;
