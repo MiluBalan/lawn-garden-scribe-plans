@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check, ArrowLeft, Leaf, Sprout, Trees, Star } from 'lucide-react';
+import { Check, ArrowLeft, Leaf, Sprout, Trees, Star, Building2 } from 'lucide-react';
 
 interface SubscriptionPlansProps {
   lawnData: any;
