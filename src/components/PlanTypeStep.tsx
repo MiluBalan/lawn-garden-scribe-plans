@@ -1,6 +1,7 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Leaf, Sprout, ArrowRight, Users, Star, Shield } from 'lucide-react';
+import lawnCareIllustration from '@/assets/lawn-care-illustration.png';
 
 interface PlanTypeStepProps {
   selectedType: string;
