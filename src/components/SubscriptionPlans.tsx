@@ -84,7 +84,7 @@ const SubscriptionPlans = ({ lawnData, onBack, onRestart }: SubscriptionPlansPro
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50/60 via-white to-white py-12">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4 max-w-7xl">
         {/* Back button */}
         <Button
           variant="ghost"
