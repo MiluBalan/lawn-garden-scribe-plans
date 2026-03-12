@@ -80,7 +80,7 @@ const plans = [
 
 
 const SubscriptionPlans = ({ lawnData, onBack, onRestart }: SubscriptionPlansProps) => {
-  const showBulkCard = lawnData?.lawnSize === 'xlarge';
+  const showBulkCard = lawnData?.size === 'xlarge';
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50/60 via-white to-white py-12">
