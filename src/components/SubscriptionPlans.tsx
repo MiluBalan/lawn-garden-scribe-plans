@@ -103,13 +103,51 @@ export default function SubscriptionPlans({
           );
         });
 
-        // FILTER BASED ON LAWN SIZE
         const filtered = extracted.filter((plan) => {
           const desc = plan.description?.toLowerCase() || "";
 
-          if (size === "small") return desc.includes("under 5000");
-          if (size === "medium") return desc.includes("5,000");
-          if (size === "large") return desc.includes("10,000");
+          let sizeValue = lawnData?.size;
+
+          // ✅ extract custom value
+          if (
+            typeof sizeValue === "string" &&
+            sizeValue.startsWith("custom_")
+          ) {
+            sizeValue = parseInt(sizeValue.split("_")[1]);
+          }
+
+          // ✅ numeric mapping with proper ranges
+          if (typeof sizeValue === "number") {
+            if (sizeValue < 5000) {
+              return desc.includes("under 5000") || desc.includes("< 5000");
+            }
+
+            if (sizeValue >= 5000 && sizeValue < 10000) {
+              return (
+                desc.includes("5000") ||
+                desc.includes("5,000") ||
+                desc.includes("5000 - 10000")
+              );
+            }
+
+            if (sizeValue >= 10000 && sizeValue < 20000) {
+              return (
+                desc.includes("10000") ||
+                desc.includes("10,000") ||
+                desc.includes("10000 - 20000") ||
+                desc.includes("10,000 - 20,000")
+              );
+            }
+
+            if (sizeValue >= 20000) {
+              return desc.includes("20000") || desc.includes("20,000");
+            }
+          }
+
+          // fallback
+          if (sizeValue === "small") return desc.includes("under 5000");
+          if (sizeValue === "medium") return desc.includes("5000");
+          if (sizeValue === "large") return desc.includes("10000");
 
           return false;
         });
