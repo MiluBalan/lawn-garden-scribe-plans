@@ -188,7 +188,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
       )}
 
       {/* CALCULATOR (ONLY IF KNOWN) */}
-      {knowledgeMode === "known" && (
+      {knowledgeMode === "unknown" && (
         <div className="border-t pt-6">
           <div className="text-center mb-4">
             <Button
@@ -230,7 +230,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
       )}
 
       {/* MANUAL INPUT (ONLY IF UNKNOWN) */}
-      {knowledgeMode === "unknown" && (
+      {knowledgeMode === "known" && (
         <div className="border-t pt-6">
           <div className="text-center">
             <Label>Lawn Size (square feet)</Label>
