@@ -42,15 +42,68 @@ export default function SubscriptionPlans({
   const [shopifyPlans, setShopifyPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Normalize size → number
+  const getNumericSize = (size: any): number | null => {
+    if (!size) return null;
+
+    if (typeof size === "string" && size.startsWith("custom_")) {
+      return parseInt(size.split("_")[1]);
+    }
+
+    const mapping: Record<string, number> = {
+      small: 3000,
+      medium: 7500,
+      large: 15000,
+      xlarge: 25000,
+    };
+
+    if (mapping[size]) return mapping[size];
+
+    if (typeof size === "number") return size;
+
+    return null;
+  };
+
+  // ✅ Check plan matches size
+  const matchesSize = (desc: string, size: number) => {
+    const normalized = desc.replace(/,/g, "").toLowerCase();
+
+    if (size < 5000) {
+      return normalized.includes("under 5000") || normalized.includes("< 5000");
+    }
+
+    if (size >= 5000 && size < 10000) {
+      return (
+        normalized.includes("5000") &&
+        normalized.includes("10000")
+      );
+    }
+
+    if (size >= 10000 && size < 20000) {
+      return (
+        normalized.includes("10000") &&
+        normalized.includes("20000")
+      );
+    }
+
+    if (size >= 20000) {
+      return normalized.includes("20000");
+    }
+
+    return false;
+  };
+
   useEffect(() => {
     fetch(
-      "http://localhost:5019/api/integrations/shopify/subscription-products",
+      "http://localhost:5019/api/integrations/shopify/subscription-products"
     )
       .then((res) => res.json())
       .then((res) => {
         const edges = res?.data?.data?.products?.edges || [];
 
-        const size = lawnData?.size;
+        const size = getNumericSize(lawnData?.size);
+
+        console.log("📏 Normalized size:", size);
 
         const extracted: Plan[] = edges.flatMap((product: any) => {
           const variant = product.node.variants.edges?.[0]?.node;
@@ -91,7 +144,7 @@ export default function SubscriptionPlans({
                 subscriptionName: group.node.name,
                 productTitle: product.node.title,
                 planName: group.node.name,
-                description: plan.node.description,
+                description: plan.node.description || "",
                 variantId: extractId(variant.id),
                 sellingPlanId: extractId(plan.node.id),
                 price: finalPrice,
@@ -99,58 +152,17 @@ export default function SubscriptionPlans({
                 billingInterval,
                 discountLabel,
               };
-            }),
+            })
           );
         });
 
+        // ✅ FILTER FIXED
         const filtered = extracted.filter((plan) => {
-          const desc = plan.description?.toLowerCase() || "";
-
-          let sizeValue = lawnData?.size;
-
-          // ✅ extract custom value
-          if (
-            typeof sizeValue === "string" &&
-            sizeValue.startsWith("custom_")
-          ) {
-            sizeValue = parseInt(sizeValue.split("_")[1]);
-          }
-
-          // ✅ numeric mapping with proper ranges
-          if (typeof sizeValue === "number") {
-            if (sizeValue < 5000) {
-              return desc.includes("under 5000") || desc.includes("< 5000");
-            }
-
-            if (sizeValue >= 5000 && sizeValue < 10000) {
-              return (
-                desc.includes("5000") ||
-                desc.includes("5,000") ||
-                desc.includes("5000 - 10000")
-              );
-            }
-
-            if (sizeValue >= 10000 && sizeValue < 20000) {
-              return (
-                desc.includes("10000") ||
-                desc.includes("10,000") ||
-                desc.includes("10000 - 20000") ||
-                desc.includes("10,000 - 20,000")
-              );
-            }
-
-            if (sizeValue >= 20000) {
-              return desc.includes("20000") || desc.includes("20,000");
-            }
-          }
-
-          // fallback
-          if (sizeValue === "small") return desc.includes("under 5000");
-          if (sizeValue === "medium") return desc.includes("5000");
-          if (sizeValue === "large") return desc.includes("10000");
-
-          return false;
+          if (!size) return false;
+          return matchesSize(plan.description, size);
         });
+
+        console.log("✅ Filtered Plans:", filtered);
 
         setShopifyPlans(filtered);
         setLoading(false);
@@ -159,7 +171,7 @@ export default function SubscriptionPlans({
 
   const getPlan = (name: string) =>
     shopifyPlans.find((p) =>
-      p.planName.toLowerCase().includes(planMap[name].toLowerCase()),
+      p.planName.toLowerCase().includes(planMap[name].toLowerCase())
     );
 
   if (loading)
@@ -191,7 +203,7 @@ export default function SubscriptionPlans({
                   <div className="mb-5">
                     <div className="flex items-center gap-3 mb-2">
                       <plan.icon className="h-6 w-6 text-green-600" />
-                      <h2 className="text-l font-bold">
+                      <h2 className="text-lg font-bold">
                         {shopify.subscriptionName}
                       </h2>
                     </div>
@@ -239,7 +251,7 @@ export default function SubscriptionPlans({
                     onClick={() =>
                       window.open(
                         `https://biogrowthorganics.com/cart/add?id=${shopify.variantId}&selling_plan=${shopify.sellingPlanId}&quantity=1`,
-                        "_blank",
+                        "_blank"
                       )
                     }
                   >

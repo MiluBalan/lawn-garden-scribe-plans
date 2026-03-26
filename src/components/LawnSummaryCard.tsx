@@ -1,6 +1,3 @@
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle } from 'lucide-react';
 import RegionalSoilProfile from './RegionalSoilProfile';
 
 interface LawnSummaryCardProps {
@@ -9,30 +6,62 @@ interface LawnSummaryCardProps {
 }
 
 const LawnSummaryCard = ({ lawnData, soilData }: LawnSummaryCardProps) => {
+
+  // ✅ Normalize size → always number
+  const getNumericSize = (): number | null => {
+    const size = lawnData.size;
+
+    if (!size) return null;
+
+    // custom_5497
+    if (typeof size === "string" && size.startsWith("custom_")) {
+      return Number(size.split("_")[1]);
+    }
+
+    // predefined sizes
+    const mapping: Record<string, number> = {
+      small: 3000,
+      medium: 7500,
+      large: 15000,
+      xlarge: 25000,
+    };
+
+    if (mapping[size]) return mapping[size];
+
+    // already number
+    if (typeof size === "number") return size;
+
+    return null;
+  };
+
+  // ✅ Convert to label
   const getSizeDisplay = () => {
-    if (lawnData.size.startsWith('custom_')) {
-      return `${lawnData.size.split('_')[1]} sq ft`;
-    }
-    switch (lawnData.size) {
-      case 'small': return 'Small (Under 5,000 sq ft)';
-      case 'medium': return 'Medium (5,000-10,000 sq ft)';
-      case 'large': return 'Large (10,000-20,000 sq ft)';
-      case 'xlarge': return 'Extra Large (20,000+ sq ft)';
-      default: return 'Unknown size';
-    }
+    const size = getNumericSize();
+
+    if (!size) return "Unknown size";
+
+    let label = "";
+
+    if (size < 5000) label = "Small";
+    else if (size < 10000) label = "Medium";
+    else if (size < 20000) label = "Large";
+    else label = "Extra Large";
+
+    return `${size.toLocaleString()} sq ft (${label})`;
   };
 
   const getGrassDisplay = () => {
-    const grassMap: { [key: string]: string } = {
-      'bermuda': 'Bermuda Grass',
-      'kentucky_blue': 'Kentucky Bluegrass',
-      'tall_fescue': 'Tall Fescue',
-      'zoysia': 'Zoysia Grass',
-      'st_augustine': 'St. Augustine',
-      'centipede': 'Centipede Grass',
-      'fine_fescue': 'Fine Fescue',
-      'unknown': 'Mixed/Unknown'
+    const grassMap: Record<string, string> = {
+      bermuda: 'Bermuda Grass',
+      kentucky_blue: 'Kentucky Bluegrass',
+      tall_fescue: 'Tall Fescue',
+      zoysia: 'Zoysia Grass',
+      st_augustine: 'St. Augustine',
+      centipede: 'Centipede Grass',
+      fine_fescue: 'Fine Fescue',
+      unknown: 'Mixed/Unknown',
     };
+
     return grassMap[lawnData.grassType] || 'Unknown';
   };
 
@@ -44,6 +73,7 @@ const LawnSummaryCard = ({ lawnData, soilData }: LawnSummaryCardProps) => {
         location={lawnData.location}
         soilComposition={soilData.composition}
         grassType={getGrassDisplay()}
+        soilType={soilData.type}
         lawnSize={getSizeDisplay()}
       />
     </div>

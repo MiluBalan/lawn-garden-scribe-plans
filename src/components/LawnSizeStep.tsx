@@ -28,10 +28,12 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
 
   const { suggestions } = useZipcodeAutocomplete(inputValue);
 
+  // sync location
   useEffect(() => {
     setInputValue(data.location || "");
   }, [data.location]);
 
+  // close suggestions on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -47,6 +49,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // location handlers
   const handleLocationChange = (value: string) => {
     setInputValue(value);
     onUpdate({ location: value });
@@ -59,6 +62,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
     setShowSuggestions(false);
   };
 
+  // size options
   const sizeOptions = [
     { label: "Small (Under 5,000 sq ft)", value: "small", icon: "🏠" },
     { label: "Medium (5,000 - 10,000 sq ft)", value: "medium", icon: "🏡" },
@@ -66,7 +70,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
     { label: "Extra Large (Over 20,000 sq ft)", value: "xlarge", icon: "🏞️" },
   ];
 
-  // 🔢 Calculator
+  // calculator
   const calculateArea = () => {
     if (length && width) {
       const area = parseInt(length) * parseInt(width);
@@ -88,7 +92,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
         </p>
       </div>
 
-      {/* STEP 1: KNOWLEDGE */}
+      {/* KNOWLEDGE MODE */}
       <div className="text-center mb-6">
         <p className="text-lg font-medium text-gray-800 mb-4">
           Do you know your lawn size?
@@ -100,7 +104,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
             onClick={() => {
               setKnowledgeMode("known");
               setCustomSize("");
-              onUpdate({ size: null });
+              onUpdate({ size: "" });
             }}
           >
             Yes
@@ -111,7 +115,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
             onClick={() => {
               setKnowledgeMode("unknown");
               setCustomSize("");
-              onUpdate({ size: null });
+              onUpdate({ size: "" });
             }}
           >
             No
@@ -119,8 +123,8 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
         </div>
       </div>
 
-      {/* ZIPCODE + MAP (ONLY IF UNKNOWN) */}
-      {knowledgeMode === "unknown" && (
+      {/* LOCATION (ALWAYS SHOWN) */}
+      {knowledgeMode && (
         <div className="space-y-4 relative mb-8">
           <Label className="text-lg font-semibold">
             Zip code <span className="text-red-500">*</span>
@@ -155,17 +159,19 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
             )}
           </div>
 
+          {/* MAP */}
           <LocationMapPreview
             location={inputValue}
+            isActive={knowledgeMode === "unknown"}
             onAreaChange={(area) => {
-              setCustomSize(area.toString());
+              if (knowledgeMode !== "unknown") return;
               onUpdate({ size: `custom_${area}` });
             }}
           />
         </div>
       )}
 
-      {/* SIZE CARDS (ONLY IF KNOWN) */}
+      {/* KNOWN MODE → CARDS */}
       {knowledgeMode === "known" && (
         <div className="grid md:grid-cols-2 gap-4 mb-6">
           {sizeOptions.map((option) => (
@@ -176,7 +182,10 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
                   ? "border-green-500 bg-green-50"
                   : "border-gray-200"
               }`}
-              onClick={() => onUpdate({ size: option.value })}
+              onClick={() => {
+                setCustomSize("");
+                onUpdate({ size: option.value });
+              }}
             >
               <CardContent className="p-6 text-center">
                 <div className="text-3xl mb-3">{option.icon}</div>
@@ -187,8 +196,8 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
         </div>
       )}
 
-      {/* CALCULATOR (ONLY IF KNOWN) */}
-      {knowledgeMode === "unknown" && (
+      {/* KNOWN MODE → CALCULATOR */}
+      {knowledgeMode === "known" && (
         <div className="border-t pt-6">
           <div className="text-center mb-4">
             <Button
@@ -229,8 +238,8 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
         </div>
       )}
 
-      {/* MANUAL INPUT (ONLY IF UNKNOWN) */}
-      {knowledgeMode === "known" && (
+      {/* UNKNOWN MODE → MANUAL INPUT */}
+      {knowledgeMode === "unknown" && (
         <div className="border-t pt-6">
           <div className="text-center">
             <Label>Lawn Size (square feet)</Label>
