@@ -7,47 +7,26 @@ interface LawnSummaryCardProps {
 
 const LawnSummaryCard = ({ lawnData, soilData }: LawnSummaryCardProps) => {
 
-  // ✅ Normalize size → always number
-  const getNumericSize = (): number | null => {
-    const size = lawnData.size;
-
-    if (!size) return null;
-
-    // custom_5497
-    if (typeof size === "string" && size.startsWith("custom_")) {
-      return Number(size.split("_")[1]);
-    }
-
-    // predefined sizes
-    const mapping: Record<string, number> = {
-      small: 3000,
-      medium: 7500,
-      large: 15000,
-      xlarge: 25000,
-    };
-
-    if (mapping[size]) return mapping[size];
-
-    // already number
-    if (typeof size === "number") return size;
-
-    return null;
-  };
-
-  // ✅ Convert to label
   const getSizeDisplay = () => {
-    const size = getNumericSize();
+    const size = lawnData.size;
 
     if (!size) return "Unknown size";
 
-    let label = "";
+    // ✅ CUSTOM SIZE → show exact number
+    if (typeof size === "string" && size.startsWith("custom_")) {
+      const value = Number(size.split("_")[1]);
+      return `${value.toLocaleString()} sq ft`;
+    }
 
-    if (size < 5000) label = "Small";
-    else if (size < 10000) label = "Medium";
-    else if (size < 20000) label = "Large";
-    else label = "Extra Large";
+    // ✅ PREDEFINED → show range
+    const mapping: Record<string, string> = {
+      small: "0 – 5,000 sq ft",
+      medium: "5,000 – 10,000 sq ft",
+      large: "10,000 – 20,000 sq ft",
+      xlarge: "20,000+ sq ft",
+    };
 
-    return `${size.toLocaleString()} sq ft (${label})`;
+    return mapping[size] || "Unknown size";
   };
 
   const getGrassDisplay = () => {

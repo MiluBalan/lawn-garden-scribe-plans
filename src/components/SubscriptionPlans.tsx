@@ -95,7 +95,7 @@ export default function SubscriptionPlans({
 
   useEffect(() => {
     fetch(
-      "http://localhost:5019/api/integrations/shopify/subscription-products"
+      "https://api.dev.anarix.ai/api/integrations/shopify/subscription-products"
     )
       .then((res) => res.json())
       .then((res) => {
