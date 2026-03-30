@@ -12,10 +12,11 @@ interface RegionalSoilProfileProps {
   location: string;
   soilComposition: SoilComposition[];
   grassType: string;
+  soilType: string;
   lawnSize: string;
 }
 
-const RegionalSoilProfile = ({ location, soilComposition, grassType, lawnSize }: RegionalSoilProfileProps) => {
+const RegionalSoilProfile = ({ location, soilComposition, grassType, soilType, lawnSize }: RegionalSoilProfileProps) => {
   return (
     <Card className="border-0 shadow-xl bg-white/90 backdrop-blur">
       <CardHeader>
@@ -48,7 +49,7 @@ const RegionalSoilProfile = ({ location, soilComposition, grassType, lawnSize }:
                 <span className="text-orange-600">🏡</span>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">{lawnSize}</p>
+                <p className="font-semibold text-gray-900">{soilType}</p>
                 <p className="text-sm text-gray-600">soil</p>
               </div>
             </div>
@@ -58,7 +59,7 @@ const RegionalSoilProfile = ({ location, soilComposition, grassType, lawnSize }:
                 <span className="text-blue-600">📏</span>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">5,000 sq. ft</p>
+                <p className="font-semibold text-gray-900">{lawnSize}</p>
                 <p className="text-sm text-gray-600">size</p>
               </div>
             </div>
