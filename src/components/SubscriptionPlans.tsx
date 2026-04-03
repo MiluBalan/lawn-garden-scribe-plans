@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 interface SubscriptionPlansProps {
   lawnData: any;
   onBack: () => void;
+  onRestart?: () => void;
 }
 
 interface Plan {
