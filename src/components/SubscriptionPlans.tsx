@@ -23,9 +23,9 @@ interface Plan {
 }
 
 const allPlans = [
-  { name: "Basic", icon: Sprout, tag: "Great Value", xlargeOnly: false },
-  { name: "Advanced", icon: Leaf, tag: "Most Popular", xlargeOnly: false },
-  { name: "Premium", icon: Trees, tag: "Best Results", xlargeOnly: false },
+  { name: "Basic", icon: Sprout, tag: "Great Value", xlargeOnly: false, colors: { badge: "bg-blue-500", button: "bg-blue-500 hover:bg-blue-600", border: "hover:border-blue-500", text: "text-blue-500", check: "text-blue-500" } },
+  { name: "Advanced", icon: Leaf, tag: "Most Popular", xlargeOnly: false, colors: { badge: "bg-green-600", button: "bg-green-600 hover:bg-green-700", border: "hover:border-green-600", text: "text-green-600", check: "text-green-600" } },
+  { name: "Premium", icon: Trees, tag: "Best Results", xlargeOnly: false, colors: { badge: "bg-purple-600", button: "bg-purple-600 hover:bg-purple-700", border: "hover:border-purple-600", text: "text-purple-600", check: "text-purple-600" } },
 ];
 
 const planMap: Record<string, string> = {
@@ -205,17 +205,17 @@ export default function SubscriptionPlans({
             return (
               <Card
                 key={shopify.subscriptionName}
-                className="rounded-2xl shadow-lg relative overflow-hidden"
+                className={`rounded-2xl shadow-lg relative overflow-hidden border-2 border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${plan.colors.border}`}
               >
                 {plan.tag && (
-                  <div className="absolute top-4 right-4 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  <div className={`absolute top-4 right-4 ${plan.colors.badge} text-white text-xs font-semibold px-3 py-1 rounded-full`}>
                     {plan.tag}
                   </div>
                 )}
                 <CardContent className="p-8 flex flex-col">
                   <div className="mb-5">
                     <div className="flex items-center gap-3 mb-2">
-                      <plan.icon className="h-6 w-6 text-green-600" />
+                      <plan.icon className={`h-6 w-6 ${plan.colors.text}`} />
                       <h2 className="text-lg font-bold">
                         {shopify.subscriptionName}
                       </h2>
@@ -231,7 +231,7 @@ export default function SubscriptionPlans({
                   </div>
 
                   <div className="mb-4">
-                    <span className="text-4xl font-bold text-green-600">
+                    <span className={`text-4xl font-bold ${plan.colors.text}`}>
                       ${shopify.price.toFixed(2)}
                     </span>
                   </div>
@@ -241,7 +241,7 @@ export default function SubscriptionPlans({
                     {shopify.billingInterval} months
                   </p>
 
-                  <p className="text-sm text-green-600 mb-6">
+                  <p className={`text-sm ${plan.colors.text} mb-6`}>
                     {shopify.discountLabel}
                   </p>
 
@@ -253,14 +253,14 @@ export default function SubscriptionPlans({
                       "Pause or cancel anytime",
                     ].map((f, i) => (
                       <li key={i} className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-green-600" />
+                        <Check className={`h-4 w-4 ${plan.colors.check}`} />
                         <span className="text-sm">{f}</span>
                       </li>
                     ))}
                   </ul>
 
                   <Button
-                    className="w-full bg-green-600 hover:bg-green-700"
+                    className={`w-full ${plan.colors.button} text-white`}
                     onClick={() =>
                       window.open(
                         `https://biogrowthorganics.com/cart/add?id=${shopify.variantId}&selling_plan=${shopify.sellingPlanId}&quantity=1`,
@@ -277,14 +277,14 @@ export default function SubscriptionPlans({
 
           {/* Enterprise / Bulk Purchase Card */}
           {isXlarge && (
-            <Card className="rounded-2xl shadow-lg relative overflow-hidden border-2 border-green-600">
+            <Card className="rounded-2xl shadow-lg relative overflow-hidden border-2 border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-amber-500">
               <div className="absolute top-4 right-4 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
                 Bulk Purchase
               </div>
               <CardContent className="p-8 flex flex-col h-full">
                 <div className="mb-5">
                   <div className="flex items-center gap-3 mb-2">
-                    <Building2 className="h-6 w-6 text-green-600" />
+                    <Building2 className="h-6 w-6 text-amber-500" />
                     <h2 className="text-lg font-bold">Enterprise</h2>
                   </div>
                   <p className="text-xs font-medium text-gray-700 mb-1">
@@ -296,7 +296,7 @@ export default function SubscriptionPlans({
                 </div>
 
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-green-600">
+                  <span className="text-4xl font-bold text-amber-500">
                     Custom
                   </span>
                 </div>
@@ -305,7 +305,7 @@ export default function SubscriptionPlans({
                   Volume-based pricing
                 </p>
 
-                <p className="text-sm text-green-600 mb-6">
+                <p className="text-sm text-amber-500 mb-6">
                   Bulk discounts available
                 </p>
 
@@ -317,14 +317,14 @@ export default function SubscriptionPlans({
                     "Volume discounts",
                   ].map((f, i) => (
                     <li key={i} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-green-600" />
+                      <Check className="h-4 w-4 text-amber-500" />
                       <span className="text-sm">{f}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Button
-                  className="w-full bg-green-600 hover:bg-green-700"
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-white"
                   onClick={() =>
                     window.open(
                       "https://biogrowthorganics.com/pages/contact-us",
