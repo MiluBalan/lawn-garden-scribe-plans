@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowLeft, Leaf, Sprout, Trees } from "lucide-react";
+import { Check, ArrowLeft, Leaf, Sprout, Trees, Building2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface SubscriptionPlansProps {
@@ -21,10 +21,10 @@ interface Plan {
   discountLabel: string;
 }
 
-const plans = [
-  { name: "Basic", icon: Sprout },
-  { name: "Advanced", icon: Leaf },
-  { name: "Premium", icon: Trees },
+const allPlans = [
+  { name: "Basic", icon: Sprout, tag: "Great Value", xlargeOnly: false },
+  { name: "Advanced", icon: Leaf, tag: "Most Popular", xlargeOnly: false },
+  { name: "Premium", icon: Trees, tag: "Best Results", xlargeOnly: false },
 ];
 
 const planMap: Record<string, string> = {
@@ -174,12 +174,19 @@ export default function SubscriptionPlans({
       p.planName.toLowerCase().includes(planMap[name].toLowerCase())
     );
 
+  const isXlarge = lawnData?.size === "xlarge" || 
+    (typeof lawnData?.size === "string" && lawnData?.size?.startsWith("custom_") && parseInt(lawnData?.size?.split("_")[1]) >= 20000);
+
+  const visiblePlans = isXlarge
+    ? allPlans.filter((p) => p.name !== "Basic")
+    : allPlans;
+
   if (loading)
     return <div className="text-center py-20 text-lg">Loading plans...</div>;
 
   return (
     <div className="min-h-screen bg-green-50 py-12">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4 max-w-7xl">
         <Button variant="ghost" onClick={onBack} className="mb-8">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back
@@ -190,15 +197,20 @@ export default function SubscriptionPlans({
         </h1>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {plans.map((plan) => {
+          {visiblePlans.map((plan) => {
             const shopify = getPlan(plan.name);
             if (!shopify) return null;
 
             return (
               <Card
                 key={shopify.subscriptionName}
-                className="rounded-2xl shadow-lg"
+                className="rounded-2xl shadow-lg relative overflow-hidden"
               >
+                {plan.tag && (
+                  <div className="absolute top-4 right-4 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    {plan.tag}
+                  </div>
+                )}
                 <CardContent className="p-8 flex flex-col">
                   <div className="mb-5">
                     <div className="flex items-center gap-3 mb-2">
@@ -261,6 +273,69 @@ export default function SubscriptionPlans({
               </Card>
             );
           })}
+
+          {/* Enterprise / Bulk Purchase Card */}
+          {isXlarge && (
+            <Card className="rounded-2xl shadow-lg relative overflow-hidden border-2 border-green-600">
+              <div className="absolute top-4 right-4 bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                Bulk Purchase
+              </div>
+              <CardContent className="p-8 flex flex-col h-full">
+                <div className="mb-5">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Building2 className="h-6 w-6 text-green-600" />
+                    <h2 className="text-lg font-bold">Enterprise</h2>
+                  </div>
+                  <p className="text-xs font-medium text-gray-700 mb-1">
+                    Custom Bulk Solution
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Tailored plans for large properties and commercial spaces
+                  </p>
+                </div>
+
+                <div className="mb-4">
+                  <span className="text-4xl font-bold text-green-600">
+                    Custom
+                  </span>
+                </div>
+
+                <p className="text-sm text-gray-500 mb-1">
+                  Volume-based pricing
+                </p>
+
+                <p className="text-sm text-green-600 mb-6">
+                  Bulk discounts available
+                </p>
+
+                <ul className="space-y-3 mb-8 flex-1">
+                  {[
+                    "Custom nutrient formula",
+                    "Dedicated account manager",
+                    "Priority delivery schedule",
+                    "Volume discounts",
+                  ].map((f, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-green-600" />
+                      <span className="text-sm">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  className="w-full bg-green-600 hover:bg-green-700"
+                  onClick={() =>
+                    window.open(
+                      "https://biogrowthorganics.com/pages/contact-us",
+                      "_blank"
+                    )
+                  }
+                >
+                  Contact Us
+                </Button>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
