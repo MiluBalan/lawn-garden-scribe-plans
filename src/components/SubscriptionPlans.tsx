@@ -21,10 +21,10 @@ interface Plan {
   discountLabel: string;
 }
 
-const plans = [
-  { name: "Basic", icon: Sprout },
-  { name: "Advanced", icon: Leaf },
-  { name: "Premium", icon: Trees },
+const allPlans = [
+  { name: "Basic", icon: Sprout, tag: "Great Value", xlargeOnly: false },
+  { name: "Advanced", icon: Leaf, tag: "Most Popular", xlargeOnly: false },
+  { name: "Premium", icon: Trees, tag: "Best Results", xlargeOnly: false },
 ];
 
 const planMap: Record<string, string> = {
