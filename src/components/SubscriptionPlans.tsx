@@ -23,9 +23,9 @@ interface Plan {
 }
 
 const allPlans = [
-  { name: "Basic", icon: Sprout, tag: "Great Value", xlargeOnly: false },
-  { name: "Advanced", icon: Leaf, tag: "Most Popular", xlargeOnly: false },
-  { name: "Premium", icon: Trees, tag: "Best Results", xlargeOnly: false },
+  { name: "Basic", icon: Sprout, tag: "Great Value", xlargeOnly: false, colors: { badge: "bg-blue-500", button: "bg-blue-500 hover:bg-blue-600", border: "hover:border-blue-500", text: "text-blue-500", check: "text-blue-500" } },
+  { name: "Advanced", icon: Leaf, tag: "Most Popular", xlargeOnly: false, colors: { badge: "bg-green-600", button: "bg-green-600 hover:bg-green-700", border: "hover:border-green-600", text: "text-green-600", check: "text-green-600" } },
+  { name: "Premium", icon: Trees, tag: "Best Results", xlargeOnly: false, colors: { badge: "bg-purple-600", button: "bg-purple-600 hover:bg-purple-700", border: "hover:border-purple-600", text: "text-purple-600", check: "text-purple-600" } },
 ];
 
 const planMap: Record<string, string> = {
