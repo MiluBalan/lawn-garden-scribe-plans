@@ -23,9 +23,45 @@ interface Plan {
 }
 
 const allPlans = [
-  { name: "Basic", icon: Sprout, tag: "Great Value", xlargeOnly: false, colors: { badge: "bg-blue-500", button: "bg-blue-500 hover:bg-blue-600", border: "hover:border-blue-500", text: "text-blue-500", check: "text-blue-500" } },
-  { name: "Advanced", icon: Leaf, tag: "Most Popular", xlargeOnly: false, colors: { badge: "bg-green-600", button: "bg-green-600 hover:bg-green-700", border: "hover:border-green-600", text: "text-green-600", check: "text-green-600" } },
-  { name: "Premium", icon: Trees, tag: "Best Results", xlargeOnly: false, colors: { badge: "bg-purple-600", button: "bg-purple-600 hover:bg-purple-700", border: "hover:border-purple-600", text: "text-purple-600", check: "text-purple-600" } },
+  {
+    name: "Basic",
+    icon: Sprout,
+    tag: "Great Value",
+    xlargeOnly: false,
+    colors: {
+      badge: "bg-blue-500",
+      button: "bg-blue-500 hover:bg-blue-600",
+      border: "hover:border-blue-500",
+      text: "text-blue-500",
+      check: "text-blue-500",
+    },
+  },
+  {
+    name: "Advanced",
+    icon: Leaf,
+    tag: "Most Popular",
+    xlargeOnly: false,
+    colors: {
+      badge: "bg-green-600",
+      button: "bg-green-600 hover:bg-green-700",
+      border: "hover:border-green-600",
+      text: "text-green-600",
+      check: "text-green-600",
+    },
+  },
+  {
+    name: "Premium",
+    icon: Trees,
+    tag: "Best Results",
+    xlargeOnly: false,
+    colors: {
+      badge: "bg-purple-600",
+      button: "bg-purple-600 hover:bg-purple-700",
+      border: "hover:border-purple-600",
+      text: "text-purple-600",
+      check: "text-purple-600",
+    },
+  },
 ];
 
 const planMap: Record<string, string> = {
@@ -74,21 +110,15 @@ export default function SubscriptionPlans({
     }
 
     if (size >= 5000 && size < 10000) {
-      return (
-        normalized.includes("5000") &&
-        normalized.includes("10000")
-      );
+      return normalized.includes("5000") && normalized.includes("10000");
     }
 
     if (size >= 10000 && size < 20000) {
-      return (
-        normalized.includes("10000") &&
-        normalized.includes("20000")
-      );
+      return normalized.includes("10000") && normalized.includes("20000");
     }
 
     if (size >= 20000) {
-      return normalized.includes("20000");
+      return normalized.includes("20000") && normalized.includes("25000");
     }
 
     return false;
@@ -96,7 +126,7 @@ export default function SubscriptionPlans({
 
   useEffect(() => {
     fetch(
-      "https://api.dev.anarix.ai/api/integrations/shopify/subscription-products"
+      "https://api.dev.anarix.ai/api/integrations/shopify/subscription-products",
     )
       .then((res) => res.json())
       .then((res) => {
@@ -153,7 +183,7 @@ export default function SubscriptionPlans({
                 billingInterval,
                 discountLabel,
               };
-            })
+            }),
           );
         });
 
@@ -172,11 +202,14 @@ export default function SubscriptionPlans({
 
   const getPlan = (name: string) =>
     shopifyPlans.find((p) =>
-      p.planName.toLowerCase().includes(planMap[name].toLowerCase())
+      p.planName.toLowerCase().includes(planMap[name].toLowerCase()),
     );
 
-  const isXlarge = lawnData?.size === "xlarge" || 
-    (typeof lawnData?.size === "string" && lawnData?.size?.startsWith("custom_") && parseInt(lawnData?.size?.split("_")[1]) >= 20000);
+  const isXlarge =
+    lawnData?.size === "xlarge" ||
+    (typeof lawnData?.size === "string" &&
+      lawnData?.size?.startsWith("custom_") &&
+      parseInt(lawnData?.size?.split("_")[1]) >= 20000);
 
   const visiblePlans = isXlarge
     ? allPlans.filter((p) => p.name !== "Basic")
@@ -208,7 +241,9 @@ export default function SubscriptionPlans({
                 className={`rounded-2xl shadow-lg relative overflow-hidden border-2 border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${plan.colors.border}`}
               >
                 {plan.tag && (
-                  <div className={`absolute top-4 right-4 ${plan.colors.badge} text-white text-xs font-semibold px-3 py-1 rounded-full`}>
+                  <div
+                    className={`absolute top-4 right-4 ${plan.colors.badge} text-white text-xs font-semibold px-3 py-1 rounded-full`}
+                  >
                     {plan.tag}
                   </div>
                 )}
@@ -264,7 +299,7 @@ export default function SubscriptionPlans({
                     onClick={() =>
                       window.open(
                         `https://biogrowthorganics.com/cart/add?id=${shopify.variantId}&selling_plan=${shopify.sellingPlanId}&quantity=1`,
-                        "_blank"
+                        "_blank",
                       )
                     }
                   >
@@ -274,6 +309,89 @@ export default function SubscriptionPlans({
               </Card>
             );
           })}
+
+          {/* ✅ XLARGE (SAME UI DESIGN, DIFFERENT DATA SOURCE) */}
+          {isXlarge &&
+            shopifyPlans.map((plan, index) => {
+              const style = allPlans[index % allPlans.length]; // reuse styles
+
+              return (
+                <Card
+                  key={plan.sellingPlanId}
+                  className={`rounded-2xl shadow-lg relative overflow-hidden border-2 border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${style.colors.border}`}
+                >
+                  <div
+                    className={`absolute top-4 right-4 ${style.colors.badge} text-white text-xs font-semibold px-3 py-1 rounded-full`}
+                  >
+                    Best Value
+                  </div>
+
+                  <CardContent className="p-8 flex flex-col">
+                    <div className="mb-5">
+                      <div className="flex items-center gap-3 mb-2">
+                        <style.icon
+                          className={`h-6 w-6 ${style.colors.text}`}
+                        />
+                        <h2 className="text-lg font-bold">
+                          {plan.subscriptionName}
+                        </h2>
+                      </div>
+
+                      <p className="text-xs font-medium text-gray-700 mb-1">
+                        {plan.productTitle}
+                      </p>
+
+                      <p className="text-xs text-gray-500">
+                        {plan.description}
+                      </p>
+                    </div>
+
+                    <div className="mb-4">
+                      <span
+                        className={`text-4xl font-bold ${style.colors.text}`}
+                      >
+                        ${plan.price.toFixed(2)}
+                      </span>
+                    </div>
+
+                    <p className="text-sm text-gray-500 mb-1">
+                      {plan.deliveries} delivery every {plan.billingInterval}{" "}
+                      months
+                    </p>
+
+                    <p className={`text-sm ${style.colors.text} mb-6`}>
+                      {plan.discountLabel}
+                    </p>
+
+                    <ul className="space-y-3 mb-8 flex-1">
+                      {[
+                        "Custom nutrient formula",
+                        "Climate optimized schedule",
+                        "Organic lawn treatments",
+                        "Pause or cancel anytime",
+                      ].map((f, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <Check className={`h-4 w-4 ${style.colors.check}`} />
+                          <span className="text-sm">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Button
+                      className={`w-full ${style.colors.button} text-white`}
+                      onClick={() =>
+                        window.open(
+                          `https://biogrowthorganics.com/cart/add?id=${plan.variantId}&selling_plan=${plan.sellingPlanId}&quantity=1`,
+                          "_blank",
+                        )
+                      }
+                    >
+                      Subscribe
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
 
           {/* Enterprise / Bulk Purchase Card */}
           {isXlarge && (
@@ -328,7 +446,7 @@ export default function SubscriptionPlans({
                   onClick={() =>
                     window.open(
                       "https://biogrowthorganics.com/pages/contact-us",
-                      "_blank"
+                      "_blank",
                     )
                   }
                 >
