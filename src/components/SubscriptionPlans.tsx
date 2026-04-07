@@ -28,6 +28,12 @@ const allPlans = [
     icon: Sprout,
     tag: "Great Value",
     xlargeOnly: false,
+    features: [
+      "Essential nutrient formula",
+      "Seasonal feeding schedule",
+      "Eco-friendly ingredients",
+      "Pause or cancel anytime",
+    ],
     colors: {
       badge: "bg-blue-500",
       button: "bg-blue-500 hover:bg-blue-600",
@@ -41,6 +47,12 @@ const allPlans = [
     icon: Leaf,
     tag: "Most Popular",
     xlargeOnly: false,
+    features: [
+      "Custom nutrient formula",
+      "Climate optimized schedule",
+      "Weed & pest prevention",
+      "Soil health monitoring",
+    ],
     colors: {
       badge: "bg-green-600",
       button: "bg-green-600 hover:bg-green-700",
@@ -54,6 +66,12 @@ const allPlans = [
     icon: Trees,
     tag: "Best Results",
     xlargeOnly: false,
+    features: [
+      "Advanced bio-stimulant blend",
+      "Year-round care program",
+      "Disease & drought protection",
+      "Priority expert support",
+    ],
     colors: {
       badge: "bg-purple-600",
       button: "bg-purple-600 hover:bg-purple-700",
@@ -281,12 +299,7 @@ export default function SubscriptionPlans({
                   </p>
 
                   <ul className="space-y-3 mb-8 flex-1">
-                    {[
-                      "Custom nutrient formula",
-                      "Climate optimized schedule",
-                      "Organic lawn treatments",
-                      "Pause or cancel anytime",
-                    ].map((f, i) => (
+                    {plan.features.map((f, i) => (
                       <li key={i} className="flex items-center gap-2">
                         <Check className={`h-4 w-4 ${plan.colors.check}`} />
                         <span className="text-sm">{f}</span>
@@ -364,12 +377,7 @@ export default function SubscriptionPlans({
                     </p>
 
                     <ul className="space-y-3 mb-8 flex-1">
-                      {[
-                        "Custom nutrient formula",
-                        "Climate optimized schedule",
-                        "Organic lawn treatments",
-                        "Pause or cancel anytime",
-                      ].map((f, i) => (
+                      {style.features.map((f, i) => (
                         <li key={i} className="flex items-center gap-2">
                           <Check className={`h-4 w-4 ${style.colors.check}`} />
                           <span className="text-sm">{f}</span>
