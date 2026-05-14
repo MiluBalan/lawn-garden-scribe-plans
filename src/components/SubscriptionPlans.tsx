@@ -208,9 +208,19 @@ export default function SubscriptionPlans({
         // ✅ FILTER FIXED
         const filtered = extracted.filter((plan) => {
           if (!size) return false;
+
+          const description = plan.description.toLowerCase();
+
+          // ❌ Exclude garden-only plans
+          const isGardenPlan =
+            description.includes("garden-flower") ||
+            description.includes("garden flower") ||
+            description.includes("garden");
+
+          if (isGardenPlan) return false;
+
           return matchesSize(plan.description, size);
         });
-
         console.log("✅ Filtered Plans:", filtered);
 
         setShopifyPlans(filtered);
