@@ -29,16 +29,6 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
     return Math.abs(hash);
   };
 
-  const getCustomerCount = (key) => {
-    const hash = stringToHash(key);
-    return 20 + (hash % 101);
-  };
-
-  const customerCount = useMemo(() => {
-    if (!coords) return 0;
-    return getCustomerCount(`${coords.lat},${coords.lon}`);
-  }, [coords]);
-
   // ---------------- SEEDED RANDOM ----------------
   const seededRandom = (seed) => {
     let x = Math.sin(seed) * 10000;
@@ -46,9 +36,9 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
   };
 
   // ---------------- GENERATE POINTS ----------------
-  const generateCustomerPoints = (lat, lon, count) => {
-    const visibleCount = Math.min(count, 40);
+  const generateCustomerPoints = (lat, lon) => {
     const baseSeed = stringToHash(`${lat},${lon}`);
+    const visibleCount = 2 + (baseSeed % 4);
 
     const zoom = mapInstance.current?.getZoom() || ZOOM;
     const spread = 0.09 / Math.pow(2, zoom - 12);
@@ -76,8 +66,11 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
 
   const customerPoints = useMemo(() => {
     if (!coords) return [];
-    return generateCustomerPoints(coords.lat, coords.lon, customerCount);
-  }, [coords, customerCount]);
+    return generateCustomerPoints(coords.lat, coords.lon);
+  }, [coords]);
+
+  // Customer count = dots count
+  const customerCount = customerPoints.length;
 
   // ---------------- INIT MAP ----------------
   useEffect(() => {
