@@ -218,6 +218,11 @@ export default function SubscriptionPlans({
       });
   }, [lawnData]);
 
+  const getBottleQuantity = (title: string) => {
+    const match = title.match(/x\s*(\d+)\s*Bottles?/i);
+    return match ? parseInt(match[1], 10) : 1;
+  };
+
   const getPlan = (name: string) =>
     shopifyPlans.find((p) =>
       p.planName.toLowerCase().includes(planMap[name].toLowerCase()),
@@ -284,9 +289,18 @@ export default function SubscriptionPlans({
                   </div>
 
                   <div className="mb-4">
-                    <span className={`text-4xl font-bold ${plan.colors.text}`}>
-                      ${shopify.price.toFixed(2)}
-                    </span>
+                    {(() => {
+                      const quantity = getBottleQuantity(shopify.productTitle);
+                      const totalPrice = shopify.price * quantity;
+
+                      return (
+                        <span
+                          className={`text-4xl font-bold ${plan.colors.text}`}
+                        >
+                          ${totalPrice.toFixed(2)}
+                        </span>
+                      );
+                    })()}
                   </div>
 
                   <p className="text-sm text-gray-500 mb-1">
@@ -309,12 +323,13 @@ export default function SubscriptionPlans({
 
                   <Button
                     className={`w-full ${plan.colors.button} text-white`}
-                    onClick={() =>
+                    onClick={() => {
+                      const quantity = getBottleQuantity(shopify.productTitle);
                       window.open(
-                        `https://biogrowthorganics.com/cart/add?id=${shopify.variantId}&selling_plan=${shopify.sellingPlanId}&quantity=1`,
+                        `https://biogrowthorganics.com/cart/add?id=${shopify.variantId}&selling_plan=${shopify.sellingPlanId}&quantity=${quantity}`,
                         "_blank",
-                      )
-                    }
+                      );
+                    }}
                   >
                     Subscribe
                   </Button>
@@ -360,11 +375,18 @@ export default function SubscriptionPlans({
                     </div>
 
                     <div className="mb-4">
-                      <span
-                        className={`text-4xl font-bold ${style.colors.text}`}
-                      >
-                        ${plan.price.toFixed(2)}
-                      </span>
+                      {(() => {
+                        const quantity = getBottleQuantity(plan.productTitle);
+                        const totalPrice = plan.price * quantity;
+
+                        return (
+                          <span
+                            className={`text-4xl font-bold ${style.colors.text}`}
+                          >
+                            ${totalPrice.toFixed(2)}
+                          </span>
+                        );
+                      })()}
                     </div>
 
                     <p className="text-sm text-gray-500 mb-1">
@@ -387,12 +409,13 @@ export default function SubscriptionPlans({
 
                     <Button
                       className={`w-full ${style.colors.button} text-white`}
-                      onClick={() =>
+                      onClick={() => {
+                        const quantity = getBottleQuantity(plan.productTitle);
                         window.open(
-                          `https://biogrowthorganics.com/cart/add?id=${plan.variantId}&selling_plan=${plan.sellingPlanId}&quantity=1`,
+                          `https://biogrowthorganics.com/cart/add?id=${plan.variantId}&selling_plan=${plan.sellingPlanId}&quantity=${quantity}`,
                           "_blank",
-                        )
-                      }
+                        );
+                      }}
                     >
                       Subscribe
                     </Button>
