@@ -24,6 +24,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   const [currentStep, setCurrentStep] = useState(0); // Start at 0 for plan type selection
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [showReportLoading, setShowReportLoading] = useState(false);
   const [planData, setPlanData] = useState({
     planType: "", // 'lawn' or 'garden'
     // Lawn specific fields
@@ -62,7 +63,15 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       setCurrentStep(currentStep + 1);
       window.scrollTo(0, 0);
     } else {
-      setShowAnalysis(true);
+      if (planData.planType === "garden") {
+        setShowReportLoading(true);
+        setTimeout(() => {
+          setShowReportLoading(false);
+          setShowResults(true);
+        }, 1500);
+      } else {
+        setShowAnalysis(true);
+      }
     }
   };
 
@@ -76,6 +85,10 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
   const handleAnalysisComplete = () => {
     setShowAnalysis(false);
     setShowResults(true);
+  };
+
+  const handleBackToSteps = () => {
+    setShowResults(false);
   };
 
   const handleRestart = () => {
@@ -106,7 +119,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         <GardenPlanResults
           gardenData={planData}
           onRestart={handleRestart}
-          onBack={onBack}
+          onBackToSteps={handleBackToSteps}
         />
       );
     }
@@ -114,6 +127,18 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
 
   if (showAnalysis) {
     return <AnalysisAnimation onComplete={handleAnalysisComplete} />;
+  }
+
+  if (showReportLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center space-y-6">
+          <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <h2 className="text-2xl font-bold text-gray-900">Generating Your Garden Report</h2>
+          <p className="text-gray-500">Analyzing your inputs to create a personalized plan...</p>
+        </div>
+      </div>
+    );
   }
 
   const renderStep = () => {
@@ -294,7 +319,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
               className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {currentStep === getTotalSteps() - 1
-                ? "Generate Plan"
+                ? planData.planType === "garden"
+                  ? "Generate Report"
+                  : "Generate Plan"
                 : "Continue"}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

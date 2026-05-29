@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Leaf, Droplets, Sun, Package, ArrowLeft } from 'lucide-react';
+import GardenSubscriptionPlans from './GardenSubscriptionPlans';
+import { GARDEN_SIZE_DISPLAY } from '@/lib/garden';
 
 interface GardenData {
   planType: string;
@@ -12,11 +15,16 @@ interface GardenData {
 
 interface GardenPlanResultsProps {
   gardenData: GardenData;
-  onBack: () => void;
+  onBackToSteps: () => void;
   onRestart: () => void;
 }
 
-const GardenPlanResults = ({ gardenData, onBack, onRestart }: GardenPlanResultsProps) => {
+const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanResultsProps) => {
+  const [showPlans, setShowPlans] = useState(false);
+
+  if (showPlans) {
+    return <GardenSubscriptionPlans gardenData={gardenData} onBack={() => setShowPlans(false)} />;
+  }
   const getProductRecommendations = () => {
     const baseProducts = [
       {
@@ -78,10 +86,11 @@ const GardenPlanResults = ({ gardenData, onBack, onRestart }: GardenPlanResultsP
         <div className="mb-8">
           <Button
             variant="secondary"
-            onClick={onBack}
+            onClick={onBackToSteps}
             className="mb-4 bg-gray-100 hover:bg-gray-200 text-gray-700"
           >
-            <span>Back to Results</span>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            <span>Back to Edit</span>
           </Button>
           
           <div className="text-center">
@@ -111,7 +120,7 @@ const GardenPlanResults = ({ gardenData, onBack, onRestart }: GardenPlanResultsP
                 </div>
                 <div className="text-center">
                   <Badge variant="secondary" className="mb-2">Garden Size</Badge>
-                  <p className="font-medium">{gardenData.gardenSize.replace('-', ' ')}</p>
+                  <p className="font-medium">{GARDEN_SIZE_DISPLAY[gardenData.gardenSize] || gardenData.gardenSize.replace('-', ' ')}</p>
                 </div>
                 <div className="text-center">
                   <Badge variant="secondary" className="mb-2">Location</Badge>
@@ -183,19 +192,25 @@ const GardenPlanResults = ({ gardenData, onBack, onRestart }: GardenPlanResultsP
           </Card>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              onClick={onRestart}
-              variant="secondary"
-              className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700"
-            >
-              Create Another Plan
-            </Button>
-            <Button 
-              className="px-8 py-3 bg-green-600 hover:bg-green-700"
-            >
-              Save My Plan
-            </Button>
+          <div className="text-center space-y-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                onClick={onRestart}
+                variant="secondary"
+                className="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700"
+              >
+                Create Another Plan
+              </Button>
+              <Button 
+                onClick={() => setShowPlans(true)}
+                className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white text-lg rounded-xl shadow-lg"
+              >
+                Show Products
+              </Button>
+            </div>
+            <p className="text-gray-600 text-sm">
+              Ready to nurture your garden? Get the recommended products delivered to your door.
+            </p>
           </div>
         </div>
       </div>

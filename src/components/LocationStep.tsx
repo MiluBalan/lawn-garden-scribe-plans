@@ -1,5 +1,10 @@
 
+import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { MapPin } from 'lucide-react';
+import { useZipcodeAutocomplete } from '@/hooks/useZipcodeAutocomplete';
 
 interface LocationStepProps {
   data: any;
@@ -7,6 +12,41 @@ interface LocationStepProps {
 }
 
 const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
+  const [inputValue, setInputValue] = useState(data.location || '');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const { suggestions } = useZipcodeAutocomplete(inputValue);
+
+  useEffect(() => {
+    setInputValue(data.location || '');
+  }, [data.location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current && !inputRef.current.contains(event.target as Node) &&
+        suggestionsRef.current && !suggestionsRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLocationChange = (value: string) => {
+    setInputValue(value);
+    onUpdate({ location: value });
+    setShowSuggestions(true);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);
+    onUpdate({ location: suggestion });
+    setShowSuggestions(false);
+  };
+
   const sunlightOptions = [
     { value: 'full_sun', label: 'Full Sun', description: '6+ hours of direct sunlight daily', icon: '☀️' },
     { value: 'partial_sun', label: 'Partial Sun', description: '4-6 hours of direct sunlight daily', icon: '⛅' },
@@ -27,6 +67,40 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
         <p className="text-lg text-gray-600">
           Your environmental conditions help us create the most accurate care plan for your specific situation.
         </p>
+      </div>
+
+      {/* Location / Zip Code */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-gray-900">
+          What is your zip code or city? <span className="text-red-500">*</span>
+        </h3>
+        <div className="relative">
+          <Input
+            ref={inputRef}
+            value={inputValue}
+            onChange={(e) => handleLocationChange(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            placeholder="e.g., Austin, TX or 78701"
+            className="text-lg p-4"
+          />
+          {showSuggestions && suggestions.length > 0 && (
+            <div
+              ref={suggestionsRef}
+              className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-50"
+            >
+              {suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSuggestionClick(s.formatted)}
+                  className="w-full px-4 py-3 text-left hover:bg-green-50 flex gap-2 items-center"
+                >
+                  <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <span>{s.formatted}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Sunlight Conditions */}
