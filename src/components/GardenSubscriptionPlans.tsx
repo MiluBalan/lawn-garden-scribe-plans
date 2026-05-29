@@ -3,8 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Check, ArrowLeft, Sprout, Leaf, Trees, Package } from "lucide-react";
 import EnterpriseCard from "./EnterpriseCard";
 import { useEffect, useState } from "react";
-import { PLANT_TYPE_MAP, parseGardenDescription, normalizeTag, groupGardenSubscriptionPlans } from "@/lib/garden";
-import type { IGardenProduct, IGardenSubscriptionPlan } from "@/interfaces/garden";
+import {
+  PLANT_TYPE_MAP,
+  parseGardenDescription,
+  normalizeTag,
+  groupGardenSubscriptionPlans,
+} from "@/lib/garden";
+import type {
+  IGardenProduct,
+  IGardenSubscriptionPlan,
+} from "@/interfaces/garden";
 
 interface GardenSubscriptionPlansProps {
   gardenData: any;
@@ -74,12 +82,14 @@ export default function GardenSubscriptionPlans({
   gardenData,
   onBack,
 }: GardenSubscriptionPlansProps) {
-  const [subscriptionPlans, setSubscriptionPlans] = useState<IGardenSubscriptionPlan[]>([]);
+  const [subscriptionPlans, setSubscriptionPlans] = useState<
+    IGardenSubscriptionPlan[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(
-      "http://localhost:5019/api/integrations/shopify/garden-subscription-products",
+      "https://api.dev.anarix.ai/api/integrations/shopify/garden-subscription-products",
     )
       .then((res) => res.json())
       .then((res) => {
@@ -225,7 +235,8 @@ export default function GardenSubscriptionPlans({
           isExtraLarge ? (
             <div className="text-center py-8 mb-8">
               <p className="text-gray-500 text-lg">
-                No standard plans are available for this garden size, but we can create a custom enterprise solution for your property.
+                No standard plans are available for this garden size, but we can
+                create a custom enterprise solution for your property.
               </p>
             </div>
           ) : (
@@ -234,7 +245,8 @@ export default function GardenSubscriptionPlans({
                 No subscription plans available for your selection.
               </p>
               <p className="text-gray-400 text-sm mt-2">
-                Try adjusting your plant type or garden size to see available plans.
+                Try adjusting your plant type or garden size to see available
+                plans.
               </p>
             </div>
           )
@@ -269,7 +281,10 @@ export default function GardenSubscriptionPlans({
                       {isMultiProduct ? (
                         <div className="space-y-1 mb-1">
                           {plan.products.map((p, i) => (
-                            <p key={i} className="text-xs font-medium text-gray-700">
+                            <p
+                              key={i}
+                              className="text-xs font-medium text-gray-700"
+                            >
                               {p.productTitle}
                             </p>
                           ))}
@@ -280,7 +295,9 @@ export default function GardenSubscriptionPlans({
                         </p>
                       )}
 
-                      <p className="text-xs text-gray-500">{plan.description}</p>
+                      <p className="text-xs text-gray-500">
+                        {plan.description}
+                      </p>
 
                       {isMultiProduct && (
                         <div className="flex items-center gap-1 mt-2 text-xs text-gray-400">
@@ -291,7 +308,9 @@ export default function GardenSubscriptionPlans({
                     </div>
 
                     <div className="mb-4">
-                      <span className={`text-4xl font-bold ${tier.colors.text}`}>
+                      <span
+                        className={`text-4xl font-bold ${tier.colors.text}`}
+                      >
                         ${plan.totalPrice.toFixed(2)}
                       </span>
                     </div>
