@@ -199,16 +199,27 @@ export default function GardenSubscriptionPlans({
   }, [gardenData]);
 
   const handleSubscribe = (plan: IGardenSubscriptionPlan) => {
-    const params = new URLSearchParams();
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://biogrowthorganics.com/cart/add";
+    form.target = "_blank";
+
     plan.products.forEach((p) => {
-      params.append("id", p.variantId);
-      params.append("selling_plan", p.sellingPlanId);
-      params.append("quantity", String(p.multiplier));
+      const append = (name: string, value: string) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      };
+      append("items[][id]", p.variantId);
+      append("items[][quantity]", String(p.multiplier));
+      append("items[][selling_plan]", p.sellingPlanId);
     });
-    window.open(
-      `https://biogrowthorganics.com/cart/add?${params.toString()}`,
-      "_blank",
-    );
+
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(() => document.body.removeChild(form), 1000);
   };
 
   const isExtraLarge = gardenData?.gardenSize === "extra-large";
