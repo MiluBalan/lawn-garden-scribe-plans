@@ -115,6 +115,12 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       sprinklerFrequency: "",
       plantType: "",
       gardenSize: "",
+      growthStage: "",
+      plantingSeason: "",
+      plantSubtype: "",
+      plantSpacing: "",
+      plantGoal: "",
+      plantIssues: "",
     });
   };
 
