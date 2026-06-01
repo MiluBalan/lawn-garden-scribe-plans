@@ -3,7 +3,8 @@ import mapboxgl from "mapbox-gl";
 import { MapPin, Loader2, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN ?? "";
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN ?? "";
+mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const ZOOM = 15;
 
@@ -74,7 +75,7 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
 
   // ---------------- INIT MAP ----------------
   useEffect(() => {
-    if (!coords || !mapRef.current) return;
+    if (!coords || !mapRef.current || !MAPBOX_TOKEN) return;
 
     // ✅ prevent re-creating map
     if (mapInstance.current) {
