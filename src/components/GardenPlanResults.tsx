@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Leaf, Droplets, Sun, Package, ArrowLeft } from 'lucide-react';
+import { Leaf, Sun, ArrowLeft } from 'lucide-react';
 import GardenSubscriptionPlans from './GardenSubscriptionPlans';
 import { GARDEN_SIZE_DISPLAY } from '@/lib/garden';
 
