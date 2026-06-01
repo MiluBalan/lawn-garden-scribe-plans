@@ -140,9 +140,6 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
                 Show Products
               </Button>
             </div>
-            <p className="text-gray-600 text-sm">
-              Ready to nurture your garden? Get the recommended products delivered to your door.
-            </p>
           </div>
         </div>
       </div>
