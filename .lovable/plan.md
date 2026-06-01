@@ -1,31 +1,87 @@
+# Plan: Plant-Type-Specific Questions in Garden Flow
 
+Add 2 new steps after the current Garden step 3 (Location & Conditions) and before the existing Garden Preferences step, with questions tailored to the chosen plant type (Flowers / Vegetables / Fruits). Report generation runs after all steps are complete.
 
-## Plan: Unique colors per subscription card with hover effects
+## New Flow (Garden)
 
-### Color scheme per card
+1. Plant Type
+2. Garden Size
+3. Location & Conditions (Sunlight + Soil)
+4. **NEW — Step 4: Plant Basics** (2 shared + 1 specific)
+5. **NEW — Step 5: Plant Care** (1 shared + 2 specific)
+6. Garden Preferences (existing)
+7. Generate Report
 
-| Card | Badge | Button | Hover border | Icon/Price/Check |
-|------|-------|--------|-------------|-----------------|
-| Basic | `bg-blue-500` | `bg-blue-500 hover:bg-blue-600` | `border-blue-500` | `text-blue-500` |
-| Advanced | `bg-green-600` | `bg-green-600 hover:bg-green-700` | `border-green-600` | `text-green-600` |
-| Premium | `bg-purple-600` | `bg-purple-600 hover:bg-purple-700` | `border-purple-600` | `text-purple-600` |
-| Enterprise | `bg-amber-500` | `bg-amber-500 hover:bg-amber-600` | `border-amber-500` | `text-amber-500` |
+## Questions
 
-### Changes in `src/components/SubscriptionPlans.tsx`
+### Step 4 — Plant Basics
 
-1. **Add color config to `allPlans`**: Each plan gets a color object with `badge`, `button`, `buttonHover`, `border`, `text` classes.
+**Shared (all plant types):**
+- *Are you growing from seeds, seedlings, or established plants?*
+  - Seeds
+  - Seedlings / starts
+  - Established plants
+  - Mix of these
+- *Which season are you planting in?*
+  - Spring
+  - Summer
+  - Fall
+  - Year-round / indoor
 
-2. **Card hover effect**: Add `transition-all duration-300 hover:shadow-xl hover:-translate-y-1` and `hover:border-2 hover:border-{color}` using the plan's assigned border color. Use `border-2 border-transparent` as default so layout doesn't shift on hover.
+**Specific:**
+- **Flowers:** *What type of flowers are you growing?*
+  - Annuals
+  - Perennials
+  - Bulbs
+  - Mix
+- **Vegetables:** *What vegetables are you primarily growing?*
+  - Leafy greens
+  - Root vegetables
+  - Fruiting vegetables (tomatoes, peppers)
+  - Herbs
+  - Mix
+- **Fruits:** *What type of fruit plants?*
+  - Berry bushes
+  - Fruit trees
+  - Vines (grapes, melons)
+  - Mix
 
-3. **Dynamic badge color**: Replace hardcoded `bg-green-600` with each plan's badge color.
+### Step 5 — Plant Care
 
-4. **Dynamic button color**: Replace hardcoded `bg-green-600 hover:bg-green-700` with each plan's button colors.
+**Shared:**
+- *How would you describe the spacing of your plants?*
+  - Densely planted
+  - Moderately spaced
+  - Widely spaced
 
-5. **Dynamic icon, price, check, discount colors**: Replace `text-green-600` with each plan's text color.
+**Specific:**
+- **Flowers:**
+  - *What's your main flower goal?* — More blooms / Longer bloom season / Bigger, fuller plants / Vibrant colors
+  - *Any pest or disease issues?* — Aphids/pests / Powdery mildew / Yellowing leaves / None
+- **Vegetables:**
+  - *What's most important to you?* — Higher yield / Faster harvest / Better flavor / Pest resistance
+  - *Any current issues?* — Slow growth / Pests / Yellow leaves / Poor fruiting / None
+- **Fruits:**
+  - *What's your main fruit goal?* — Bigger fruit / Sweeter taste / Higher yield / Healthier trees/bushes
+  - *Any current issues?* — Few fruits / Pests / Leaf disease / Dropping fruit / None
 
-6. **Enterprise card**: Update from `border-green-600` to `border-amber-500`, button to amber, icon/checks to amber. Same hover effect.
+## Technical Details
 
-### Technical detail
+**New files:**
+- `src/components/PlantBasicsStep.tsx` — Step 4 component
+- `src/components/PlantCareStep.tsx` — Step 5 component
 
-Since Tailwind needs full class names (no string interpolation), the color config will use complete class strings like `"bg-blue-500"` rather than constructing them dynamically.
+Both render different specific questions based on `planData.plantType`, using the same card/radio styling as existing `GardenPreferencesStep.tsx`.
 
+**Edits to `src/components/LawnQuestionnaire.tsx`:**
+- Extend `planData` state with new fields:
+  - `growthStage`, `plantingSeason`, `plantSpacing` (shared)
+  - `flowerType` | `vegetableType` | `fruitType` (one set used)
+  - `plantGoal`, `plantIssues` (specific per type)
+- Update `getTotalSteps()` garden branch from `4` → `6` (Plan type + 5 garden steps, plus existing Preferences step which is already counted in current flow — confirm during implementation).
+- Insert cases `4` (PlantBasicsStep) and `5` (PlantCareStep) before the existing Garden Preferences case; renumber subsequent steps.
+- Add titles in `getStepTitle()`: "Plant Basics", "Plant Care".
+- Add validation in `canProceed()` for each new step (all questions required except issues which can be "None").
+- Reset new fields in `handleRestart()`.
+
+**No backend / business-logic changes.** Plan generation continues to fire after the final step.
