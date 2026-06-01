@@ -3,9 +3,7 @@ import mapboxgl from "mapbox-gl";
 import { MapPin, Loader2, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-const MAPBOX_TOKEN =
-  import.meta.env.VITE_MAPBOX_TOKEN ??
-  "pk.eyJ1IjoicmFqdmVlcmthbHNpIiwiYSI6ImNtbm44bjRudTFhODEyc3M0MjBpbG1iNXgifQ.Z5zNFW1e7ckLOydKoAO6FQ";
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN ?? "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 const ZOOM = 15;
