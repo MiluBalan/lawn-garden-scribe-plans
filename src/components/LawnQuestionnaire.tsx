@@ -11,6 +11,8 @@ import LocationStep from "./LocationStep";
 import SprinklerSystemStep from "./SprinklerSystemStep";
 import PlantTypeStep from "./PlantTypeStep";
 import GardenSizeStep from "./GardenSizeStep";
+import PlantBasicsStep from "./PlantBasicsStep";
+import PlantCareStep from "./PlantCareStep";
 import AnalysisAnimation from "./AnalysisAnimation";
 import LawnPlanResults from "./LawnPlanResults";
 import GardenPlanResults from "./GardenPlanResults";
@@ -39,13 +41,19 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     // Garden specific fields
     plantType: "",
     gardenSize: "",
+    growthStage: "",
+    plantingSeason: "",
+    plantSubtype: "",
+    plantSpacing: "",
+    plantGoal: "",
+    plantIssues: "",
   });
 
   const getTotalSteps = () => {
     if (planData.planType === "lawn") {
       return 6; // Plan type + 5 lawn steps
     } else if (planData.planType === "garden") {
-      return 4; // Plan type + 3 garden steps
+      return 6; // Plan type + 5 garden steps
     }
     return 1; // Just plan type selection
   };
@@ -107,6 +115,12 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       sprinklerFrequency: "",
       plantType: "",
       gardenSize: "",
+      growthStage: "",
+      plantingSeason: "",
+      plantSubtype: "",
+      plantSpacing: "",
+      plantGoal: "",
+      plantIssues: "",
     });
   };
 
@@ -186,6 +200,10 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
           );
         case 3:
           return <LocationStep data={planData} onUpdate={updatePlanData} />;
+        case 4:
+          return <PlantBasicsStep data={planData} onUpdate={updatePlanData} />;
+        case 5:
+          return <PlantCareStep data={planData} onUpdate={updatePlanData} />;
         default:
           return null;
       }
@@ -222,6 +240,10 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
           return "Garden Size";
         case 3:
           return "Location & Conditions";
+        case 4:
+          return "Plant Basics";
+        case 5:
+          return "Plant Care";
         default:
           return "";
       }
@@ -267,7 +289,19 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
         case 2:
           return planData.gardenSize !== "";
         case 3:
-          return planData.location !== "";
+          return planData.location !== "" && planData.sunlight !== "" && planData.soilType !== "";
+        case 4:
+          return (
+            planData.growthStage !== "" &&
+            planData.plantingSeason !== "" &&
+            planData.plantSubtype !== ""
+          );
+        case 5:
+          return (
+            planData.plantSpacing !== "" &&
+            planData.plantGoal !== "" &&
+            planData.plantIssues !== ""
+          );
         default:
           return false;
       }
