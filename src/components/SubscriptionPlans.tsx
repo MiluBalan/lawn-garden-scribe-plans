@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Check, ArrowLeft, Leaf, Sprout, Trees } from "lucide-react";
 import EnterpriseCard from "./EnterpriseCard";
 import { useEffect, useState } from "react";
+import { getProductQuantityMultiplier } from "@/lib/garden";
 
 interface SubscriptionPlansProps {
   lawnData: any;
@@ -229,11 +230,6 @@ export default function SubscriptionPlans({
       });
   }, [lawnData]);
 
-  const getBottleQuantity = (title: string) => {
-    const match = title.match(/x\s*(\d+)\s*Bottles?/i);
-    return match ? parseInt(match[1], 10) : 1;
-  };
-
   const getPlan = (name: string) =>
     shopifyPlans.find((p) =>
       p.planName.toLowerCase().includes(planMap[name].toLowerCase()),
@@ -301,15 +297,22 @@ export default function SubscriptionPlans({
 
                   <div className="mb-4">
                     {(() => {
-                      const quantity = getBottleQuantity(shopify.productTitle);
+                      const quantity = getProductQuantityMultiplier(shopify.productTitle);
                       const totalPrice = shopify.price * quantity;
 
                       return (
-                        <span
-                          className={`text-4xl font-bold ${plan.colors.text}`}
-                        >
-                          ${totalPrice.toFixed(2)}
-                        </span>
+                        <>
+                          <span
+                            className={`text-4xl font-bold ${plan.colors.text}`}
+                          >
+                            ${totalPrice.toFixed(2)}
+                          </span>
+                          {quantity > 1 && (
+                            <p className="text-xs text-gray-400 mt-1">
+                              {quantity} × ${shopify.price.toFixed(2)}
+                            </p>
+                          )}
+                        </>
                       );
                     })()}
                   </div>
@@ -335,7 +338,7 @@ export default function SubscriptionPlans({
                   <Button
                     className={`w-full ${plan.colors.button} text-white`}
                     onClick={() => {
-                      const quantity = getBottleQuantity(shopify.productTitle);
+                      const quantity = getProductQuantityMultiplier(shopify.productTitle);
                       window.open(
                         `https://biogrowthorganics.com/cart/add?id=${shopify.variantId}&selling_plan=${shopify.sellingPlanId}&quantity=${quantity}`,
                         "_blank",
@@ -387,15 +390,22 @@ export default function SubscriptionPlans({
 
                     <div className="mb-4">
                       {(() => {
-                        const quantity = getBottleQuantity(plan.productTitle);
+                        const quantity = getProductQuantityMultiplier(plan.productTitle);
                         const totalPrice = plan.price * quantity;
 
                         return (
-                          <span
-                            className={`text-4xl font-bold ${style.colors.text}`}
-                          >
-                            ${totalPrice.toFixed(2)}
-                          </span>
+                          <>
+                            <span
+                              className={`text-4xl font-bold ${style.colors.text}`}
+                            >
+                              ${totalPrice.toFixed(2)}
+                            </span>
+                            {quantity > 1 && (
+                              <p className="text-xs text-gray-400 mt-1">
+                                {quantity} × ${plan.price.toFixed(2)}
+                              </p>
+                            )}
+                          </>
                         );
                       })()}
                     </div>
@@ -421,7 +431,7 @@ export default function SubscriptionPlans({
                     <Button
                       className={`w-full ${style.colors.button} text-white`}
                       onClick={() => {
-                        const quantity = getBottleQuantity(plan.productTitle);
+                        const quantity = getProductQuantityMultiplier(plan.productTitle);
                         window.open(
                           `https://biogrowthorganics.com/cart/add?id=${plan.variantId}&selling_plan=${plan.sellingPlanId}&quantity=${quantity}`,
                           "_blank",

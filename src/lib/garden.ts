@@ -61,6 +61,11 @@ export function normalizeTag(value: string): string {
   return value.toLowerCase().replace(/[\s_-]+/g, "-").replace(/^-|-$/g, "");
 }
 
+export function getProductQuantityMultiplier(productName: string): number {
+  const match = productName.match(/[xX]\s*(\d+)/);
+  return match ? parseInt(match[1], 10) : 1;
+}
+
 export function groupGardenSubscriptionPlans(products: IGardenProduct[]): IGardenSubscriptionPlan[] {
   const groups = new Map<string, IGardenProduct[]>();
 
@@ -76,7 +81,7 @@ export function groupGardenSubscriptionPlans(products: IGardenProduct[]): IGarde
 
   return Array.from(groups.entries()).map(([, groupProducts]) => {
     const first = groupProducts[0];
-    const totalPrice = groupProducts.reduce((sum, p) => sum + p.price, 0);
+    const totalPrice = groupProducts.reduce((sum, p) => sum + p.price * p.multiplier, 0);
 
     return {
       name: first.planName,

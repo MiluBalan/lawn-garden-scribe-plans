@@ -6,6 +6,7 @@ export interface IGardenProduct {
   variantId: string;
   sellingPlanId: string;
   price: number;
+  multiplier: number;
   deliveries: number;
   billingInterval: number;
   discountLabel: string;

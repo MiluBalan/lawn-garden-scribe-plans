@@ -8,6 +8,7 @@ import {
   parseGardenDescription,
   normalizeTag,
   groupGardenSubscriptionPlans,
+  getProductQuantityMultiplier,
 } from "@/lib/garden";
 import type {
   IGardenProduct,
@@ -136,6 +137,7 @@ export default function GardenSubscriptionPlans({
                 variantId: extractId(variant.id),
                 sellingPlanId: extractId(plan.node.id),
                 price: finalPrice,
+                multiplier: getProductQuantityMultiplier(product.node.title),
                 deliveries,
                 billingInterval,
                 discountLabel,
@@ -196,17 +198,12 @@ export default function GardenSubscriptionPlans({
       .catch(() => setLoading(false));
   }, [gardenData]);
 
-  const getBottleQuantity = (title: string) => {
-    const match = title.match(/x\s*(\d+)\s*Bottles?/i);
-    return match ? parseInt(match[1], 10) : 1;
-  };
-
   const handleSubscribe = (plan: IGardenSubscriptionPlan) => {
     const params = new URLSearchParams();
     plan.products.forEach((p) => {
       params.append("id", p.variantId);
       params.append("selling_plan", p.sellingPlanId);
-      params.append("quantity", String(getBottleQuantity(p.productTitle)));
+      params.append("quantity", String(p.multiplier));
     });
     window.open(
       `https://biogrowthorganics.com/cart/add?${params.toString()}`,
@@ -313,6 +310,12 @@ export default function GardenSubscriptionPlans({
                       >
                         ${plan.totalPrice.toFixed(2)}
                       </span>
+                      {!isMultiProduct && plan.products[0].multiplier > 1 && (
+                        <p className="text-xs text-gray-400 mt-1">
+                          {plan.products[0].multiplier} × $
+                          {plan.products[0].price.toFixed(2)}
+                        </p>
+                      )}
                     </div>
 
                     <p className="text-sm text-gray-500 mb-1">
