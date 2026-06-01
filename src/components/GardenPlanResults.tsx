@@ -123,47 +123,6 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
             </CardContent>
           </Card>
 
-          {/* Product Recommendations */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Package className="h-5 w-5 text-blue-600" />
-                <span>Recommended Products</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6">
-                {recommendations.map((product, index) => (
-                  <div key={index} className="border rounded-lg p-6 bg-white">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                          {product.name}
-                        </h3>
-                        <p className="text-gray-600 mb-3">{product.description}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-2xl font-bold text-green-600">{product.price}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {product.features.map((feature, featureIndex) => (
-                        <Badge key={featureIndex} variant="outline" className="text-xs">
-                          {feature}
-                        </Badge>
-                      ))}
-                    </div>
-                    
-                    <Button className="w-full bg-green-600 hover:bg-green-700">
-                      Add to Cart
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Action Buttons */}
           <div className="text-center space-y-4">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
