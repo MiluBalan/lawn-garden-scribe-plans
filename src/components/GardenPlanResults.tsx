@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Leaf, Droplets, Sun, Package, ArrowLeft } from 'lucide-react';
+import { Leaf, Sun, ArrowLeft } from 'lucide-react';
 import GardenSubscriptionPlans from './GardenSubscriptionPlans';
 import { GARDEN_SIZE_DISPLAY } from '@/lib/garden';
 
@@ -25,35 +25,8 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
   if (showPlans) {
     return <GardenSubscriptionPlans gardenData={gardenData} onBack={() => setShowPlans(false)} />;
   }
-  const getProductRecommendations = () => {
-    const baseProducts = [
-      {
-        name: "Vivid Liquid Organic Plant Vitamin for Flowers & Lawns",
-        description: "Perfect for flowering plants and ornamental gardens",
-        price: "$24.99",
-        suitable: gardenData.plantType === 'flowers',
-        features: ["Promotes vibrant blooms", "Organic formula", "Easy application"]
-      },
-      {
-        name: "Catalyst Liquid Organic Plant Vitamin for Veggies & Fruits",
-        description: "Specialized nutrition for edible plants",
-        price: "$26.99",
-        suitable: gardenData.plantType === 'vegetables' || gardenData.plantType === 'fruits',
-        features: ["Boosts yield", "Safe for edibles", "Rich in micronutrients"]
-      },
-      {
-        name: "Thrive Liquid Organic Plant Vitamin for Cannabis",
-        description: "Premium formula for specialized growing",
-        price: "$29.99",
-        suitable: false, // Not recommending for general garden use
-        features: ["High potency", "Organic certified", "Professional grade"]
-      }
-    ];
 
-    return baseProducts.filter(product => product.suitable || gardenData.plantType === 'vegetables');
-  };
 
-  const recommendations = getProductRecommendations();
 
   const getGardenTips = () => {
     switch (gardenData.plantType) {
@@ -150,47 +123,6 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
             </CardContent>
           </Card>
 
-          {/* Product Recommendations */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Package className="h-5 w-5 text-blue-600" />
-                <span>Recommended Products</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6">
-                {recommendations.map((product, index) => (
-                  <div key={index} className="border rounded-lg p-6 bg-white">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                          {product.name}
-                        </h3>
-                        <p className="text-gray-600 mb-3">{product.description}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-2xl font-bold text-green-600">{product.price}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {product.features.map((feature, featureIndex) => (
-                        <Badge key={featureIndex} variant="outline" className="text-xs">
-                          {feature}
-                        </Badge>
-                      ))}
-                    </div>
-                    
-                    <Button className="w-full bg-green-600 hover:bg-green-700">
-                      Add to Cart
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Action Buttons */}
           <div className="text-center space-y-4">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -208,9 +140,6 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
                 Show Products
               </Button>
             </div>
-            <p className="text-gray-600 text-sm">
-              Ready to nurture your garden? Get the recommended products delivered to your door.
-            </p>
           </div>
         </div>
       </div>
