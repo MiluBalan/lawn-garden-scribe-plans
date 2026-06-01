@@ -25,35 +25,8 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
   if (showPlans) {
     return <GardenSubscriptionPlans gardenData={gardenData} onBack={() => setShowPlans(false)} />;
   }
-  const getProductRecommendations = () => {
-    const baseProducts = [
-      {
-        name: "Vivid Liquid Organic Plant Vitamin for Flowers & Lawns",
-        description: "Perfect for flowering plants and ornamental gardens",
-        price: "$24.99",
-        suitable: gardenData.plantType === 'flowers',
-        features: ["Promotes vibrant blooms", "Organic formula", "Easy application"]
-      },
-      {
-        name: "Catalyst Liquid Organic Plant Vitamin for Veggies & Fruits",
-        description: "Specialized nutrition for edible plants",
-        price: "$26.99",
-        suitable: gardenData.plantType === 'vegetables' || gardenData.plantType === 'fruits',
-        features: ["Boosts yield", "Safe for edibles", "Rich in micronutrients"]
-      },
-      {
-        name: "Thrive Liquid Organic Plant Vitamin for Cannabis",
-        description: "Premium formula for specialized growing",
-        price: "$29.99",
-        suitable: false, // Not recommending for general garden use
-        features: ["High potency", "Organic certified", "Professional grade"]
-      }
-    ];
 
-    return baseProducts.filter(product => product.suitable || gardenData.plantType === 'vegetables');
-  };
 
-  const recommendations = getProductRecommendations();
 
   const getGardenTips = () => {
     switch (gardenData.plantType) {
