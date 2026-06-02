@@ -60,7 +60,7 @@ const GardenSizeStep = ({ selectedSize, onSizeChange }: GardenSizeStepProps) => 
           </p>
         </div>
 
-        <RadioGroup value={selectedSize} onValueChange={onSizeChange} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        <RadioGroup value={selectedSize} onValueChange={onSizeChange} className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {GARDEN_SIZE_OPTIONS.map((option) => {
             const Icon = sizeIcons[option.icon] || Sprout;
             const colors = sizeColors[option.icon] || sizeColors.small;
