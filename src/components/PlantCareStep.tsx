@@ -139,10 +139,25 @@ const PlantCareStep = ({ data, onUpdate }: PlantCareStepProps) => {
   const issues = issueOptionsByPlant[data.plantType];
 
   return (
-    <div className="space-y-10 max-w-4xl mx-auto py-12 px-6">
-      <div className="text-center space-y-3">
-        <h2 className="text-3xl font-bold text-foreground">Your goals & current condition</h2>
-        <p className="text-muted-foreground text-lg">Help us fine-tune your recommendations</p>
+    <div className="space-y-10 max-w-5xl mx-auto py-8 px-4">
+      {/* Banner */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 via-white to-emerald-50 p-8 md:p-10 shadow-sm border border-amber-100/60">
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-amber-200/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative max-w-3xl mx-auto text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur border border-amber-200 text-amber-700 text-sm font-medium shadow-sm">
+            <Sparkles className="h-4 w-4" />
+            Step 5 · Goals & Care
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            Your{' '}
+            <span className="bg-gradient-to-r from-amber-600 to-emerald-600 bg-clip-text text-transparent">
+              goals
+            </span>{' '}
+            & current condition
+          </h2>
+          <p className="text-muted-foreground text-lg">Help us fine-tune your recommendations</p>
+        </div>
       </div>
 
       <QuestionBlock

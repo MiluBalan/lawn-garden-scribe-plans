@@ -1,87 +1,51 @@
-# Plan: Plant-Type-Specific Questions in Garden Flow
+## Goal
+Apply the "Garden Step 2" treatment (gradient hero banner with blur blobs, hero imagery, step badge, animated icon cards, color-coded selection rings, check badges) across all questionnaire steps and polish the landing page sections — keeping the existing emerald/amber palette, just richer.
 
-Add 2 new steps after the current Garden step 3 (Location & Conditions) and before the existing Garden Preferences step, with questions tailored to the chosen plant type (Flowers / Vegetables / Fruits). Report generation runs after all steps are complete.
+## Scope
 
-## New Flow (Garden)
+### Garden flow steps (shared questionnaire)
+1. **PlanTypeStep** — gradient banner + plan-type cards with icons, descriptions, hover lift, animated check badges
+2. **PlantTypeStep** — banner + flower/fruit/vegetable cards with thematic colors and hero imagery
+3. **GardenSizeStep** — already done, leave as is
+4. **PlantBasicsStep** — add a top banner section above existing interactive option grids
+5. **PlantCareStep** — add a top banner section above existing interactive option grids
+6. **LocationStep** — gradient banner + polish ZIP input and map preview card
+7. **GardenPlanResults** — already restructured; add a hero banner header to match
 
-1. Plant Type
-2. Garden Size
-3. Location & Conditions (Sunlight + Soil)
-4. **NEW — Step 4: Plant Basics** (2 shared + 1 specific)
-5. **NEW — Step 5: Plant Care** (1 shared + 2 specific)
-6. Garden Preferences (existing)
-7. Generate Report
+### Lawn flow steps
+1. **PlanTypeStep** (shared, covered above)
+2. **GrassTypeStep** — gradient banner + grass cards with icons + animated selection
+3. **LawnSizeStep** — gradient banner + size cards (mirror GardenSizeStep style)
+4. **ProblemAreasStep** — banner + checkbox-style problem tiles with icons
+5. **SprinklerSystemStep** — banner + yes/no cards with icons
+6. **LocationStep** (shared, covered above)
+7. **LawnPlanResults** — add gradient hero banner header + polish summary card
 
-## Questions
+### Landing page (Index.tsx sections)
+1. **HeroSection** — enhance gradient background, add blur blobs, refine CTA
+2. **FeaturesGrid** — animated icon tiles with gradient backgrounds and hover lift
+3. **HowItWorksSection** — numbered step cards with gradient accents and connecting flow
+4. **WhyBioGrowthSection** — richer cards with icon backgrounds
+5. **JoinThousandsSection** — polish stats with gradient numbers
+6. **SoilScienceSection** — richer card styling
+7. **GreenBackgroundSection** — enhance background imagery and overlay
 
-### Step 4 — Plant Basics
+## Design Pattern (consistent across pages)
+- **Banner**: `rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-amber-50 p-8 md:p-12` with two `blur-3xl` color blobs, step badge, gradient text headline, supporting illustration/image
+- **Option cards**: `rounded-2xl` with `bg-gradient-to-br`, color-coded per-option icon tile with `group-hover:scale-110 group-hover:rotate-3`, `hover:-translate-y-1 hover:shadow-xl`, animated `Check` badge top-right that scales in when selected
+- **Color palette per option**: rotate between sky / emerald / amber / violet / rose / teal accents
+- **Section headings**: bold with `bg-clip-text bg-gradient-to-r from-emerald-600 to-amber-600`
 
-**Shared (all plant types):**
-- *Are you growing from seeds, seedlings, or established plants?*
-  - Seeds
-  - Seedlings / starts
-  - Established plants
-  - Mix of these
-- *Which season are you planting in?*
-  - Spring
-  - Summer
-  - Fall
-  - Year-round / indoor
+## Generated assets
+- New hero images where needed for landing/results banners (reuse existing assets where possible)
 
-**Specific:**
-- **Flowers:** *What type of flowers are you growing?*
-  - Annuals
-  - Perennials
-  - Bulbs
-  - Mix
-- **Vegetables:** *What vegetables are you primarily growing?*
-  - Leafy greens
-  - Root vegetables
-  - Fruiting vegetables (tomatoes, peppers)
-  - Herbs
-  - Mix
-- **Fruits:** *What type of fruit plants?*
-  - Berry bushes
-  - Fruit trees
-  - Vines (grapes, melons)
-  - Mix
+## Implementation order
+1. Landing page sections (HeroSection, FeaturesGrid, HowItWorksSection, WhyBioGrowthSection)
+2. Shared steps (PlanTypeStep, LocationStep)
+3. Garden steps (PlantTypeStep, PlantBasicsStep + PlantCareStep banners, GardenPlanResults header)
+4. Lawn steps (GrassTypeStep, LawnSizeStep, ProblemAreasStep, SprinklerSystemStep, LawnPlanResults header)
 
-### Step 5 — Plant Care
-
-**Shared:**
-- *How would you describe the spacing of your plants?*
-  - Densely planted
-  - Moderately spaced
-  - Widely spaced
-
-**Specific:**
-- **Flowers:**
-  - *What's your main flower goal?* — More blooms / Longer bloom season / Bigger, fuller plants / Vibrant colors
-  - *Any pest or disease issues?* — Aphids/pests / Powdery mildew / Yellowing leaves / None
-- **Vegetables:**
-  - *What's most important to you?* — Higher yield / Faster harvest / Better flavor / Pest resistance
-  - *Any current issues?* — Slow growth / Pests / Yellow leaves / Poor fruiting / None
-- **Fruits:**
-  - *What's your main fruit goal?* — Bigger fruit / Sweeter taste / Higher yield / Healthier trees/bushes
-  - *Any current issues?* — Few fruits / Pests / Leaf disease / Dropping fruit / None
-
-## Technical Details
-
-**New files:**
-- `src/components/PlantBasicsStep.tsx` — Step 4 component
-- `src/components/PlantCareStep.tsx` — Step 5 component
-
-Both render different specific questions based on `planData.plantType`, using the same card/radio styling as existing `GardenPreferencesStep.tsx`.
-
-**Edits to `src/components/LawnQuestionnaire.tsx`:**
-- Extend `planData` state with new fields:
-  - `growthStage`, `plantingSeason`, `plantSpacing` (shared)
-  - `flowerType` | `vegetableType` | `fruitType` (one set used)
-  - `plantGoal`, `plantIssues` (specific per type)
-- Update `getTotalSteps()` garden branch from `4` → `6` (Plan type + 5 garden steps, plus existing Preferences step which is already counted in current flow — confirm during implementation).
-- Insert cases `4` (PlantBasicsStep) and `5` (PlantCareStep) before the existing Garden Preferences case; renumber subsequent steps.
-- Add titles in `getStepTitle()`: "Plant Basics", "Plant Care".
-- Add validation in `canProceed()` for each new step (all questions required except issues which can be "None").
-- Reset new fields in `handleRestart()`.
-
-**No backend / business-logic changes.** Plan generation continues to fire after the final step.
+## Out of scope
+- No business logic, routing, data, or backend changes
+- No design system token changes — visual polish only via Tailwind classes
+- Existing flows, navigation, and component APIs preserved
