@@ -27,26 +27,31 @@ const LawnPlanResults = ({ lawnData, onRestart }: LawnPlanResultsProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-white py-8">
+    <div className="min-h-screen bg-gradient-to-b from-emerald-50/30 via-white to-amber-50/20 py-8">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-            <CheckCircle className="h-8 w-8 text-green-600" />
-          </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-</h1>
-          <p className="text-xl text-gray-600">
-            Here's your personalized lawn care plan based on real climate and soil data
-          </p>
-          
-          {/* Data Source Information */}
-          <div className="mt-4 space-y-2">
-            {(weatherError || soilError) && <div className="flex items-center justify-center space-x-2 text-amber-600">
+        {/* Hero Banner */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-amber-50 p-8 md:p-12 shadow-sm border border-emerald-100/60 mb-8">
+          <div className="absolute -top-24 -right-24 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-200/30 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full mb-4 shadow-lg ring-4 ring-white">
+              <CheckCircle className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Your Custom{' '}
+              <span className="bg-gradient-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
+                Lawn Plan
+              </span>
+            </h1>
+            <p className="text-xl text-gray-700">
+              Here's your personalized lawn care plan based on real climate and soil data
+            </p>
+            {(weatherError || soilError) && (
+              <div className="mt-4 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 px-4 py-2 rounded-full text-sm">
                 <AlertTriangle className="h-4 w-4" />
-                <span className="text-sm">Using regional estimates - for more accuracy, get a soil test</span>
+                <span>Using regional estimates - for more accuracy, get a soil test</span>
               </div>
-            }
+            )}
           </div>
         </div>
 

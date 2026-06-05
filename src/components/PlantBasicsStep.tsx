@@ -124,10 +124,24 @@ const PlantBasicsStep = ({ data, onUpdate }: PlantBasicsStepProps) => {
   const subtype = subtypeOptionsByPlant[data.plantType];
 
   return (
-    <div className="space-y-10 max-w-4xl mx-auto py-12 px-6">
-      <div className="text-center space-y-3">
-        <h2 className="text-3xl font-bold text-foreground">Tell us about your plants</h2>
-        <p className="text-muted-foreground text-lg">A few details to tailor your plan</p>
+    <div className="space-y-10 max-w-5xl mx-auto py-8 px-4">
+      {/* Banner */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-amber-50 p-8 md:p-10 shadow-sm border border-emerald-100/60">
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-200/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative max-w-3xl mx-auto text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur border border-emerald-200 text-emerald-700 text-sm font-medium shadow-sm">
+            <Sprout className="h-4 w-4" />
+            Step 4 · Plant Basics
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            Tell us about your{' '}
+            <span className="bg-gradient-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
+              plants
+            </span>
+          </h2>
+          <p className="text-muted-foreground text-lg">A few details to tailor your plan</p>
+        </div>
       </div>
 
       <QuestionBlock
