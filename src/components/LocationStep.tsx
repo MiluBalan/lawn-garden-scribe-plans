@@ -14,7 +14,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
-  const { suggestions } = useZipcodeAutocomplete(inputValue);
+  const { suggestions, loading } = useZipcodeAutocomplete(inputValue);
 
   useEffect(() => {
     setInputValue(data.location || '');
