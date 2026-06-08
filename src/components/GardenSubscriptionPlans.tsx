@@ -287,18 +287,18 @@ export default function GardenSubscriptionPlans({
                       </div>
 
                       {isMultiProduct ? (
-                      <div className="space-y-1 mb-1">
+                        <div className="space-y-1 mb-1">
                           {plan.products.map((p, i) => (
                             <p
                               key={i}
-                              className={`text-sm font-bold ${tier.colors.text}`}
+                              className="text-xs font-medium text-gray-700"
                             >
                               {p.productTitle}
                             </p>
                           ))}
                         </div>
                       ) : (
-                        <p className={`text-sm font-bold ${tier.colors.text} mb-1`}>
+                        <p className="text-xs font-medium text-gray-700 mb-1">
                           {plan.products[0].productTitle}
                         </p>
                       )}
