@@ -286,7 +286,7 @@ export default function SubscriptionPlans({
                       </h2>
                     </div>
 
-                    <p className="text-xs font-medium text-gray-700 mb-1">
+                    <p className={`text-sm font-bold ${plan.colors.text} mb-1`}>
                       {shopify.productTitle}
                     </p>
 
@@ -379,7 +379,7 @@ export default function SubscriptionPlans({
                         </h2>
                       </div>
 
-                      <p className="text-xs font-medium text-gray-700 mb-1">
+                      <p className={`text-sm font-bold ${style.colors.text} mb-1`}>
                         {plan.productTitle}
                       </p>
 
