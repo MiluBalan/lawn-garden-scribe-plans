@@ -77,67 +77,85 @@ const getMatchingSuggestions = (digits: string): ZipcodeSuggestion[] => {
   return matches.slice(0, 10); // Limit to 10 suggestions
 };
 
+const fetchAddressSuggestions = async (query: string): Promise<ZipcodeSuggestion[]> => {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=8&countrycodes=us&q=${encodeURIComponent(query)}`;
+    const response = await fetch(url, {
+      headers: { 'Accept': 'application/json' },
+    });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data.map((item: any) => {
+      const a = item.address || {};
+      const city = a.city || a.town || a.village || a.hamlet || a.county || '';
+      const state = a.state || '';
+      const zipcode = a.postcode || '';
+      const street = [a.house_number, a.road].filter(Boolean).join(' ');
+      const parts = [street, city, [state, zipcode].filter(Boolean).join(' ')].filter(Boolean);
+      const formatted = parts.length > 0 ? parts.join(', ') : item.display_name;
+      return { city, state, zipcode, formatted };
+    }).filter((s: ZipcodeSuggestion) => s.formatted);
+  } catch (e) {
+    console.error('Address autocomplete error:', e);
+    return [];
+  }
+};
+
 export const useZipcodeAutocomplete = (query: string) => {
   const [suggestions, setSuggestions] = useState<ZipcodeSuggestion[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
-      if (!query || query.length < 1) {
+      if (!query || query.trim().length < 2) {
         setSuggestions([]);
         return;
       }
 
-      // Extract any digits from the query
-      const digits = query.replace(/\D/g, '');
-      
-      if (digits.length === 0) {
-        setSuggestions([]);
-        return;
-      }
-
-      // Show suggestions for 2+ digits
-      if (digits.length < 2) {
-        setSuggestions([]);
-        return;
-      }
+      const trimmed = query.trim();
+      const digits = trimmed.replace(/\D/g, '');
+      const hasLetters = /[a-zA-Z]/.test(trimmed);
+      const isPureZip = !hasLetters && digits.length >= 2;
 
       setLoading(true);
 
       try {
-        // If we have 5 digits, try exact match from API
-        if (digits.length === 5) {
-          const response = await fetch(`https://api.zippopotam.us/us/${digits}`);
-          if (response.ok) {
-            const data = await response.json();
-            const suggestions: ZipcodeSuggestion[] = data.places.map((place: any) => ({
-              city: place['place name'],
-              state: place['state abbreviation'],
-              zipcode: data['post code'],
-              formatted: `${place['place name']}, ${place['state abbreviation']} ${data['post code']}`
-            }));
-            setSuggestions(suggestions);
+        if (isPureZip) {
+          if (digits.length === 5) {
+            const response = await fetch(`https://api.zippopotam.us/us/${digits}`);
+            if (response.ok) {
+              const data = await response.json();
+              const zipResults: ZipcodeSuggestion[] = data.places.map((place: any) => ({
+                city: place['place name'],
+                state: place['state abbreviation'],
+                zipcode: data['post code'],
+                formatted: `${place['place name']}, ${place['state abbreviation']} ${data['post code']}`,
+              }));
+              setSuggestions(zipResults);
+            } else {
+              setSuggestions(getMatchingSuggestions(digits));
+            }
           } else {
-            // Fallback to prefix matching if API fails
-            const prefixMatches = getMatchingSuggestions(digits);
-            setSuggestions(prefixMatches);
+            setSuggestions(getMatchingSuggestions(digits));
           }
         } else {
-          // For 2-4 digits, use prefix matching
-          const prefixMatches = getMatchingSuggestions(digits);
-          setSuggestions(prefixMatches);
+          // Address / city search via Nominatim
+          const addressResults = await fetchAddressSuggestions(trimmed);
+          setSuggestions(addressResults);
         }
       } catch (error) {
-        console.error('Error fetching zipcode data:', error);
-        // Fallback to prefix matching on error
-        const prefixMatches = getMatchingSuggestions(digits);
-        setSuggestions(prefixMatches);
+        console.error('Error fetching location data:', error);
+        if (digits.length >= 2) {
+          setSuggestions(getMatchingSuggestions(digits));
+        } else {
+          setSuggestions([]);
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    const debounceTimer = setTimeout(fetchSuggestions, 300);
+    const debounceTimer = setTimeout(fetchSuggestions, 350);
     return () => clearTimeout(debounceTimer);
   }, [query]);
 

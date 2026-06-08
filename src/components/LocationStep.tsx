@@ -14,7 +14,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
-  const { suggestions } = useZipcodeAutocomplete(inputValue);
+  const { suggestions, loading } = useZipcodeAutocomplete(inputValue);
 
   useEffect(() => {
     setInputValue(data.location || '');
@@ -85,7 +85,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
       {/* Location / Zip Code */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-gray-900">
-          What is your zip code or city? <span className="text-red-500">*</span>
+          What is your address, city, or zip code? <span className="text-red-500">*</span>
         </h3>
         <div className="relative">
           <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-sky-500" />
@@ -94,26 +94,31 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
             value={inputValue}
             onChange={(e) => handleLocationChange(e.target.value)}
             onFocus={() => setShowSuggestions(true)}
-            placeholder="e.g., Austin, TX or 78701"
+            placeholder="e.g., 123 Main St, Austin TX  •  Austin, TX  •  78701"
             className="text-lg p-4 pl-12 rounded-xl border-2 focus-visible:ring-sky-400"
           />
-          {showSuggestions && suggestions.length > 0 && (
+          {showSuggestions && (suggestions.length > 0 || loading) && (
             <div
               ref={suggestionsRef}
-              className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-sky-100 rounded-xl shadow-xl z-50 overflow-hidden"
+              className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-sky-100 rounded-xl shadow-xl z-50 overflow-hidden max-h-80 overflow-y-auto"
             >
+              {loading && suggestions.length === 0 && (
+                <div className="px-4 py-3 text-sm text-gray-500">Searching…</div>
+              )}
               {suggestions.map((s, i) => (
                 <button
                   key={i}
+                  type="button"
                   onClick={() => handleSuggestionClick(s.formatted)}
-                  className="w-full px-4 py-3 text-left hover:bg-sky-50 flex gap-2 items-center transition-colors"
+                  className="w-full px-4 py-3 text-left hover:bg-sky-50 flex gap-2 items-center transition-colors border-b border-gray-50 last:border-b-0"
                 >
                   <MapPin className="w-4 h-4 text-sky-600 flex-shrink-0" />
-                  <span>{s.formatted}</span>
+                  <span className="text-sm text-gray-800">{s.formatted}</span>
                 </button>
               ))}
             </div>
           )}
+          <p className="mt-2 text-xs text-gray-500">Type a street address, city name, or 5-digit zip code — we'll suggest matches.</p>
         </div>
       </div>
 
