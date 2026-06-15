@@ -280,9 +280,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return planData.plantType !== "";
+          return planData.gardenSize !== "" && planData.location !== "";
         case 2:
-          return planData.gardenSize !== "";
+          return planData.plantType !== "";
         case 3:
           return planData.location !== "" && planData.sunlight !== "" && planData.soilType !== "";
         case 4:
