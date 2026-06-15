@@ -233,8 +233,8 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <div className="w-10 h-10 rounded-full bg-indigo-500/20 blur-md" />
-              <div className="absolute top-1/2 left-1/2 w-3.5 h-3.5 bg-indigo-600 rounded-full -translate-x-1/2 -translate-y-1/2" />
+              <div className="w-10 h-10 rounded-full bg-green-600/20 blur-md shadow-lg shadow-green-600/30" />
+              <div className="absolute top-1/2 left-1/2 w-3.5 h-3.5 bg-green-600 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-md shadow-green-600/40" />
             </div>
           ))}
 
