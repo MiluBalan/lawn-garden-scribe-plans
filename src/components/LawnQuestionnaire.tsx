@@ -185,17 +185,12 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
+          return <GardenSizeStep data={planData} onUpdate={updatePlanData} />;
+        case 2:
           return (
             <PlantTypeStep
               selectedType={planData.plantType}
               onTypeChange={(type) => updatePlanData({ plantType: type })}
-            />
-          );
-        case 2:
-          return (
-            <GardenSizeStep
-              selectedSize={planData.gardenSize}
-              onSizeChange={(size) => updatePlanData({ gardenSize: size })}
             />
           );
         case 3:
@@ -235,9 +230,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return "Plant Type";
-        case 2:
           return "Garden Size";
+        case 2:
+          return "Plant Type";
         case 3:
           return "Location & Conditions";
         case 4:
@@ -285,9 +280,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return planData.plantType !== "";
+          return planData.gardenSize !== "" && planData.location !== "";
         case 2:
-          return planData.gardenSize !== "";
+          return planData.plantType !== "";
         case 3:
           return planData.location !== "" && planData.sunlight !== "" && planData.soilType !== "";
         case 4:
