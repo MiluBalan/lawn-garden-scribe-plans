@@ -230,9 +230,9 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return "Plant Type";
-        case 2:
           return "Garden Size";
+        case 2:
+          return "Plant Type";
         case 3:
           return "Location & Conditions";
         case 4:
