@@ -185,17 +185,12 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
+          return <GardenSizeStep data={planData} onUpdate={updatePlanData} />;
+        case 2:
           return (
             <PlantTypeStep
               selectedType={planData.plantType}
               onTypeChange={(type) => updatePlanData({ plantType: type })}
-            />
-          );
-        case 2:
-          return (
-            <GardenSizeStep
-              selectedSize={planData.gardenSize}
-              onSizeChange={(size) => updatePlanData({ gardenSize: size })}
             />
           );
         case 3:
