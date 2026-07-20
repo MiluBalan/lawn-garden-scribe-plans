@@ -25,7 +25,7 @@ const HeroSection = ({ onStartPlan }: HeroSectionProps) => {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight max-w-3xl mx-auto drop-shadow-lg">
-          Your Lawn Deserves a{' '}
+          Your Garden and Lawn Deserves a{' '}
           <span className="bg-gradient-to-r from-emerald-300 via-amber-200 to-emerald-300 bg-clip-text text-transparent">
             Custom Plan
           </span>
@@ -39,7 +39,7 @@ const HeroSection = ({ onStartPlan }: HeroSectionProps) => {
           onClick={onStartPlan}
           className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-10 py-7 text-lg rounded-full shadow-2xl transition-all duration-300 hover:shadow-emerald-500/40 hover:scale-105 group ring-1 ring-white/20"
         >
-          Start Your Lawn Plan
+          Get My Plan
           <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
         </Button>
 
