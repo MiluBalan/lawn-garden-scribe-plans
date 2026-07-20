@@ -85,7 +85,7 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
 
     const map = new mapboxgl.Map({
       container: mapRef.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/satellite-streets-v12",
       center: [coords.lon, coords.lat],
       zoom: ZOOM,
     });
