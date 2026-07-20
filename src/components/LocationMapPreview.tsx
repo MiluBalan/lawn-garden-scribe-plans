@@ -73,6 +73,61 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
   // Customer count = dots count
   const customerCount = customerPoints.length;
 
+  // ---------------- RADIUS CIRCLE ----------------
+  const createGeoJSONCircle = (
+    center: { lat: number; lon: number },
+    radiusInKm: number,
+    points = 64,
+  ) => {
+    const ret: [number, number][] = [];
+    const distanceX = radiusInKm / (111.32 * Math.cos((center.lat * Math.PI) / 180));
+    const distanceY = radiusInKm / 110.574;
+
+    for (let i = 0; i < points; i++) {
+      const theta = (i / points) * (2 * Math.PI);
+      ret.push([center.lon + distanceX * Math.cos(theta), center.lat + distanceY * Math.sin(theta)]);
+    }
+    ret.push(ret[0]);
+
+    return {
+      type: "FeatureCollection" as const,
+      features: [
+        {
+          type: "Feature" as const,
+          geometry: { type: "Polygon" as const, coordinates: [ret] },
+          properties: {},
+        },
+      ],
+    };
+  };
+
+  const updateRadiusCircle = () => {
+    const map = mapInstance.current;
+    if (!map || !coords) return;
+
+    const data = createGeoJSONCircle(coords, 0.15); // ~150m radius
+
+    const existing = map.getSource("radius-circle") as mapboxgl.GeoJSONSource | undefined;
+    if (existing) {
+      existing.setData(data as any);
+      return;
+    }
+
+    map.addSource("radius-circle", { type: "geojson", data: data as any });
+    map.addLayer({
+      id: "radius-circle-fill",
+      type: "fill",
+      source: "radius-circle",
+      paint: { "fill-color": "#16A34A", "fill-opacity": 0.08 },
+    });
+    map.addLayer({
+      id: "radius-circle-outline",
+      type: "line",
+      source: "radius-circle",
+      paint: { "line-color": "#16A34A", "line-width": 2, "line-opacity": 0.9 },
+    });
+  };
+
   // ---------------- INIT MAP ----------------
   useEffect(() => {
     if (!coords || !mapRef.current || !MAPBOX_TOKEN) return;
@@ -80,6 +135,7 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
     // ✅ prevent re-creating map
     if (mapInstance.current) {
       mapInstance.current.setCenter([coords.lon, coords.lat]);
+      if (mapInstance.current.isStyleLoaded()) updateRadiusCircle();
       return;
     }
 
@@ -91,6 +147,8 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
     });
 
     mapInstance.current = map;
+
+    map.on("load", () => updateRadiusCircle());
 
     return () => {
       // ✅ safe cleanup
