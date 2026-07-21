@@ -118,13 +118,13 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
       id: "radius-circle-fill",
       type: "fill",
       source: "radius-circle",
-      paint: { "fill-color": "#16A34A", "fill-opacity": 0.08 },
+      paint: { "fill-color": "#0c8aeb", "fill-opacity": 0.08 },
     });
     map.addLayer({
       id: "radius-circle-outline",
       type: "line",
       source: "radius-circle",
-      paint: { "line-color": "#16A34A", "line-width": 2, "line-opacity": 0.9 },
+      paint: { "line-color": "#0c8aeb", "line-width": 2, "line-opacity": 0.9 },
     });
   };
 
@@ -265,7 +265,7 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
   if (loading) {
     return (
       <div className="mt-4 p-6 flex items-center justify-center gap-2">
-        <Loader2 className="animate-spin text-green-600" />
+        <Loader2 className="animate-spin text-[#0c8aeb]" />
         <span>Finding your location...</span>
       </div>
     );
@@ -274,7 +274,7 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
   if (!coords) return null;
 
   return (
-    <Card className="mt-6 border-green-200 shadow-md">
+    <Card className="mt-6 border-[#0c8aeb]/30 shadow-md">
       <CardContent className="p-0">
         <div className="relative w-full h-72 overflow-hidden">
           {/* MAP */}
@@ -291,13 +291,13 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <div className="w-14 h-14 rounded-full bg-green-600/20 blur-md shadow-lg shadow-green-600/30" />
-              <div className="absolute top-1/2 left-1/2 w-5 h-5 bg-green-600 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-md shadow-green-600/40" />
+              <div className="w-14 h-14 rounded-full bg-[#0c8aeb]/20 blur-md shadow-lg shadow-[#0c8aeb]/30" />
+              <div className="absolute top-1/2 left-1/2 w-5 h-5 bg-[#0c8aeb] rounded-full -translate-x-1/2 -translate-y-1/2 shadow-md shadow-[#0c8aeb]/40" />
             </div>
           ))}
 
           {/* COUNT */}
-          <div className="absolute top-4 right-4 bg-green-600 text-white text-xs px-3 py-2 rounded-full flex items-center gap-1">
+          <div className="absolute top-4 right-4 bg-[#0c8aeb] text-white text-xs px-3 py-2 rounded-full flex items-center gap-1">
             <Users className="h-3 w-3" />
             {customerCount} customers
           </div>
@@ -305,9 +305,9 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
 
         {/* LOCATION */}
         {displayName && (
-          <div className="bg-green-50 px-4 py-3 flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-green-600" />
-            <span className="text-sm text-green-800 truncate">
+          <div className="bg-[#0c8aeb]/10 px-4 py-3 flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-[#0c8aeb]" />
+            <span className="text-sm text-[#0c8aeb]/80 truncate">
               {displayName}
             </span>
           </div>
