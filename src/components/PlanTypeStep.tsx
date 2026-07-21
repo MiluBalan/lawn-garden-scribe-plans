@@ -1,6 +1,8 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Leaf, Sprout, ArrowRight, Users, Star, Shield, Check, Sparkles } from 'lucide-react';
+import planLawn from '@/assets/plan-lawn.jpg';
+import planGarden from '@/assets/plan-garden.jpg';
 
 interface PlanTypeStepProps {
   selectedType: string;
@@ -49,11 +51,25 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
           <div className="hidden md:block relative">
             <div className="absolute inset-0 bg-gradient-to-tr from-emerald-400/30 to-amber-400/30 rounded-3xl blur-2xl" />
             <div className="relative grid grid-cols-2 gap-4">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-emerald-500/30 to-emerald-700/30 backdrop-blur border border-white/20 flex items-center justify-center">
-                <Leaf className="h-20 w-20 text-emerald-200" />
+              <div className="aspect-square rounded-2xl overflow-hidden border border-white/20 shadow-xl">
+                <img
+                  src={planLawn}
+                  alt="Lush green lawn"
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
               </div>
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-amber-500/30 to-amber-700/30 backdrop-blur border border-white/20 flex items-center justify-center mt-8">
-                <Sprout className="h-20 w-20 text-amber-200" />
+              <div className="aspect-square rounded-2xl overflow-hidden border border-white/20 shadow-xl mt-8">
+                <img
+                  src={planGarden}
+                  alt="Colorful home garden"
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                />
               </div>
             </div>
           </div>
