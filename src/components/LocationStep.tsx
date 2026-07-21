@@ -1,8 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { MapPin, Sun, CloudSun, CloudFog, Trees, Layers, Waves, Sprout, HelpCircle, Check, FlaskConical } from 'lucide-react';
-import { useZipcodeAutocomplete } from '@/hooks/useZipcodeAutocomplete';
 
 interface LocationStepProps {
   data: any;
@@ -10,41 +7,6 @@ interface LocationStepProps {
 }
 
 const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
-  const [inputValue, setInputValue] = useState(data.location || '');
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<HTMLDivElement>(null);
-  const { suggestions, loading } = useZipcodeAutocomplete(inputValue);
-
-  useEffect(() => {
-    setInputValue(data.location || '');
-  }, [data.location]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        inputRef.current && !inputRef.current.contains(event.target as Node) &&
-        suggestionsRef.current && !suggestionsRef.current.contains(event.target as Node)
-      ) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleLocationChange = (value: string) => {
-    setInputValue(value);
-    onUpdate({ location: value });
-    setShowSuggestions(true);
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setInputValue(suggestion);
-    onUpdate({ location: suggestion });
-    setShowSuggestions(false);
-  };
-
   const sunlightOptions = [
     { value: 'full_sun', label: 'Full Sun', description: '6+ hours of direct sunlight daily', icon: Sun, tile: 'from-amber-100 to-yellow-200', color: 'text-amber-600', accent: 'bg-amber-500', ring: 'ring-amber-400 border-amber-400' },
     { value: 'partial_sun', label: 'Partial Sun', description: '4-6 hours of direct sunlight daily', icon: CloudSun, tile: 'from-orange-100 to-amber-200', color: 'text-orange-600', accent: 'bg-orange-500', ring: 'ring-orange-400 border-orange-400' },
@@ -79,46 +41,6 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
           <p className="text-gray-700 text-lg">
             Your environmental conditions help us create the most accurate care plan for your specific situation.
           </p>
-        </div>
-      </div>
-
-      {/* Location / Zip Code */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-900">
-          What is your address, city, or zip code? <span className="text-red-500">*</span>
-        </h3>
-        <div className="relative">
-          <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-sky-500" />
-          <Input
-            ref={inputRef}
-            value={inputValue}
-            onChange={(e) => handleLocationChange(e.target.value)}
-            onFocus={() => setShowSuggestions(true)}
-            placeholder="e.g., 123 Main St, Austin TX  •  Austin, TX  •  78701"
-            className="text-lg p-4 pl-12 rounded-xl border-2 focus-visible:ring-sky-400"
-          />
-          {showSuggestions && (suggestions.length > 0 || loading) && (
-            <div
-              ref={suggestionsRef}
-              className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-sky-100 rounded-xl shadow-xl z-50 overflow-hidden max-h-80 overflow-y-auto"
-            >
-              {loading && suggestions.length === 0 && (
-                <div className="px-4 py-3 text-sm text-gray-500">Searching…</div>
-              )}
-              {suggestions.map((s, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => handleSuggestionClick(s.formatted)}
-                  className="w-full px-4 py-3 text-left hover:bg-sky-50 flex gap-2 items-center transition-colors border-b border-gray-50 last:border-b-0"
-                >
-                  <MapPin className="w-4 h-4 text-sky-600 flex-shrink-0" />
-                  <span className="text-sm text-gray-800">{s.formatted}</span>
-                </button>
-              ))}
-            </div>
-          )}
-          <p className="mt-2 text-xs text-gray-500">Type a street address, city name, or 5-digit zip code — we'll suggest matches.</p>
         </div>
       </div>
 
@@ -161,7 +83,9 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
 
       {/* Soil Type */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-900">What type of soil do you have?</h3>
+        <h3 className="text-lg font-semibold text-gray-900">
+          What type of soil do you have? <span className="text-red-500">*</span>
+        </h3>
         <div className="grid md:grid-cols-2 gap-4">
           {soilTypes.map((soil) => {
             const Icon = soil.icon;
