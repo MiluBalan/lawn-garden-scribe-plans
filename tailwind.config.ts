@@ -74,6 +74,9 @@ export default {
 					green: 'hsl(var(--surface-green))'
 				}
 			},
+			fontFamily: {
+				sans: ['Poppins', 'system-ui', 'sans-serif'],
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
