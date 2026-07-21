@@ -118,13 +118,13 @@ const LocationMapPreview = ({ location, onAreaChange, isActive = false }) => {
       id: "radius-circle-fill",
       type: "fill",
       source: "radius-circle",
-      paint: { "fill-color": "#16A34A", "fill-opacity": 0.08 },
+      paint: { "fill-color": "#0c8aeb", "fill-opacity": 0.08 },
     });
     map.addLayer({
       id: "radius-circle-outline",
       type: "line",
       source: "radius-circle",
-      paint: { "line-color": "#16A34A", "line-width": 2, "line-opacity": 0.9 },
+      paint: { "line-color": "#0c8aeb", "line-width": 2, "line-opacity": 0.9 },
     });
   };
 
