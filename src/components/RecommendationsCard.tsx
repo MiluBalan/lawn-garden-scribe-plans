@@ -11,7 +11,7 @@ const RecommendationsCard = ({ lawnData }: RecommendationsCardProps) => {
     const recs = [];
     
     // Size-based recommendations
-    if (lawnData.size === 'small' || (lawnData.size.includes('custom_') && parseInt(lawnData.size.split('_')[1]) < 5000)) {
+    if (lawnData.size === 'range_1000_2499' || (lawnData.size.includes('custom_') && parseInt(lawnData.size.split('_')[1]) < 2500)) {
       recs.push('Consider organic fertilizers for small lawn areas');
     }
     
