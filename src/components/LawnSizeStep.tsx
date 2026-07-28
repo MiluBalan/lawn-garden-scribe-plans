@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Calculator, MapPin, Home, Building2, Trees, Mountain, Check, Ruler } from 'lucide-react';
+import { Calculator, MapPin, Home, Building2, Trees, TreePine, Mountain, Check, Ruler } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useZipcodeAutocomplete } from '@/hooks/useZipcodeAutocomplete';
 import LocationMapPreview from './LocationMapPreview';
@@ -15,10 +15,11 @@ interface LawnSizeStepProps {
 type KnowledgeMode = 'known' | 'unknown' | null;
 
 const sizeStyles = [
-  { value: 'small', label: 'Small', detail: 'Under 5,000 sq ft', icon: Home, gradient: 'from-sky-50 via-white to-sky-50/40', tile: 'from-sky-100 to-sky-200', color: 'text-sky-700', accent: 'bg-sky-500', ring: 'ring-sky-400 border-sky-400' },
-  { value: 'medium', label: 'Medium', detail: '5,000 – 10,000 sq ft', icon: Building2, gradient: 'from-emerald-50 via-white to-emerald-50/40', tile: 'from-emerald-100 to-emerald-200', color: 'text-emerald-700', accent: 'bg-emerald-500', ring: 'ring-emerald-400 border-emerald-400' },
-  { value: 'large', label: 'Large', detail: '10,000 – 20,000 sq ft', icon: Trees, gradient: 'from-amber-50 via-white to-amber-50/40', tile: 'from-amber-100 to-amber-200', color: 'text-amber-700', accent: 'bg-amber-500', ring: 'ring-amber-400 border-amber-400' },
-  { value: 'xlarge', label: 'Extra Large', detail: 'Over 20,000 sq ft', icon: Mountain, gradient: 'from-violet-50 via-white to-violet-50/40', tile: 'from-violet-100 to-violet-200', color: 'text-violet-700', accent: 'bg-violet-500', ring: 'ring-violet-400 border-violet-400' },
+  { value: 'range_1000_2499', label: 'Small', detail: '1,000 – 2,499 sq ft', icon: Home, gradient: 'from-sky-50 via-white to-sky-50/40', tile: 'from-sky-100 to-sky-200', color: 'text-sky-700', accent: 'bg-sky-500', ring: 'ring-sky-400 border-sky-400' },
+  { value: 'range_2500_3999', label: 'Medium', detail: '2,500 – 3,999 sq ft', icon: Building2, gradient: 'from-emerald-50 via-white to-emerald-50/40', tile: 'from-emerald-100 to-emerald-200', color: 'text-emerald-700', accent: 'bg-emerald-500', ring: 'ring-emerald-400 border-emerald-400' },
+  { value: 'range_4000_5499', label: 'Large', detail: '4,000 – 5,499 sq ft', icon: Trees, gradient: 'from-amber-50 via-white to-amber-50/40', tile: 'from-amber-100 to-amber-200', color: 'text-amber-700', accent: 'bg-amber-500', ring: 'ring-amber-400 border-amber-400' },
+  { value: 'range_5500_6999', label: 'Extra Large', detail: '5,500 – 6,999 sq ft', icon: TreePine, gradient: 'from-orange-50 via-white to-orange-50/40', tile: 'from-orange-100 to-orange-200', color: 'text-orange-700', accent: 'bg-orange-500', ring: 'ring-orange-400 border-orange-400' },
+  { value: 'range_7000_plus', label: '7000+', detail: '7,000+ sq ft', icon: Mountain, gradient: 'from-violet-50 via-white to-violet-50/40', tile: 'from-violet-100 to-violet-200', color: 'text-violet-700', accent: 'bg-violet-500', ring: 'ring-violet-400 border-violet-400' },
 ];
 
 const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {

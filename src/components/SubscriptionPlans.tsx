@@ -108,10 +108,11 @@ export default function SubscriptionPlans({
     }
 
     const mapping: Record<string, number> = {
-      small: 3000,
-      medium: 7500,
-      large: 15000,
-      xlarge: 25000,
+      range_1000_2499: 1750,
+      range_2500_3999: 3250,
+      range_4000_5499: 4750,
+      range_5500_6999: 6250,
+      range_7000_plus: 7500,
     };
 
     if (mapping[size]) return mapping[size];
@@ -125,20 +126,37 @@ export default function SubscriptionPlans({
   const matchesSize = (desc: string, size: number) => {
     const normalized = desc.replace(/,/g, "").toLowerCase();
 
-    if (size < 5000) {
-      return normalized.includes("under 5000") || normalized.includes("< 5000");
+    if (size >= 1000 && size < 2500) {
+      return (
+        (normalized.includes("1000") && normalized.includes("2499")) ||
+        normalized.includes("under 2500")
+      );
     }
 
-    if (size >= 5000 && size < 10000) {
-      return normalized.includes("5000") && normalized.includes("10000");
+    if (size >= 2500 && size < 4000) {
+      return (
+        normalized.includes("2500") && normalized.includes("3999")
+      );
     }
 
-    if (size >= 10000 && size < 20000) {
-      return normalized.includes("10000") && normalized.includes("20000");
+    if (size >= 4000 && size < 5500) {
+      return (
+        normalized.includes("4000") && normalized.includes("5499")
+      );
     }
 
-    if (size >= 20000) {
-      return normalized.includes("20000") && normalized.includes("25000");
+    if (size >= 5500 && size < 7000) {
+      return (
+        normalized.includes("5500") && normalized.includes("6999")
+      );
+    }
+
+    if (size >= 7000) {
+      return (
+        normalized.includes("7000") ||
+        normalized.includes("over 7000") ||
+        normalized.includes("7000+")
+      );
     }
 
     return false;
@@ -236,10 +254,10 @@ export default function SubscriptionPlans({
     );
 
   const isXlarge =
-    lawnData?.size === "xlarge" ||
+    lawnData?.size === "range_7000_plus" ||
     (typeof lawnData?.size === "string" &&
       lawnData?.size?.startsWith("custom_") &&
-      parseInt(lawnData?.size?.split("_")[1]) >= 20000);
+      parseInt(lawnData?.size?.split("_")[1]) >= 7000);
 
   const visiblePlans = isXlarge
     ? allPlans.filter((p) => p.name !== "Basic")

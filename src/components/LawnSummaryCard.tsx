@@ -20,10 +20,11 @@ const LawnSummaryCard = ({ lawnData, soilData }: LawnSummaryCardProps) => {
 
     // ✅ PREDEFINED → show range
     const mapping: Record<string, string> = {
-      small: "0 - 5,000 sq ft",
-      medium: "5,000 - 10,000 sq ft",
-      large: "10,000 - 20,000 sq ft",
-      xlarge: "20,000+ sq ft",
+      range_1000_2499: "1,000 – 2,499 sq ft",
+      range_2500_3999: "2,500 – 3,999 sq ft",
+      range_4000_5499: "4,000 – 5,499 sq ft",
+      range_5500_6999: "5,500 – 6,999 sq ft",
+      range_7000_plus: "7,000+ sq ft",
     };
 
     return mapping[size] || "Unknown size";
