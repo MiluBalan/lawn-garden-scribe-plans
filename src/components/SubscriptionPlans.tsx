@@ -254,10 +254,10 @@ export default function SubscriptionPlans({
     );
 
   const isXlarge =
-    lawnData?.size === "xlarge" ||
+    lawnData?.size === "range_7000_plus" ||
     (typeof lawnData?.size === "string" &&
       lawnData?.size?.startsWith("custom_") &&
-      parseInt(lawnData?.size?.split("_")[1]) >= 20000);
+      parseInt(lawnData?.size?.split("_")[1]) >= 7000);
 
   const visiblePlans = isXlarge
     ? allPlans.filter((p) => p.name !== "Basic")
