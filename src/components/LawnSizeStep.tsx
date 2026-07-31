@@ -88,8 +88,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
             How big is your{' '}
             <span className="bg-gradient-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
               lawn?
-            </span>{' '}
-            <span className="text-red-500">*</span>
+            </span>&nbsp;<span className="text-red-500">*</span>
           </h2>
           <p className="text-gray-700 text-lg">
             Let's start by understanding the size of your lawn.
@@ -130,7 +129,7 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
       {knowledgeMode && (
         <div className="space-y-4 relative animate-fade-in">
           <Label className="text-lg font-semibold">
-            Zip code <span className="text-red-500">*</span>
+            Zip code&nbsp;<span className="text-red-500">*</span>
           </Label>
 
           <div className="relative">

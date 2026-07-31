@@ -80,7 +80,7 @@ const PlanTypeStep = ({ selectedType, onTypeChange }: PlanTypeStepProps) => {
       <div className="space-y-10 max-w-7xl mx-auto mb-20">
         <div className="text-center space-y-3">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-            What can we help with? <span className="text-destructive">*</span>
+            What can we help with?&nbsp;<span className="text-destructive">*</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             Select the type of plan you'd like to create
