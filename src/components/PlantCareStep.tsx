@@ -89,7 +89,7 @@ const QuestionBlock = ({
 }) => (
   <div className="space-y-4 animate-fade-in">
     <h3 className="text-xl font-semibold text-foreground">
-      {title} <span className="text-destructive">*</span>
+      {title}&nbsp;<span className="text-destructive">*</span>
     </h3>
     <RadioGroup value={value} onValueChange={onChange} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {options.map((opt) => {

@@ -47,7 +47,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
       {/* Sunlight Conditions */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-gray-900">
-          How much sunlight does your garden receive? <span className="text-red-500">*</span>
+          How much sunlight does your garden receive?&nbsp;<span className="text-red-500">*</span>
         </h3>
         <div className="grid md:grid-cols-2 gap-4">
           {sunlightOptions.map((option) => {
@@ -84,7 +84,7 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
       {/* Soil Type */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-gray-900">
-          What type of soil do you have? <span className="text-red-500">*</span>
+          What type of soil do you have?&nbsp;<span className="text-red-500">*</span>
         </h3>
         <div className="grid md:grid-cols-2 gap-4">
           {soilTypes.map((soil) => {

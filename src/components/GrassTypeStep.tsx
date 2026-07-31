@@ -54,7 +54,7 @@ const GrassTypeStep = ({ data, onUpdate }: GrassTypeStepProps) => {
             <span className="bg-gradient-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
               grass
             </span>{' '}
-            do you have? <span className="text-red-500">*</span>
+            do you have?&nbsp;<span className="text-red-500">*</span>
           </h2>
           <p className="text-gray-700 text-lg">
             Identifying your grass type is crucial for proper care. Different grasses have unique needs for fertilization, watering, and maintenance.
