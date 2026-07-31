@@ -98,8 +98,7 @@ const GardenSizeStep = ({ data, onUpdate }: GardenSizeStepProps) => {
             <span className="bg-gradient-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
               growing setup
             </span>{' '}
-            do you have?
-            <span className="text-red-500"> *</span>
+            do you have?&nbsp;<span className="text-red-500">*</span>
           </h2>
           <p className="text-gray-700 text-lg">
             Tell us about your growing space so we can tailor every recommendation.
@@ -140,7 +139,7 @@ const GardenSizeStep = ({ data, onUpdate }: GardenSizeStepProps) => {
       {knowledgeMode && (
         <div className="space-y-4 relative animate-fade-in">
           <Label className="text-lg font-semibold">
-            Address or zip code <span className="text-red-500">*</span>
+            Address or zip code&nbsp;<span className="text-red-500">*</span>
           </Label>
 
           <div className="relative">

@@ -48,7 +48,7 @@ const SprinklerSystemStep = ({ data, onUpdate }: SprinklerSystemStepProps) => {
             Automated{' '}
             <span className="bg-gradient-to-r from-sky-600 to-cyan-600 bg-clip-text text-transparent">
               Sprinkler System
-            </span>{' '}
+            </span>&nbsp;
             <span className="text-red-500">*</span>
           </h2>
           <p className="text-gray-700 text-lg">
