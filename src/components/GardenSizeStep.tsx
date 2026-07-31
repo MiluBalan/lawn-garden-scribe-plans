@@ -102,7 +102,7 @@ const GardenSizeStep = ({ data, onUpdate }: GardenSizeStepProps) => {
             <span className="text-red-500"> *</span>
           </h2>
           <p className="text-gray-700 text-lg">
-            Let's start by understanding the size of your garden.
+            Tell us about your growing space so we can tailor every recommendation.
           </p>
         </div>
       </div>
