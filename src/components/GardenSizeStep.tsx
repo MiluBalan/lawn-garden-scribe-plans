@@ -90,18 +90,19 @@ const GardenSizeStep = ({ data, onUpdate }: GardenSizeStepProps) => {
         <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-amber-200/30 rounded-full blur-3xl pointer-events-none" />
         <div className="relative max-w-3xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur border border-emerald-200 text-emerald-700 text-sm font-medium shadow-sm">
-            <Ruler className="h-4 w-4" />
-            Garden Size
+            <Sprout className="h-4 w-4" />
+            Growing Setup
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            How big is your{' '}
+            What type of{' '}
             <span className="bg-gradient-to-r from-emerald-600 to-amber-600 bg-clip-text text-transparent">
-              garden?
+              growing setup
             </span>{' '}
-            <span className="text-red-500">*</span>
+            do you have?
+            <span className="text-red-500"> *</span>
           </h2>
           <p className="text-gray-700 text-lg">
-            Let's start by understanding the size of your garden.
+            Tell us about your growing space so we can tailor every recommendation.
           </p>
         </div>
       </div>
