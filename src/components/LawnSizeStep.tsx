@@ -176,14 +176,14 @@ const LawnSizeStep = ({ data, onUpdate }: LawnSizeStepProps) => {
 
       {/* Known mode → cards */}
       {knowledgeMode === 'known' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-fade-in">
+        <div className="flex flex-wrap justify-center gap-6 animate-fade-in">
           {sizeStyles.map((option) => {
             const Icon = option.icon;
             const isSelected = data.size === option.value;
             return (
               <Card
                 key={option.value}
-                className={`group relative cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ring-2 ring-transparent rounded-2xl overflow-hidden bg-gradient-to-br ${option.gradient} ${isSelected ? option.ring : 'border-gray-200 hover:border-gray-300'}`}
+                className={`group relative cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ring-2 ring-transparent rounded-2xl overflow-hidden bg-gradient-to-br ${option.gradient} w-full sm:w-[calc(33.333%-1rem)] ${isSelected ? option.ring : 'border-gray-200 hover:border-gray-300'}`}
                 onClick={() => {
                   setCustomSize('');
                   onUpdate({ size: option.value });
