@@ -190,14 +190,20 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
           return (
             <PlantTypeStep
               selectedType={planData.plantType}
-              onTypeChange={(type) => updatePlanData({ plantType: type })}
+              onTypeChange={(type) =>
+                updatePlanData({ plantType: type, plantSubtype: "" })
+              }
             />
           );
         case 3:
-          return <LocationStep data={planData} onUpdate={updatePlanData} />;
+          return <PlantVarietyStep data={planData} onUpdate={updatePlanData} />;
         case 4:
-          return <PlantBasicsStep data={planData} onUpdate={updatePlanData} />;
+          return <GardenStageStep data={planData} onUpdate={updatePlanData} />;
         case 5:
+          return <LocationStep data={planData} onUpdate={updatePlanData} />;
+        case 6:
+          return <PlantBasicsStep data={planData} onUpdate={updatePlanData} />;
+        case 7:
           return <PlantCareStep data={planData} onUpdate={updatePlanData} />;
         default:
           return null;
