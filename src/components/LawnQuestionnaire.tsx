@@ -119,6 +119,8 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       sprinklerFrequency: "",
       plantType: "",
       gardenSize: "",
+      growingSetup: "",
+      gardenStage: "",
       growthStage: "",
       plantingSeason: "",
       plantSubtype: "",
