@@ -171,11 +171,11 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
             <div className="grid md:grid-cols-3 gap-4">
               <div className="text-center">
                 <Badge variant="secondary" className="mb-2">Plant Type</Badge>
-                <p className="font-medium capitalize">{gardenData.plantType}</p>
+                <p className="font-medium capitalize">{String(gardenData.plantType || '').replace('-', ' / ')}</p>
               </div>
               <div className="text-center">
-                <Badge variant="secondary" className="mb-2">Garden Size</Badge>
-                <p className="font-medium">{GARDEN_SIZE_DISPLAY[gardenData.gardenSize] || gardenData.gardenSize.replace('-', ' ')}</p>
+                <Badge variant="secondary" className="mb-2">Growing Setup</Badge>
+                <p className="font-medium capitalize">{String((gardenData as any).growingSetup || gardenData.gardenSize || '').replace(/-/g, ' ')}</p>
               </div>
               <div className="text-center">
                 <Badge variant="secondary" className="mb-2">Location</Badge>
