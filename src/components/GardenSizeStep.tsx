@@ -154,7 +154,7 @@ const GardenSizeStep = ({ data, onUpdate }: GardenSizeStepProps) => {
           )}
         </div>
 
-        <LocationMapPreview location={inputValue} />
+        <LocationMapPreview location={inputValue} onAreaChange={() => {}} />
       </div>
     </div>
   );
