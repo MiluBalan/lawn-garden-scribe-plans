@@ -14,12 +14,22 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
     { value: 'full_shade', label: 'Full Shade', description: 'Less than 2 hours of direct sunlight daily', icon: Trees, tile: 'from-emerald-100 to-green-200', color: 'text-emerald-700', accent: 'bg-emerald-500', ring: 'ring-emerald-400 border-emerald-400' },
   ];
 
-  const soilTypes = [
+  const lawnSoilTypes = [
     { value: 'clay', label: 'Clay Soil', description: 'Heavy, dense soil that retains water', icon: Layers, tile: 'from-orange-100 to-rose-200', color: 'text-orange-700', accent: 'bg-orange-500', ring: 'ring-orange-400 border-orange-400' },
     { value: 'sandy', label: 'Sandy Soil', description: 'Light, well-draining soil', icon: Waves, tile: 'from-amber-100 to-yellow-200', color: 'text-amber-700', accent: 'bg-amber-500', ring: 'ring-amber-400 border-amber-400' },
     { value: 'loamy', label: 'Loamy Soil', description: 'Balanced mix of sand, silt, and clay', icon: Sprout, tile: 'from-emerald-100 to-green-200', color: 'text-emerald-700', accent: 'bg-emerald-500', ring: 'ring-emerald-400 border-emerald-400' },
     { value: 'unknown', label: 'Not Sure', description: "We'll provide general recommendations", icon: HelpCircle, tile: 'from-gray-100 to-slate-200', color: 'text-gray-600', accent: 'bg-gray-500', ring: 'ring-gray-400 border-gray-400' },
   ];
+
+  const gardenSoilTypes = [
+    { value: 'raised-bed-mix', label: 'Raised Bed Mix', description: 'Blended soil made for raised beds', icon: Layers, tile: 'from-amber-100 to-orange-200', color: 'text-amber-700', accent: 'bg-amber-500', ring: 'ring-amber-400 border-amber-400' },
+    { value: 'native-compost', label: 'Native Soil + Compost', description: 'In-ground soil amended with compost', icon: Sprout, tile: 'from-emerald-100 to-green-200', color: 'text-emerald-700', accent: 'bg-emerald-500', ring: 'ring-emerald-400 border-emerald-400' },
+    { value: 'potting-mix', label: 'Potting Mix', description: 'Standard container potting soil', icon: Waves, tile: 'from-rose-100 to-pink-200', color: 'text-rose-700', accent: 'bg-rose-500', ring: 'ring-rose-400 border-rose-400' },
+    { value: 'no-soil', label: 'No Soil', description: 'Coco coir, rockwool, clay pebbles', icon: HelpCircle, tile: 'from-cyan-100 to-sky-200', color: 'text-cyan-700', accent: 'bg-cyan-500', ring: 'ring-cyan-400 border-cyan-400' },
+    { value: 'lightweight-potting-mix', label: 'Lightweight Potting Mix', description: 'Airy mix for pots and vertical setups', icon: Layers, tile: 'from-lime-100 to-emerald-200', color: 'text-lime-700', accent: 'bg-lime-500', ring: 'ring-lime-400 border-lime-400' },
+  ];
+
+  const soilTypes = data.planType === 'garden' ? gardenSoilTypes : lawnSoilTypes;
 
   return (
     <div className="space-y-10 px-4 max-w-5xl mx-auto">

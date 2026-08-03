@@ -1,6 +1,6 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Flower, Carrot, Apple, Check, Sparkles } from 'lucide-react';
+import { Flower, Carrot, Trees, Check, Sparkles } from 'lucide-react';
 
 interface PlantTypeStepProps {
   selectedType: string;
@@ -20,9 +20,9 @@ const plantTypes = [
     ring: 'peer-data-[state=checked]:ring-pink-400 peer-data-[state=checked]:border-pink-400',
   },
   {
-    value: 'vegetables',
-    label: 'Vegetables',
-    description: 'Fresh produce and healthy greens',
+    value: 'vegetables-fruits',
+    label: 'Vegetables / Fruits',
+    description: 'Fresh produce, berries and edible harvests',
     icon: Carrot,
     gradient: 'from-orange-50 via-white to-amber-50/40',
     tile: 'from-orange-100 to-amber-200',
@@ -31,15 +31,15 @@ const plantTypes = [
     ring: 'peer-data-[state=checked]:ring-orange-400 peer-data-[state=checked]:border-orange-400',
   },
   {
-    value: 'fruits',
-    label: 'Fruits',
-    description: 'Delicious fruits and berry bushes',
-    icon: Apple,
-    gradient: 'from-red-50 via-white to-rose-50/40',
-    tile: 'from-red-100 to-rose-200',
-    iconColor: 'text-red-600',
-    accent: 'bg-red-500',
-    ring: 'peer-data-[state=checked]:ring-red-400 peer-data-[state=checked]:border-red-400',
+    value: 'trees',
+    label: 'Trees',
+    description: 'Shade, citrus and ornamental trees',
+    icon: Trees,
+    gradient: 'from-emerald-50 via-white to-green-50/40',
+    tile: 'from-emerald-100 to-green-200',
+    iconColor: 'text-emerald-700',
+    accent: 'bg-emerald-500',
+    ring: 'peer-data-[state=checked]:ring-emerald-400 peer-data-[state=checked]:border-emerald-400',
   },
 ];
 

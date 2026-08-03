@@ -121,7 +121,7 @@ const QuestionBlock = ({
 );
 
 const PlantBasicsStep = ({ data, onUpdate }: PlantBasicsStepProps) => {
-  const subtype = subtypeOptionsByPlant[data.plantType];
+  void subtypeOptionsByPlant;
 
   return (
     <div className="space-y-10 max-w-5xl mx-auto py-8 px-4">
@@ -158,14 +158,6 @@ const PlantBasicsStep = ({ data, onUpdate }: PlantBasicsStepProps) => {
         onChange={(v) => onUpdate({ plantingSeason: v })}
       />
 
-      {subtype && (
-        <QuestionBlock
-          title={subtype.question}
-          options={subtype.options}
-          value={data.plantSubtype}
-          onChange={(v) => onUpdate({ plantSubtype: v })}
-        />
-      )}
     </div>
   );
 };

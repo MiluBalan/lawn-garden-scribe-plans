@@ -4,6 +4,8 @@ export const PLANT_TYPE_MAP: Record<string, string> = {
   flowers: "Flower",
   vegetables: "Vegetable",
   fruits: "Fruit",
+  "vegetables-fruits": "Vegetable",
+  trees: "Tree",
 };
 
 export const GARDEN_SIZE_OPTIONS = [

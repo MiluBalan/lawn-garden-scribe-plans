@@ -13,6 +13,8 @@ import PlantTypeStep from "./PlantTypeStep";
 import GardenSizeStep from "./GardenSizeStep";
 import PlantBasicsStep from "./PlantBasicsStep";
 import PlantCareStep from "./PlantCareStep";
+import PlantVarietyStep from "./PlantVarietyStep";
+import GardenStageStep from "./GardenStageStep";
 import AnalysisAnimation from "./AnalysisAnimation";
 import LawnPlanResults from "./LawnPlanResults";
 import GardenPlanResults from "./GardenPlanResults";
@@ -41,6 +43,8 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     // Garden specific fields
     plantType: "",
     gardenSize: "",
+    growingSetup: "",
+    gardenStage: "",
     growthStage: "",
     plantingSeason: "",
     plantSubtype: "",
@@ -53,7 +57,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     if (planData.planType === "lawn") {
       return 6; // Plan type + 5 lawn steps
     } else if (planData.planType === "garden") {
-      return 6; // Plan type + 5 garden steps
+      return 8; // Plan type + 7 garden steps
     }
     return 1; // Just plan type selection
   };
@@ -115,6 +119,8 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
       sprinklerFrequency: "",
       plantType: "",
       gardenSize: "",
+      growingSetup: "",
+      gardenStage: "",
       growthStage: "",
       plantingSeason: "",
       plantSubtype: "",
@@ -190,14 +196,20 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
           return (
             <PlantTypeStep
               selectedType={planData.plantType}
-              onTypeChange={(type) => updatePlanData({ plantType: type })}
+              onTypeChange={(type) =>
+                updatePlanData({ plantType: type, plantSubtype: "" })
+              }
             />
           );
         case 3:
-          return <LocationStep data={planData} onUpdate={updatePlanData} />;
+          return <PlantVarietyStep data={planData} onUpdate={updatePlanData} />;
         case 4:
-          return <PlantBasicsStep data={planData} onUpdate={updatePlanData} />;
+          return <GardenStageStep data={planData} onUpdate={updatePlanData} />;
         case 5:
+          return <LocationStep data={planData} onUpdate={updatePlanData} />;
+        case 6:
+          return <PlantBasicsStep data={planData} onUpdate={updatePlanData} />;
+        case 7:
           return <PlantCareStep data={planData} onUpdate={updatePlanData} />;
         default:
           return null;
@@ -230,14 +242,18 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return "Garden Size";
+          return "Growing Setup";
         case 2:
           return "Plant Type";
         case 3:
-          return "Location & Conditions";
+          return "Plant Variety";
         case 4:
-          return "Plant Basics";
+          return "Garden Stage";
         case 5:
+          return "Location & Conditions";
+        case 6:
+          return "Plant Basics";
+        case 7:
           return "Plant Care";
         default:
           return "";
@@ -280,18 +296,20 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return planData.gardenSize !== "" && planData.location !== "";
+          return planData.growingSetup !== "" && planData.location !== "";
         case 2:
           return planData.plantType !== "";
         case 3:
-          return planData.location !== "" && planData.sunlight !== "" && planData.soilType !== "";
+          return planData.plantSubtype !== "";
         case 4:
-          return (
-            planData.growthStage !== "" &&
-            planData.plantingSeason !== "" &&
-            planData.plantSubtype !== ""
-          );
+          return planData.gardenStage !== "";
         case 5:
+          return planData.sunlight !== "" && planData.soilType !== "";
+        case 6:
+          return (
+            planData.growthStage !== "" && planData.plantingSeason !== ""
+          );
+        case 7:
           return (
             planData.plantSpacing !== "" &&
             planData.plantGoal !== "" &&
