@@ -158,14 +158,6 @@ const PlantBasicsStep = ({ data, onUpdate }: PlantBasicsStepProps) => {
         onChange={(v) => onUpdate({ plantingSeason: v })}
       />
 
-      {subtype && (
-        <QuestionBlock
-          title={subtype.question}
-          options={subtype.options}
-          value={data.plantSubtype}
-          onChange={(v) => onUpdate({ plantSubtype: v })}
-        />
-      )}
     </div>
   );
 };
