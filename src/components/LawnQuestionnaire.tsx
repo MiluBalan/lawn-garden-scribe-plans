@@ -296,18 +296,20 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return planData.gardenSize !== "" && planData.location !== "";
+          return planData.growingSetup !== "" && planData.location !== "";
         case 2:
           return planData.plantType !== "";
         case 3:
-          return planData.location !== "" && planData.sunlight !== "" && planData.soilType !== "";
+          return planData.plantSubtype !== "";
         case 4:
-          return (
-            planData.growthStage !== "" &&
-            planData.plantingSeason !== "" &&
-            planData.plantSubtype !== ""
-          );
+          return planData.gardenStage !== "";
         case 5:
+          return planData.sunlight !== "" && planData.soilType !== "";
+        case 6:
+          return (
+            planData.growthStage !== "" && planData.plantingSeason !== ""
+          );
+        case 7:
           return (
             planData.plantSpacing !== "" &&
             planData.plantGoal !== "" &&
