@@ -242,14 +242,18 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     } else if (planData.planType === "garden") {
       switch (currentStep) {
         case 1:
-          return "Garden Size";
+          return "Growing Setup";
         case 2:
           return "Plant Type";
         case 3:
-          return "Location & Conditions";
+          return "Plant Variety";
         case 4:
-          return "Plant Basics";
+          return "Garden Stage";
         case 5:
+          return "Location & Conditions";
+        case 6:
+          return "Plant Basics";
+        case 7:
           return "Plant Care";
         default:
           return "";
