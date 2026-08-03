@@ -121,7 +121,7 @@ const QuestionBlock = ({
 );
 
 const PlantBasicsStep = ({ data, onUpdate }: PlantBasicsStepProps) => {
-  const subtype = subtypeOptionsByPlant[data.plantType];
+  void subtypeOptionsByPlant;
 
   return (
     <div className="space-y-10 max-w-5xl mx-auto py-8 px-4">
