@@ -13,6 +13,8 @@ import PlantTypeStep from "./PlantTypeStep";
 import GardenSizeStep from "./GardenSizeStep";
 import PlantBasicsStep from "./PlantBasicsStep";
 import PlantCareStep from "./PlantCareStep";
+import PlantVarietyStep from "./PlantVarietyStep";
+import GardenStageStep from "./GardenStageStep";
 import AnalysisAnimation from "./AnalysisAnimation";
 import LawnPlanResults from "./LawnPlanResults";
 import GardenPlanResults from "./GardenPlanResults";
@@ -41,6 +43,8 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     // Garden specific fields
     plantType: "",
     gardenSize: "",
+    growingSetup: "",
+    gardenStage: "",
     growthStage: "",
     plantingSeason: "",
     plantSubtype: "",
@@ -53,7 +57,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     if (planData.planType === "lawn") {
       return 6; // Plan type + 5 lawn steps
     } else if (planData.planType === "garden") {
-      return 6; // Plan type + 5 garden steps
+      return 8; // Plan type + 7 garden steps
     }
     return 1; // Just plan type selection
   };
