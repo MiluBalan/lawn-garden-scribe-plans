@@ -11,8 +11,6 @@ import LocationStep from "./LocationStep";
 import SprinklerSystemStep from "./SprinklerSystemStep";
 import PlantTypeStep from "./PlantTypeStep";
 import GardenSizeStep from "./GardenSizeStep";
-import PlantBasicsStep from "./PlantBasicsStep";
-import PlantCareStep from "./PlantCareStep";
 import PlantVarietyStep from "./PlantVarietyStep";
 import GardenStageStep from "./GardenStageStep";
 import AnalysisAnimation from "./AnalysisAnimation";
@@ -57,7 +55,7 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     if (planData.planType === "lawn") {
       return 6; // Plan type + 5 lawn steps
     } else if (planData.planType === "garden") {
-      return 8; // Plan type + 7 garden steps
+      return 6; // Plan type + 5 garden steps
     }
     return 1; // Just plan type selection
   };
@@ -207,10 +205,6 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
           return <GardenStageStep data={planData} onUpdate={updatePlanData} />;
         case 5:
           return <LocationStep data={planData} onUpdate={updatePlanData} />;
-        case 6:
-          return <PlantBasicsStep data={planData} onUpdate={updatePlanData} />;
-        case 7:
-          return <PlantCareStep data={planData} onUpdate={updatePlanData} />;
         default:
           return null;
       }
@@ -251,10 +245,6 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
           return "Garden Stage";
         case 5:
           return "Location & Conditions";
-        case 6:
-          return "Plant Basics";
-        case 7:
-          return "Plant Care";
         default:
           return "";
       }
@@ -305,16 +295,6 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
           return planData.gardenStage !== "";
         case 5:
           return planData.sunlight !== "" && planData.soilType !== "";
-        case 6:
-          return (
-            planData.growthStage !== "" && planData.plantingSeason !== ""
-          );
-        case 7:
-          return (
-            planData.plantSpacing !== "" &&
-            planData.plantGoal !== "" &&
-            planData.plantIssues !== ""
-          );
         default:
           return false;
       }
