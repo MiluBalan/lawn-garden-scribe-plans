@@ -14,6 +14,8 @@ import {
   Flower,
   Apple,
   Sprout,
+  ListChecks,
+  Beaker,
 } from 'lucide-react';
 import GardenSubscriptionPlans from './GardenSubscriptionPlans';
 import WeatherAndGrowthCharts from './WeatherAndGrowthCharts';
@@ -21,13 +23,28 @@ import SoilAnalysisCard from './SoilAnalysisCard';
 import DataSourceNotice from './DataSourceNotice';
 import { useWeatherData } from '../hooks/useWeatherData';
 import { useSoilData } from '../hooks/useSoilData';
-import { GARDEN_SIZE_DISPLAY } from '@/lib/garden';
+import {
+  SETUP_LABELS,
+  PLANT_TYPE_LABELS,
+  VARIETY_LABELS,
+  STAGE_LABELS,
+  SUNLIGHT_LABELS,
+  SOIL_LABELS,
+  label,
+  getStageActions,
+  getFeedingPlan,
+  getGardenRecommendations,
+} from '@/lib/gardenReport';
 
 interface GardenData {
   planType: string;
   plantType: string;
   gardenSize: string;
   location: string;
+  growingSetup?: string;
+  gardenStage?: string;
+  sunlight?: string;
+  soilType?: string;
   growthStage?: string;
   plantingSeason?: string;
   plantSubtype?: string;
@@ -52,9 +69,24 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
     return <GardenSubscriptionPlans gardenData={gardenData} onBack={() => setShowPlans(false)} />;
   }
 
+  const stageActions = getStageActions(gardenData);
+  const feeding = getFeedingPlan(gardenData);
+  const recommendations = getGardenRecommendations(gardenData, soilData?.properties.pH);
+
+  const summaryItems = [
+    { label: 'Growing Setup', value: label(SETUP_LABELS, gardenData.growingSetup) },
+    { label: 'Plant Type', value: label(PLANT_TYPE_LABELS, gardenData.plantType) },
+    { label: 'Variety', value: label(VARIETY_LABELS, gardenData.plantSubtype) },
+    { label: 'Garden Stage', value: label(STAGE_LABELS, gardenData.gardenStage) },
+    { label: 'Sunlight', value: label(SUNLIGHT_LABELS, gardenData.sunlight) },
+    { label: 'Growing Medium', value: label(SOIL_LABELS, gardenData.soilType) },
+    { label: 'Location', value: gardenData.location || '—' },
+  ];
+
   const plantIcon =
     gardenData.plantType === 'flowers' ? <Flower className="h-5 w-5 text-pink-600" /> :
-    gardenData.plantType === 'fruits' ? <Apple className="h-5 w-5 text-red-600" /> :
+    gardenData.plantType === 'trees' ? <Leaf className="h-5 w-5 text-emerald-700" /> :
+    gardenData.plantType === 'vegetables-fruits' ? <Apple className="h-5 w-5 text-orange-600" /> :
     <Sprout className="h-5 w-5 text-green-600" />;
 
   const getSeasonalSchedule = () => {
@@ -67,12 +99,12 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
         { month: 'Fall', icon: <Calendar className="h-5 w-5 text-purple-600" />, tasks: ['Plant spring-blooming bulbs', 'Divide perennials', 'Cut back & mulch for winter'] },
       ];
     }
-    if (type === 'fruits') {
+    if (type === 'trees') {
       return [
-        { month: 'Early Spring', icon: <Scissors className="h-5 w-5 text-green-600" />, tasks: ['Prune fruit trees & canes', 'Apply dormant oil spray', 'Top-dress with compost'] },
-        { month: 'Late Spring', icon: <Sun className="h-5 w-5 text-yellow-600" />, tasks: ['Thin young fruit for size', 'Mulch around root zones', 'Install pollinator-friendly plants'] },
-        { month: 'Summer', icon: <Droplets className="h-5 w-5 text-blue-600" />, tasks: ['Deep weekly watering', 'Monitor for fruit pests', 'Harvest as fruit ripens'] },
-        { month: 'Fall', icon: <Calendar className="h-5 w-5 text-purple-600" />, tasks: ['Clean up fallen fruit', 'Apply autumn fertilizer', 'Wrap trunks for winter'] },
+        { month: 'Early Spring', icon: <Scissors className="h-5 w-5 text-green-600" />, tasks: ['Prune dead and crossing branches', 'Apply slow-release feed at the drip line', 'Refresh mulch ring, clear of trunk'] },
+        { month: 'Late Spring', icon: <Sun className="h-5 w-5 text-yellow-600" />, tasks: ['Deep water new plantings weekly', 'Check stakes and ties', 'Watch for early leaf pests'] },
+        { month: 'Summer', icon: <Droplets className="h-5 w-5 text-blue-600" />, tasks: ['Monthly deep soaking in heat', 'Monitor for scorch and borers', 'Avoid heavy pruning'] },
+        { month: 'Fall', icon: <Calendar className="h-5 w-5 text-purple-600" />, tasks: ['Final deep watering before freeze', 'Apply autumn root feed', 'Wrap young trunks for winter'] },
       ];
     }
     return [
@@ -83,40 +115,6 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
     ];
   };
 
-  const getRecommendations = () => {
-    const recs: string[] = [];
-    const type = gardenData.plantType;
-
-    if (type === 'flowers') {
-      recs.push('Use a balanced bloom-boosting fertilizer (10-10-10) every 4-6 weeks');
-      recs.push('Deadhead regularly to extend the blooming season');
-    } else if (type === 'vegetables') {
-      recs.push('Rotate crop families each season to prevent soil-borne disease');
-      recs.push('Side-dress heavy feeders (tomatoes, squash) mid-season');
-    } else if (type === 'fruits') {
-      recs.push('Most fruiting plants need 6-8 hours of direct sun for best yields');
-      recs.push('Prune annually for airflow and larger, healthier fruit');
-    }
-
-    if (soilData?.properties.pH && soilData.properties.pH < 6) {
-      recs.push('Soil is acidic — add lime to bring pH closer to neutral');
-    } else if (soilData?.properties.pH && soilData.properties.pH > 7.3) {
-      recs.push('Soil is alkaline — incorporate sulfur or peat to lower pH');
-    }
-
-    if (gardenData.plantIssues && gardenData.plantIssues !== 'none') {
-      const issueMap: Record<string, string> = {
-        pests: 'Use integrated pest management — neem oil and beneficial insects',
-        disease: 'Improve airflow and water at the base to reduce fungal pressure',
-        weather: 'Add row covers or shade cloth to buffer extreme conditions',
-        nutrients: 'Get a soil test and apply targeted amendments',
-      };
-      if (issueMap[gardenData.plantIssues]) recs.push(issueMap[gardenData.plantIssues]);
-    }
-
-    recs.push(`Mulch 2-3 inches around plants to retain moisture and regulate soil temperature`);
-    return recs;
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50/30 via-white to-amber-50/20 py-8">
@@ -148,7 +146,8 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
               </span>
             </h1>
             <p className="text-xl text-gray-700">
-              Personalized for your {gardenData.plantType} garden based on real climate and soil data
+              Built for {label(VARIETY_LABELS, gardenData.plantSubtype).toLowerCase()} in a{' '}
+              {label(SETUP_LABELS, gardenData.growingSetup).toLowerCase()} — using your answers plus real climate and soil data
             </p>
             {(weatherError || soilError) && (
               <div className="mt-4 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 px-4 py-2 rounded-full text-sm">
@@ -168,19 +167,59 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <Badge variant="secondary" className="mb-2">Plant Type</Badge>
-                <p className="font-medium capitalize">{String(gardenData.plantType || '').replace('-', ' / ')}</p>
-              </div>
-              <div className="text-center">
-                <Badge variant="secondary" className="mb-2">Growing Setup</Badge>
-                <p className="font-medium capitalize">{String((gardenData as any).growingSetup || gardenData.gardenSize || '').replace(/-/g, ' ')}</p>
-              </div>
-              <div className="text-center">
-                <Badge variant="secondary" className="mb-2">Location</Badge>
-                <p className="font-medium">{gardenData.location}</p>
-              </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {summaryItems.map((item) => (
+                <div key={item.label} className="text-center p-4 rounded-xl bg-emerald-50/60 border border-emerald-100">
+                  <Badge variant="secondary" className="mb-2">{item.label}</Badge>
+                  <p className="font-medium text-gray-900">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Stage-based Action Plan */}
+        <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ListChecks className="h-5 w-5 text-emerald-600" />
+              <span>{stageActions.title}</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-4">
+              {stageActions.steps.map((step, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                  <p className="text-gray-700">{step}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Feeding & Watering Plan */}
+        <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Beaker className="h-5 w-5 text-amber-600" />
+              <span>Feeding &amp; Watering Plan</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="grid md:grid-cols-3 gap-4">
+            <div className="p-5 rounded-xl bg-amber-50 border border-amber-100">
+              <p className="text-sm text-amber-700 font-medium mb-1">Feeding Cadence</p>
+              <p className="text-xl font-bold text-gray-900">{feeding.cadence}</p>
+            </div>
+            <div className="p-5 rounded-xl bg-gray-50 border border-gray-100 md:col-span-2">
+              <p className="text-sm text-gray-500 font-medium mb-1">Why this rhythm</p>
+              <p className="text-gray-700">{feeding.note}</p>
+            </div>
+            <div className="p-5 rounded-xl bg-blue-50 border border-blue-100 md:col-span-3 flex items-start gap-3">
+              <Droplets className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+              <p className="text-gray-700">{feeding.water}</p>
             </div>
           </CardContent>
         </Card>
@@ -189,6 +228,7 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
         {!weatherLoading && weatherData && (
           <WeatherAndGrowthCharts weatherData={weatherData} location={gardenData.location} />
         )}
+
 
         {/* Soil Analysis */}
         {soilData && (
@@ -234,7 +274,7 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
-              {getRecommendations().map((rec, index) => (
+              {recommendations.map((rec, index) => (
                 <div key={index} className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg">
                   <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <p className="text-gray-700">{rec}</p>
