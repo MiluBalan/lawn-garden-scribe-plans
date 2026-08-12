@@ -166,19 +166,59 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="text-center">
-                <Badge variant="secondary" className="mb-2">Plant Type</Badge>
-                <p className="font-medium capitalize">{String(gardenData.plantType || '').replace('-', ' / ')}</p>
-              </div>
-              <div className="text-center">
-                <Badge variant="secondary" className="mb-2">Growing Setup</Badge>
-                <p className="font-medium capitalize">{String((gardenData as any).growingSetup || gardenData.gardenSize || '').replace(/-/g, ' ')}</p>
-              </div>
-              <div className="text-center">
-                <Badge variant="secondary" className="mb-2">Location</Badge>
-                <p className="font-medium">{gardenData.location}</p>
-              </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {summaryItems.map((item) => (
+                <div key={item.label} className="text-center p-4 rounded-xl bg-emerald-50/60 border border-emerald-100">
+                  <Badge variant="secondary" className="mb-2">{item.label}</Badge>
+                  <p className="font-medium text-gray-900">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Stage-based Action Plan */}
+        <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ListChecks className="h-5 w-5 text-emerald-600" />
+              <span>{stageActions.title}</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-4">
+              {stageActions.steps.map((step, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                  <p className="text-gray-700">{step}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Feeding & Watering Plan */}
+        <Card className="mb-8 border-0 shadow-xl bg-white/90 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Beaker className="h-5 w-5 text-amber-600" />
+              <span>Feeding &amp; Watering Plan</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="grid md:grid-cols-3 gap-4">
+            <div className="p-5 rounded-xl bg-amber-50 border border-amber-100">
+              <p className="text-sm text-amber-700 font-medium mb-1">Feeding Cadence</p>
+              <p className="text-xl font-bold text-gray-900">{feeding.cadence}</p>
+            </div>
+            <div className="p-5 rounded-xl bg-gray-50 border border-gray-100 md:col-span-2">
+              <p className="text-sm text-gray-500 font-medium mb-1">Why this rhythm</p>
+              <p className="text-gray-700">{feeding.note}</p>
+            </div>
+            <div className="p-5 rounded-xl bg-blue-50 border border-blue-100 md:col-span-3 flex items-start gap-3">
+              <Droplets className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+              <p className="text-gray-700">{feeding.water}</p>
             </div>
           </CardContent>
         </Card>
@@ -187,6 +227,7 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
         {!weatherLoading && weatherData && (
           <WeatherAndGrowthCharts weatherData={weatherData} location={gardenData.location} />
         )}
+
 
         {/* Soil Analysis */}
         {soilData && (
