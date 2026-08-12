@@ -146,7 +146,8 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
               </span>
             </h1>
             <p className="text-xl text-gray-700">
-              Personalized for your {gardenData.plantType} garden based on real climate and soil data
+              Built for {label(VARIETY_LABELS, gardenData.plantSubtype).toLowerCase()} in a{' '}
+              {label(SETUP_LABELS, gardenData.growingSetup).toLowerCase()} — using your answers plus real climate and soil data
             </p>
             {(weatherError || soilError) && (
               <div className="mt-4 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 px-4 py-2 rounded-full text-sm">
