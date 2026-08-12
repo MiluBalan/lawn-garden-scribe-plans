@@ -232,7 +232,7 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
-              {getRecommendations().map((rec, index) => (
+              {recommendations.map((rec, index) => (
                 <div key={index} className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg">
                   <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <p className="text-gray-700">{rec}</p>
