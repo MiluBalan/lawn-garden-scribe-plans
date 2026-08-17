@@ -1,6 +1,4 @@
-
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
 
 interface LawnPlanActionsProps {
   onRestart: () => void;
@@ -9,20 +7,23 @@ interface LawnPlanActionsProps {
 
 const LawnPlanActions = ({ onRestart, onGetProducts }: LawnPlanActionsProps) => {
   return (
-    <div className="text-center space-y-4">
+    <div className="text-center space-y-4 py-4">
       <Button
         onClick={onRestart}
         variant="secondary"
-        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-3"
+        className="bg-muted hover:bg-muted/80 text-foreground px-8 py-3 rounded-full"
       >
         Create Another Plan
       </Button>
       <div>
-        <Button onClick={onGetProducts} className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg rounded-xl shadow-lg">
+        <Button
+          onClick={onGetProducts}
+          className="bg-brand hover:bg-brand-dark text-white px-8 py-3 text-lg rounded-full shadow-lg transition-transform hover:scale-[1.02]"
+        >
           Get Your Products
         </Button>
       </div>
-      <p className="text-gray-600 text-sm">
+      <p className="text-muted-foreground text-sm max-w-md mx-auto">
         Ready to transform your lawn? Get the recommended products delivered to your door.
       </p>
     </div>
