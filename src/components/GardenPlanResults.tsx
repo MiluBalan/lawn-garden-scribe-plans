@@ -16,6 +16,9 @@ import {
   Sprout,
   ListChecks,
   Beaker,
+  Shovel,
+  Layers,
+  MapPin,
 } from 'lucide-react';
 import GardenSubscriptionPlans from './GardenSubscriptionPlans';
 import WeatherAndGrowthCharts from './WeatherAndGrowthCharts';
@@ -73,13 +76,62 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
   const recommendations = getGardenRecommendations(gardenData, soilData?.properties.pH);
 
   const summaryItems = [
-    { label: 'Growing Setup', value: label(SETUP_LABELS, gardenData.growingSetup) },
-    { label: 'Plant Type', value: label(PLANT_TYPE_LABELS, gardenData.plantType) },
-    { label: 'Variety', value: label(VARIETY_LABELS, gardenData.plantSubtype) },
-    { label: 'Garden Stage', value: label(STAGE_LABELS, gardenData.gardenStage) },
-    { label: 'Sunlight', value: label(SUNLIGHT_LABELS, gardenData.sunlight) },
-    { label: 'Growing Medium', value: label(SOIL_LABELS, gardenData.soilType) },
-    { label: 'Location', value: gardenData.location || '—' },
+    {
+      label: 'Growing Setup',
+      value: label(SETUP_LABELS, gardenData.growingSetup),
+      icon: Shovel,
+      tile: 'from-amber-100 to-orange-200',
+      color: 'text-amber-700',
+      ring: 'hover:ring-amber-300',
+    },
+    {
+      label: 'Plant Type',
+      value: label(PLANT_TYPE_LABELS, gardenData.plantType),
+      icon: Sprout,
+      tile: 'from-emerald-100 to-green-200',
+      color: 'text-emerald-700',
+      ring: 'hover:ring-emerald-300',
+    },
+    {
+      label: 'Variety',
+      value: label(VARIETY_LABELS, gardenData.plantSubtype),
+      icon: Flower,
+      tile: 'from-rose-100 to-pink-200',
+      color: 'text-rose-700',
+      ring: 'hover:ring-rose-300',
+    },
+    {
+      label: 'Garden Stage',
+      value: label(STAGE_LABELS, gardenData.gardenStage),
+      icon: Leaf,
+      tile: 'from-lime-100 to-emerald-200',
+      color: 'text-lime-700',
+      ring: 'hover:ring-lime-300',
+    },
+    {
+      label: 'Sunlight',
+      value: label(SUNLIGHT_LABELS, gardenData.sunlight),
+      icon: Sun,
+      tile: 'from-yellow-100 to-amber-200',
+      color: 'text-yellow-700',
+      ring: 'hover:ring-yellow-300',
+    },
+    {
+      label: 'Growing Medium',
+      value: label(SOIL_LABELS, gardenData.soilType),
+      icon: Layers,
+      tile: 'from-cyan-100 to-sky-200',
+      color: 'text-cyan-700',
+      ring: 'hover:ring-cyan-300',
+    },
+    {
+      label: 'Location',
+      value: gardenData.location || '—',
+      icon: MapPin,
+      tile: 'from-sky-100 to-blue-200',
+      color: 'text-sky-700',
+      ring: 'hover:ring-sky-300',
+    },
   ];
 
   const plantIcon =
@@ -183,12 +235,21 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {summaryItems.map((item) => (
-                <div key={item.label} className="text-center p-4 rounded-2xl bg-surface-green border border-border/60">
-                  <Badge variant="secondary" className="mb-2 bg-white/80">{item.label}</Badge>
-                  <p className="font-medium text-foreground">{item.value}</p>
-                </div>
-              ))}
+              {summaryItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.label}
+                    className={`group text-center p-4 rounded-2xl bg-white border border-border/60 ring-2 ring-transparent ${item.ring} transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-default`}
+                  >
+                    <div className={`w-11 h-11 mx-auto mb-3 rounded-xl bg-gradient-to-br ${item.tile} flex items-center justify-center shadow-inner transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                      <Icon className={`h-5 w-5 ${item.color}`} />
+                    </div>
+                    <Badge variant="secondary" className="mb-2 bg-muted/60">{item.label}</Badge>
+                    <p className="font-semibold text-foreground">{item.value}</p>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
