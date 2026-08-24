@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Check, Flower2, Leaf, Home, Sprout, Citrus, Cherry, Wheat, Apple, TreePine, Trees, Flower, Salad } from 'lucide-react';
+import { Check, Leaf, Sprout, Citrus, Cherry, Wheat, Apple, TreePine, Trees, Flower, Salad, Sparkles, Sun } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface PlantVarietyStepProps {
@@ -13,10 +13,10 @@ export const VARIETIES_BY_PLANT_TYPE: Record<string, { question: string; options
   flowers: {
     question: 'Which flowers are you growing?',
     options: [
-      { value: 'roses', label: 'Roses', description: 'Bush, climbing and shrub roses', icon: Flower },
-      { value: 'orchids', label: 'Orchids', description: 'Delicate, specialty blooms', icon: Flower2 },
-      { value: 'indoor-plants', label: 'Indoor Plants', description: 'Houseplants and potted blooms', icon: Home },
-      { value: 'ornamental-foliage', label: 'Ornamental Foliage Plants', description: 'Grown for leaves and texture', icon: Leaf },
+      { value: 'outdoor-flowers', label: 'Outdoor Flowers', description: 'Roses, hibiscus, hydrangeas, garden blooms', icon: Sun },
+      { value: 'indoor-flowering', label: 'Indoor Flowering Plants', description: 'Orchids, African violets, peace lily', icon: Flower },
+      { value: 'indoor-tropical', label: 'Indoor & Tropical Plants', description: 'Monstera, pothos, ferns, palms — grown for leaf/greenery', icon: Leaf },
+      { value: 'other-ornamentals', label: 'Other Ornamentals', description: 'General plant care, multiple types, or others', icon: Sparkles },
     ],
   },
   'vegetables-fruits': {
