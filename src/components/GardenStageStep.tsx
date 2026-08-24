@@ -8,9 +8,9 @@ interface GardenStageStepProps {
 
 const stageOptions = [
   {
-    value: 'preparing-soil',
-    label: "I'm preparing my soil before planting",
-    description: 'Building a healthy foundation first',
+    value: 'preparing',
+    label: "I'm preparing to plant or repot",
+    description: 'Getting the soil and growing environment ready',
     icon: Shovel,
     tile: 'from-amber-100 to-orange-200',
     color: 'text-amber-700',
@@ -18,9 +18,9 @@ const stageOptions = [
     ring: 'ring-amber-400 border-amber-400',
   },
   {
-    value: 'planted-seeds',
-    label: 'I just planted seeds',
-    description: 'Germination stage care',
+    value: 'just-planted',
+    label: 'I just planted, seeded, or repotted',
+    description: 'Helping plants through their first stage',
     icon: Sprout,
     tile: 'from-emerald-100 to-green-200',
     color: 'text-emerald-700',
@@ -28,9 +28,9 @@ const stageOptions = [
     ring: 'ring-emerald-400 border-emerald-400',
   },
   {
-    value: 'planted-seedlings',
-    label: 'I recently planted seedlings or saplings',
-    description: 'Young plants establishing roots',
+    value: 'establishing',
+    label: 'My plants are newly planted and establishing',
+    description: 'Supporting root development and early growth',
     icon: Leaf,
     tile: 'from-lime-100 to-emerald-200',
     color: 'text-lime-700',
@@ -38,9 +38,9 @@ const stageOptions = [
     ring: 'ring-lime-400 border-lime-400',
   },
   {
-    value: 'actively-growing',
-    label: 'My plants are actively growing and need regular feeding',
-    description: 'Ongoing nutrition and maintenance',
+    value: 'established-growing',
+    label: 'My plants are established and actively growing',
+    description: 'Regular nutrition for healthy growth and flowering',
     icon: TreeDeciduous,
     tile: 'from-sky-100 to-emerald-200',
     color: 'text-sky-700',

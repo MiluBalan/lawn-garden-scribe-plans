@@ -26,7 +26,6 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
     { value: 'native-compost', label: 'Native Soil + Compost', description: 'In-ground soil amended with compost', icon: Sprout, tile: 'from-emerald-100 to-green-200', color: 'text-emerald-700', accent: 'bg-emerald-500', ring: 'ring-emerald-400 border-emerald-400' },
     { value: 'potting-mix', label: 'Potting Mix', description: 'Standard container potting soil', icon: Waves, tile: 'from-rose-100 to-pink-200', color: 'text-rose-700', accent: 'bg-rose-500', ring: 'ring-rose-400 border-rose-400' },
     { value: 'no-soil', label: 'No Soil', description: 'Coco coir, rockwool, clay pebbles', icon: HelpCircle, tile: 'from-cyan-100 to-sky-200', color: 'text-cyan-700', accent: 'bg-cyan-500', ring: 'ring-cyan-400 border-cyan-400' },
-    { value: 'lightweight-potting-mix', label: 'Lightweight Potting Mix', description: 'Airy mix for pots and vertical setups', icon: Layers, tile: 'from-lime-100 to-emerald-200', color: 'text-lime-700', accent: 'bg-lime-500', ring: 'ring-lime-400 border-lime-400' },
   ];
 
   const soilTypes = data.planType === 'garden' ? gardenSoilTypes : lawnSoilTypes;
