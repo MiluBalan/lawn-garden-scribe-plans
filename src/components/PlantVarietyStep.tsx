@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Check, Flower2, Leaf, Home, Sprout, Citrus, Cherry, Wheat, Apple, TreePine, Trees, Flower, Salad, Sparkles, Sun } from 'lucide-react';
+import { Check, Leaf, Sprout, Citrus, Cherry, Wheat, Apple, TreePine, Trees, Flower, Salad, Sparkles, Sun } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface PlantVarietyStepProps {

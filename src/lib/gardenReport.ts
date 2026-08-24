@@ -27,10 +27,10 @@ export const PLANT_TYPE_LABELS: Record<string, string> = {
 };
 
 export const VARIETY_LABELS: Record<string, string> = {
-  roses: 'Roses',
-  orchids: 'Orchids',
-  'indoor-plants': 'Indoor Plants',
-  'ornamental-foliage': 'Ornamental Foliage Plants',
+  'outdoor-flowers': 'Outdoor Flowers',
+  'indoor-flowering': 'Indoor Flowering Plants',
+  'indoor-tropical': 'Indoor & Tropical Plants',
+  'other-ornamentals': 'Other Ornamentals',
   tomato: 'Tomato',
   'citrus-fruits': 'Citrus Fruits',
   'other-vegetables': 'Other Vegetables',
@@ -42,10 +42,10 @@ export const VARIETY_LABELS: Record<string, string> = {
 };
 
 export const STAGE_LABELS: Record<string, string> = {
-  'preparing-soil': 'Preparing soil before planting',
-  'planted-seeds': 'Seeds just planted',
-  'planted-seedlings': 'Seedlings / saplings recently planted',
-  'actively-growing': 'Actively growing — needs regular feeding',
+  preparing: 'Preparing to plant or repot',
+  'just-planted': 'Just planted, seeded, or repotted',
+  establishing: 'Newly planted and establishing',
+  'established-growing': 'Established and actively growing',
 };
 
 export const SUNLIGHT_LABELS: Record<string, string> = {
@@ -60,7 +60,6 @@ export const SOIL_LABELS: Record<string, string> = {
   'native-compost': 'Native Soil + Compost',
   'potting-mix': 'Potting Mix',
   'no-soil': 'Soilless (coco, rockwool, clay)',
-  'lightweight-potting-mix': 'Lightweight Potting Mix',
   clay: 'Clay Soil',
   sandy: 'Sandy Soil',
   loamy: 'Loamy Soil',
@@ -74,7 +73,7 @@ export const label = (map: Record<string, string>, key?: string) =>
 export function getStageActions(a: GardenAnswers): { title: string; steps: string[] } {
   const variety = label(VARIETY_LABELS, a.plantSubtype).toLowerCase();
   switch (a.gardenStage) {
-    case 'preparing-soil':
+    case 'preparing':
       return {
         title: 'Prep Phase — build the foundation',
         steps: [
@@ -84,9 +83,9 @@ export function getStageActions(a: GardenAnswers): { title: string; steps: strin
           `Confirm drainage and pH suit ${variety} before transplanting`,
         ],
       };
-    case 'planted-seeds':
+    case 'just-planted':
       return {
-        title: 'Germination Phase — keep it consistent',
+        title: 'First Stage — keep it consistent',
         steps: [
           'Keep the top inch evenly moist — light, frequent watering beats deep soaking',
           'Hold off on strong fertilizer; use a diluted starter at 1/4 strength only',
@@ -94,7 +93,7 @@ export function getStageActions(a: GardenAnswers): { title: string; steps: strin
           'Thin seedlings once true leaves appear to reduce competition',
         ],
       };
-    case 'planted-seedlings':
+    case 'establishing':
       return {
         title: 'Establishment Phase — grow roots first',
         steps: [
@@ -104,7 +103,7 @@ export function getStageActions(a: GardenAnswers): { title: string; steps: strin
           `Shelter young ${variety} from wind and midday heat for the first 10-14 days`,
         ],
       };
-    case 'actively-growing':
+    case 'established-growing':
     default:
       return {
         title: 'Active Growth Phase — feed on rhythm',
@@ -124,8 +123,7 @@ export function getFeedingPlan(a: GardenAnswers): { cadence: string; note: strin
   const container =
     a.growingSetup === 'containers' ||
     a.growingSetup === 'vertical' ||
-    a.soilType === 'potting-mix' ||
-    a.soilType === 'lightweight-potting-mix';
+    a.soilType === 'potting-mix';
 
   if (soilless) {
     return {
@@ -168,10 +166,10 @@ export function getGardenRecommendations(a: GardenAnswers, pH?: number): string[
 
   // Variety specific
   const varietyRecs: Record<string, string> = {
-    roses: 'Feed roses with a bloom-supporting formula and prune to an open center for airflow',
-    orchids: 'Use bark-based media, water weekly and feed at 1/4 strength — orchids burn easily',
-    'indoor-plants': 'Rotate pots weekly for even light and wipe leaves monthly to keep pores clear',
-    'ornamental-foliage': 'Prioritize nitrogen for lush leaves and pinch tips to keep growth compact',
+    'outdoor-flowers': 'Feed outdoor blooms with a flower-supporting formula and deadhead regularly to extend flowering',
+    'indoor-flowering': 'Orchids, violets and peace lilies burn easily — water weekly and feed at 1/4 strength',
+    'indoor-tropical': 'Prioritize nitrogen for lush foliage and wipe leaves monthly to keep pores clear',
+    'other-ornamentals': 'Rotate pots weekly for even light and pinch tips to keep mixed ornamentals compact',
     tomato: 'Side-dress tomatoes with calcium at first fruit set to prevent blossom-end rot',
     'citrus-fruits': 'Citrus are heavy feeders — supply iron, zinc and magnesium to avoid yellowing leaves',
     'other-vegetables': 'Rotate vegetable families every season to break pest and disease cycles',
@@ -205,7 +203,6 @@ export function getGardenRecommendations(a: GardenAnswers, pH?: number): string[
   // Medium
   if (a.soilType === 'native-compost') recs.push('Test native soil annually; compost alone can leave phosphorus and potassium gaps');
   if (a.soilType === 'no-soil') recs.push('Soilless media need a complete nutrient solution including calcium and magnesium');
-  if (a.soilType === 'lightweight-potting-mix') recs.push('Lightweight mixes dry fast — consider a wetting agent or moisture-retaining amendment');
 
   if (typeof pH === 'number') {
     if (pH < 6) recs.push(`Local soil pH is ${pH.toFixed(1)} (acidic) — add lime to move toward the 6.2-6.8 sweet spot`);
