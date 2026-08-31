@@ -4,7 +4,15 @@ Yes — and this is currently broken, which is worth fixing at the same time.
 
 ## What the live Shopify data actually says
 
-The lawn subscription feed returns plans whose descriptions use these size buckets:
+Your new Seal rule is live in the feed — I can see it:
+
+```text
+Small Lawn - Monthly Plan | Monthly subscription | "Under 2499 sq.ft"
+  on: VitaLawn Liquid Organic Grass Food & Vitamin
+  on: EverGrow Liquid Organic Plant Vitamin for Strong Roots & Flowers
+```
+
+The other lawn plans still use the older buckets:
 
 ```text
 Under 5000 sq.ft
@@ -13,9 +21,8 @@ Large Lawn (10,000 – 20,000 sq ft)
 Extra Large (20000 - 25000 sq.ft)
 ```
 
-The lawn size selector in the app now offers 1,000–2,499 / 2,500–3,999 / 4,000–5,499 / 5,500–6,999 / 7,000+. The matcher in `SubscriptionPlans.tsx` looks for literal strings like "2500" and "3999" in the description, which no Shopify plan contains — so most selections match nothing and the plan cards silently disappear.
+The app does not show the new rule today. The lawn size selector offers 1,000–2,499 / 2,500–3,999 / 4,000–5,499 / 5,500–6,999 / 7,000+, and the matcher in `SubscriptionPlans.tsx` requires the description to contain both "1000" and "2499" (or the literal "under 2500") — "Under 2499 sq.ft" fails both tests. Even if it matched, the hardcoded `planMap` only knows Basic Green / Eco Saver / Year Round Care, so a group named "Small Lawn - Monthly Plan" would never render. Same story for Extra Large, which uses Core Coverage / Intensive Growth.
 
-Plan names also differ per bucket: small/medium/large use Basic Green / Eco Saver / Year Round Care, while Extra Large uses Core Coverage / Intensive Growth. The hardcoded `planMap` only knows the first three.
 
 ## What to build
 
