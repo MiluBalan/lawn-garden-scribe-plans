@@ -4,7 +4,15 @@ Yes — and this is currently broken, which is worth fixing at the same time.
 
 ## What the live Shopify data actually says
 
-The lawn subscription feed returns plans whose descriptions use these size buckets:
+Your new Seal rule is live in the feed — I can see it:
+
+```text
+Small Lawn - Monthly Plan | Monthly subscription | "Under 2499 sq.ft"
+  on: VitaLawn Liquid Organic Grass Food & Vitamin
+  on: EverGrow Liquid Organic Plant Vitamin for Strong Roots & Flowers
+```
+
+The other lawn plans still use the older buckets:
 
 ```text
 Under 5000 sq.ft
@@ -13,9 +21,8 @@ Large Lawn (10,000 – 20,000 sq ft)
 Extra Large (20000 - 25000 sq.ft)
 ```
 
-The lawn size selector in the app now offers 1,000–2,499 / 2,500–3,999 / 4,000–5,499 / 5,500–6,999 / 7,000+. The matcher in `SubscriptionPlans.tsx` looks for literal strings like "2500" and "3999" in the description, which no Shopify plan contains — so most selections match nothing and the plan cards silently disappear.
+The app does not show the new rule today. The lawn size selector offers 1,000–2,499 / 2,500–3,999 / 4,000–5,499 / 5,500–6,999 / 7,000+, and the matcher in `SubscriptionPlans.tsx` requires the description to contain both "1000" and "2499" (or the literal "under 2500") — "Under 2499 sq.ft" fails both tests. Even if it matched, the hardcoded `planMap` only knows Basic Green / Eco Saver / Year Round Care, so a group named "Small Lawn - Monthly Plan" would never render. Same story for Extra Large, which uses Core Coverage / Intensive Growth.
 
-Plan names also differ per bucket: small/medium/large use Basic Green / Eco Saver / Year Round Care, while Extra Large uses Core Coverage / Intensive Growth. The hardcoded `planMap` only knows the first three.
 
 ## What to build
 
@@ -27,14 +34,15 @@ Plan names also differ per bucket: small/medium/large use Basic Green / Eco Save
 
    | User selection | Sq ft used | Shopify bucket |
    | --- | --- | --- |
-   | 1,000 – 2,499 | 2,499 | Under 5,000 |
+   | 1,000 – 2,499 | 2,499 | **Under 2499 sq.ft (your new Small Lawn rule)** |
    | 2,500 – 3,999 | 3,999 | Under 5,000 |
    | 4,000 – 5,499 | 5,499 | Medium (5,000 – 10,000) |
    | 5,500 – 6,999 | 6,999 | Medium (5,000 – 10,000) |
    | 7,000+ | 7,000 | Medium (5,000 – 10,000) |
-   | Custom (calculator) | exact value | bucket containing it |
+   | Custom (calculator) | exact value | narrowest bucket containing it |
 
-   Sizes above every bucket fall back to the largest bucket plus the Enterprise card.
+   When two buckets both contain a size (2,499 fits both "Under 2499" and "Under 5000"), the narrowest one wins — so the new Small Lawn rule takes precedence for small lawns. Sizes above every bucket fall back to the largest bucket plus the Enterprise card.
+
 
 3. **Build the tier cards from whatever Shopify returns, instead of a fixed name list.**
    Group the matched selling plans by plan group name (same approach the garden flow already uses in `groupGardenSubscriptionPlans`), sort by discount, and apply the existing three visual tiers (Basic/Advanced/Premium styling) by position. That way Core Coverage / Intensive Growth render correctly for Extra Large, and any new plan group added in Shopify shows up without a code change.
