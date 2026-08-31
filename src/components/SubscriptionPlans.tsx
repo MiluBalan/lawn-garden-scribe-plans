@@ -1,9 +1,17 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowLeft, Leaf, Sprout, Trees } from "lucide-react";
+import { Check, ArrowLeft, Leaf, Sprout, Trees, Package } from "lucide-react";
 import EnterpriseCard from "./EnterpriseCard";
 import { useEffect, useState } from "react";
-import { getProductQuantityMultiplier } from "@/lib/garden";
+import {
+  getNumericLawnSize,
+  parseLawnSizeBucket,
+  selectLawnSizeBucket,
+  groupLawnSubscriptionPlans,
+  getProductQuantityMultiplier,
+  type ILawnProduct,
+  type ILawnSubscriptionPlan,
+} from "@/lib/lawn";
 
 interface SubscriptionPlansProps {
   lawnData: any;
@@ -11,25 +19,11 @@ interface SubscriptionPlansProps {
   onRestart?: () => void;
 }
 
-interface Plan {
-  subscriptionName: string;
-  productTitle: string;
-  planName: string;
-  description: string;
-  variantId: string;
-  sellingPlanId: string;
-  price: number;
-  deliveries: number;
-  billingInterval: number;
-  discountLabel: string;
-}
-
-const allPlans = [
+const planTiers = [
   {
     name: "Basic",
     icon: Sprout,
     tag: "Great Value",
-    xlargeOnly: false,
     features: [
       "Essential nutrient formula",
       "Seasonal feeding schedule",
@@ -48,7 +42,6 @@ const allPlans = [
     name: "Advanced",
     icon: Leaf,
     tag: "Most Popular",
-    xlargeOnly: false,
     features: [
       "Custom nutrient formula",
       "Climate optimized schedule",
@@ -67,7 +60,6 @@ const allPlans = [
     name: "Premium",
     icon: Trees,
     tag: "Best Results",
-    xlargeOnly: false,
     features: [
       "Advanced bio-stimulant blend",
       "Year-round care program",
@@ -84,123 +76,54 @@ const allPlans = [
   },
 ];
 
-const planMap: Record<string, string> = {
-  Basic: "Basic Green Plan",
-  Advanced: "Eco Saver Plan",
-  Premium: "Year Round Care Plan",
-};
-
-const extractId = (gid: string) => gid.split("/").pop();
+const extractId = (gid: string) => gid.split("/").pop() as string;
 
 export default function SubscriptionPlans({
   lawnData,
   onBack,
 }: SubscriptionPlansProps) {
-  const [shopifyPlans, setShopifyPlans] = useState<Plan[]>([]);
+  const [subscriptionPlans, setSubscriptionPlans] = useState<
+    ILawnSubscriptionPlan[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Normalize size → number
-  const getNumericSize = (size: any): number | null => {
-    if (!size) return null;
-
-    if (typeof size === "string" && size.startsWith("custom_")) {
-      return parseInt(size.split("_")[1]);
-    }
-
-    const mapping: Record<string, number> = {
-      range_1000_2499: 1750,
-      range_2500_3999: 3250,
-      range_4000_5499: 4750,
-      range_5500_6999: 6250,
-      range_7000_plus: 7500,
-    };
-
-    if (mapping[size]) return mapping[size];
-
-    if (typeof size === "number") return size;
-
-    return null;
-  };
-
-  // ✅ Check plan matches size
-  const matchesSize = (desc: string, size: number) => {
-    const normalized = desc.replace(/,/g, "").toLowerCase();
-
-    if (size >= 1000 && size < 2500) {
-      return (
-        (normalized.includes("1000") && normalized.includes("2499")) ||
-        normalized.includes("under 2500")
-      );
-    }
-
-    if (size >= 2500 && size < 4000) {
-      return (
-        normalized.includes("2500") && normalized.includes("3999")
-      );
-    }
-
-    if (size >= 4000 && size < 5500) {
-      return (
-        normalized.includes("4000") && normalized.includes("5499")
-      );
-    }
-
-    if (size >= 5500 && size < 7000) {
-      return (
-        normalized.includes("5500") && normalized.includes("6999")
-      );
-    }
-
-    if (size >= 7000) {
-      return (
-        normalized.includes("7000") ||
-        normalized.includes("over 7000") ||
-        normalized.includes("7000+")
-      );
-    }
-
-    return false;
-  };
-
   useEffect(() => {
+    let cancelled = false;
+
     fetch(
       "https://api.dev.anarix.ai/api/integrations/shopify/subscription-products",
     )
       .then((res) => res.json())
       .then((res) => {
+        if (cancelled) return;
+
         const edges = res?.data?.data?.products?.edges || [];
+        const size = getNumericLawnSize(lawnData?.size);
 
-        const size = getNumericSize(lawnData?.size);
-
-        console.log("📏 Normalized size:", size);
-
-        const extracted: Plan[] = edges.flatMap((product: any) => {
+        const extracted: ILawnProduct[] = edges.flatMap((product: any) => {
           const variant = product.node.variants.edges?.[0]?.node;
           if (!variant) return [];
-
           if (!product.node.sellingPlanGroups?.edges?.length) return [];
 
           return product.node.sellingPlanGroups.edges.flatMap((group: any) =>
             group.node.sellingPlans.edges.map((plan: any) => {
               const price = Number(variant.price);
-
               const billingInterval =
                 plan.node.billingPolicy?.intervalCount || 1;
-
               const deliveryInterval =
                 plan.node.deliveryPolicy?.intervalCount || 1;
-
               const deliveries = billingInterval / deliveryInterval;
 
               const policy = plan.node.pricingPolicies?.[0];
-
               let discountLabel = "";
+              let discountPercentage = 0;
               let finalPrice = price * deliveries;
 
               if (policy?.adjustmentValue?.percentage) {
-                const percentage = policy.adjustmentValue.percentage;
-                finalPrice = finalPrice * (1 - percentage / 100);
-                discountLabel = `${percentage}% discount`;
+                const pct = policy.adjustmentValue.percentage;
+                discountPercentage = pct;
+                finalPrice = finalPrice * (1 - pct / 100);
+                discountLabel = `${pct}% discount`;
               }
 
               if (policy?.adjustmentValue?.amount) {
@@ -210,58 +133,94 @@ export default function SubscriptionPlans({
               }
 
               return {
-                subscriptionName: group.node.name,
-                productTitle: product.node.title,
                 planName: group.node.name,
+                productTitle: product.node.title,
                 description: plan.node.description || "",
                 variantId: extractId(variant.id),
                 sellingPlanId: extractId(plan.node.id),
                 price: finalPrice,
+                multiplier: getProductQuantityMultiplier(product.node.title),
                 deliveries,
                 billingInterval,
                 discountLabel,
-              };
+                discountPercentage,
+              } as ILawnProduct;
             }),
           );
         });
 
-        // ✅ FILTER FIXED
-        const filtered = extracted.filter((plan) => {
-          if (!size) return false;
+        if (!size) {
+          setSubscriptionPlans([]);
+          setLoading(false);
+          return;
+        }
 
-          const description = plan.description.toLowerCase();
+        // Only lawn plans that advertise a parseable size bucket.
+        const lawnProducts = extracted
+          .map((p) => ({ product: p, bucket: parseLawnSizeBucket(p.description) }))
+          .filter((entry) => entry.bucket !== null && entry.product.price > 0);
 
-          // ❌ Exclude garden-only plans
-          const isGardenPlan =
-            description.includes("garden-flower") ||
-            description.includes("garden flower") ||
-            description.includes("garden");
+        const bucket = selectLawnSizeBucket(
+          lawnProducts.map((e) => e.bucket!),
+          size,
+        );
 
-          if (isGardenPlan) return false;
+        console.log("📏 Lawn size:", size, "→ matched bucket:", bucket);
 
-          return matchesSize(plan.description, size);
-        });
-        console.log("✅ Filtered Plans:", filtered);
+        const matched = bucket
+          ? lawnProducts
+              .filter(
+                (e) =>
+                  e.bucket!.min === bucket.min && e.bucket!.max === bucket.max,
+              )
+              .map((e) => e.product)
+              .sort((a, b) => a.discountPercentage - b.discountPercentage)
+          : [];
 
-        setShopifyPlans(filtered);
+        const grouped = groupLawnSubscriptionPlans(matched);
+
+        console.log("✅ Lawn plans:", grouped);
+
+        setSubscriptionPlans(grouped);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setSubscriptionPlans([]);
         setLoading(false);
       });
+
+    return () => {
+      cancelled = true;
+    };
   }, [lawnData]);
 
-  const getPlan = (name: string) =>
-    shopifyPlans.find((p) =>
-      p.planName.toLowerCase().includes(planMap[name].toLowerCase()),
-    );
+  const handleSubscribe = (plan: ILawnSubscriptionPlan) => {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://biogrowthorganics.com/cart/add";
+    form.target = "_blank";
 
-  const isXlarge =
-    lawnData?.size === "range_7000_plus" ||
-    (typeof lawnData?.size === "string" &&
-      lawnData?.size?.startsWith("custom_") &&
-      parseInt(lawnData?.size?.split("_")[1]) >= 7000);
+    plan.products.forEach((p) => {
+      const append = (name: string, value: string) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      };
+      append("items[][id]", p.variantId);
+      append("items[][quantity]", String(p.multiplier));
+      append("items[][selling_plan]", p.sellingPlanId);
+    });
 
-  const visiblePlans = isXlarge
-    ? allPlans.filter((p) => p.name !== "Basic")
-    : allPlans;
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(() => document.body.removeChild(form), 1000);
+  };
+
+  const numericSize = getNumericLawnSize(lawnData?.size);
+  const isXlarge = numericSize !== null && numericSize >= 7000;
 
   if (loading)
     return <div className="text-center py-20 text-lg">Loading plans...</div>;
@@ -278,154 +237,90 @@ export default function SubscriptionPlans({
           Choose Your Lawn Plan
         </h1>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {visiblePlans.map((plan) => {
-            const shopify = getPlan(plan.name);
-            if (!shopify) return null;
+        {subscriptionPlans.length === 0 &&
+          (isXlarge ? (
+            <div className="text-center py-8 mb-8">
+              <p className="text-gray-500 text-lg">
+                No standard plans are available for this lawn size, but we can
+                create a custom solution for your property.
+              </p>
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-gray-500 text-lg">
+                No subscription plans available for your lawn size.
+              </p>
+              <p className="text-gray-400 text-sm mt-2">
+                Try adjusting your lawn size to see available plans.
+              </p>
+            </div>
+          ))}
 
-            return (
-              <Card
-                key={shopify.subscriptionName}
-                className={`rounded-2xl shadow-lg relative overflow-hidden border-2 border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${plan.colors.border}`}
-              >
-                {plan.tag && (
-                  <div
-                    className={`absolute top-4 right-4 ${plan.colors.badge} text-white text-xs font-semibold px-3 py-1 rounded-full`}
-                  >
-                    {plan.tag}
-                  </div>
-                )}
-                <CardContent className="p-8 flex flex-col">
-                  <div className="mb-5">
-                    <div className="flex items-center gap-3 mb-2">
-                      <plan.icon className={`h-6 w-6 ${plan.colors.text}`} />
-                      <h2 className="text-lg font-bold">
-                        {shopify.subscriptionName}
-                      </h2>
-                    </div>
-
-                    <p className="text-xs font-medium text-gray-700 mb-1">
-                      {shopify.productTitle}
-                    </p>
-
-                    <p className="text-xs text-gray-500">
-                      {shopify.description}
-                    </p>
-                  </div>
-
-                  <div className="mb-4">
-                    {(() => {
-                      const quantity = getProductQuantityMultiplier(shopify.productTitle);
-                      const totalPrice = shopify.price * quantity;
-
-                      return (
-                        <>
-                          <span
-                            className={`text-4xl font-bold ${plan.colors.text}`}
-                          >
-                            ${totalPrice.toFixed(2)}
-                          </span>
-                          {quantity > 1 && (
-                            <p className="text-xs text-gray-400 mt-1">
-                              {quantity} × ${shopify.price.toFixed(2)}
-                            </p>
-                          )}
-                        </>
-                      );
-                    })()}
-                  </div>
-
-                  <p className="text-sm text-gray-500 mb-1">
-                    {shopify.deliveries} delivery every{" "}
-                    {shopify.billingInterval} months
-                  </p>
-
-                  <p className={`text-sm ${plan.colors.text} mb-6`}>
-                    {shopify.discountLabel}
-                  </p>
-
-                  <ul className="space-y-3 mb-8 flex-1">
-                    {plan.features.map((f, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <Check className={`h-4 w-4 ${plan.colors.check}`} />
-                        <span className="text-sm">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    className={`w-full ${plan.colors.button} text-white`}
-                    onClick={() => {
-                      const quantity = getProductQuantityMultiplier(shopify.productTitle);
-                      window.open(
-                        `https://biogrowthorganics.com/cart/add?id=${shopify.variantId}&selling_plan=${shopify.sellingPlanId}&quantity=${quantity}`,
-                        "_blank",
-                      );
-                    }}
-                  >
-                    Subscribe
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
-
-          {/* ✅ XLARGE (SAME UI DESIGN, DIFFERENT DATA SOURCE) */}
-          {isXlarge &&
-            shopifyPlans.map((plan, index) => {
-              const style = allPlans[index % allPlans.length]; // reuse styles
+        {(subscriptionPlans.length > 0 || isXlarge) && (
+          <div className="grid md:grid-cols-3 gap-8">
+            {subscriptionPlans.map((plan, index) => {
+              const tier = planTiers[index % planTiers.length];
+              const productCount = plan.products.length;
+              const isMultiProduct = productCount > 1;
 
               return (
                 <Card
-                  key={plan.sellingPlanId}
-                  className={`rounded-2xl shadow-lg relative overflow-hidden border-2 border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${style.colors.border}`}
+                  key={`${plan.name}::${plan.description}`}
+                  className={`rounded-2xl shadow-lg relative overflow-hidden border-2 border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${tier.colors.border}`}
                 >
-                  <div
-                    className={`absolute top-4 right-4 ${style.colors.badge} text-white text-xs font-semibold px-3 py-1 rounded-full`}
-                  >
-                    Best Value
-                  </div>
-
+                  {tier.tag && (
+                    <div
+                      className={`absolute top-4 right-4 ${tier.colors.badge} text-white text-xs font-semibold px-3 py-1 rounded-full`}
+                    >
+                      {tier.tag}
+                    </div>
+                  )}
                   <CardContent className="p-8 flex flex-col">
                     <div className="mb-5">
                       <div className="flex items-center gap-3 mb-2">
-                        <style.icon
-                          className={`h-6 w-6 ${style.colors.text}`}
-                        />
-                        <h2 className="text-lg font-bold">
-                          {plan.subscriptionName}
-                        </h2>
+                        <tier.icon className={`h-6 w-6 ${tier.colors.text}`} />
+                        <h2 className="text-lg font-bold">{plan.name}</h2>
                       </div>
 
-                      <p className="text-xs font-medium text-gray-700 mb-1">
-                        {plan.productTitle}
-                      </p>
+                      {isMultiProduct ? (
+                        <div className="space-y-1 mb-1">
+                          {plan.products.map((p, i) => (
+                            <p
+                              key={i}
+                              className="text-xs font-medium text-gray-700"
+                            >
+                              {p.productTitle}
+                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-xs font-medium text-gray-700 mb-1">
+                          {plan.products[0].productTitle}
+                        </p>
+                      )}
 
                       <p className="text-xs text-gray-500">
                         {plan.description}
                       </p>
+
+                      {isMultiProduct && (
+                        <div className="flex items-center gap-1 mt-2 text-xs text-gray-400">
+                          <Package className="h-3 w-3" />
+                          <span>Contains {productCount} products</span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="mb-4">
-                      {(() => {
-                        const quantity = getProductQuantityMultiplier(plan.productTitle);
-                        const totalPrice = plan.price * quantity;
-
-                        return (
-                          <>
-                            <span
-                              className={`text-4xl font-bold ${style.colors.text}`}
-                            >
-                              ${totalPrice.toFixed(2)}
-                            </span>
-                            {quantity > 1 && (
-                              <p className="text-xs text-gray-400 mt-1">
-                                {quantity} × ${plan.price.toFixed(2)}
-                              </p>
-                            )}
-                          </>
-                        );
-                      })()}
+                      <span className={`text-4xl font-bold ${tier.colors.text}`}>
+                        ${plan.totalPrice.toFixed(2)}
+                      </span>
+                      {!isMultiProduct && plan.products[0].multiplier > 1 && (
+                        <p className="text-xs text-gray-400 mt-1">
+                          {plan.products[0].multiplier} × $
+                          {plan.products[0].price.toFixed(2)}
+                        </p>
+                      )}
                     </div>
 
                     <p className="text-sm text-gray-500 mb-1">
@@ -433,28 +328,22 @@ export default function SubscriptionPlans({
                       months
                     </p>
 
-                    <p className={`text-sm ${style.colors.text} mb-6`}>
+                    <p className={`text-sm ${tier.colors.text} mb-6`}>
                       {plan.discountLabel}
                     </p>
 
                     <ul className="space-y-3 mb-8 flex-1">
-                      {style.features.map((f, i) => (
+                      {tier.features.map((f, i) => (
                         <li key={i} className="flex items-center gap-2">
-                          <Check className={`h-4 w-4 ${style.colors.check}`} />
+                          <Check className={`h-4 w-4 ${tier.colors.check}`} />
                           <span className="text-sm">{f}</span>
                         </li>
                       ))}
                     </ul>
 
                     <Button
-                      className={`w-full ${style.colors.button} text-white`}
-                      onClick={() => {
-                        const quantity = getProductQuantityMultiplier(plan.productTitle);
-                        window.open(
-                          `https://biogrowthorganics.com/cart/add?id=${plan.variantId}&selling_plan=${plan.sellingPlanId}&quantity=${quantity}`,
-                          "_blank",
-                        );
-                      }}
+                      className={`w-full ${tier.colors.button} text-white`}
+                      onClick={() => handleSubscribe(plan)}
                     >
                       Subscribe
                     </Button>
@@ -463,9 +352,9 @@ export default function SubscriptionPlans({
               );
             })}
 
-          {/* Enterprise / Bulk Purchase Card */}
-          {isXlarge && <EnterpriseCard />}
-        </div>
+            {isXlarge && <EnterpriseCard />}
+          </div>
+        )}
       </div>
     </div>
   );
