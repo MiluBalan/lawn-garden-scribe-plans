@@ -22,7 +22,7 @@ export const SETUP_LABELS: Record<string, string> = {
 
 export const PLANT_TYPE_LABELS: Record<string, string> = {
   flowers: 'Flowers',
-  'vegetables-fruits': 'Vegetables / Fruits',
+  'vegetables-fruits': 'Vegetables & Fruits',
   trees: 'Trees',
 };
 
@@ -33,12 +33,16 @@ export const VARIETY_LABELS: Record<string, string> = {
   'other-ornamentals': 'Other Ornamentals',
   tomato: 'Tomato',
   'citrus-fruits': 'Citrus Fruits',
-  'other-vegetables': 'Other Vegetables',
-  'hemp-herbs': 'Hemps & Herbs',
-  'other-fruits': 'Other Fruits',
-  'citrus-tree': 'Citrus Tree',
-  'shade-trees': 'Shade Trees',
-  'ornamental-trees': 'Ornamental Trees',
+  'tropical-fruits': 'Tropical Fruits',
+  'berries-grapes': 'Berries & Grapes',
+  'hemp-herbs-greens': 'Hemp, Herbs & Leafy Greens',
+  'general-veg-fruits': 'General Garden Vegetables & Fruits',
+  'citrus-tree': 'Citrus Trees',
+  'tropical-trees': 'Tropical Trees',
+  'fruit-trees': 'Fruit Trees',
+  'berry-trees': 'Berry Trees',
+  'shade-trees': 'Shade & Leafy Trees',
+  'ornamental-trees': 'Ornamental & Flowering Trees',
 };
 
 export const STAGE_LABELS: Record<string, string> = {
