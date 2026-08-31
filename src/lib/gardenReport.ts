@@ -180,10 +180,14 @@ export function getGardenRecommendations(a: GardenAnswers, pH?: number): string[
     'other-ornamentals': 'Rotate pots weekly for even light and pinch tips to keep mixed ornamentals compact',
     tomato: 'Side-dress tomatoes with calcium at first fruit set to prevent blossom-end rot',
     'citrus-fruits': 'Citrus are heavy feeders — supply iron, zinc and magnesium to avoid yellowing leaves',
-    'other-vegetables': 'Rotate vegetable families every season to break pest and disease cycles',
-    'hemp-herbs': 'Harvest herbs frequently and keep nitrogen moderate to preserve aromatic oils',
-    'other-fruits': 'Thin fruit early so the plant channels energy into fewer, larger harvests',
+    'tropical-fruits': 'Tropical fruit need warmth and steady potassium — protect from cold snaps and feed through the growing season',
+    'berries-grapes': 'Keep berries and grapes slightly acidic, prune for airflow and mulch to hold even moisture',
+    'hemp-herbs-greens': 'Harvest herbs and greens frequently and keep nitrogen moderate to preserve flavor and aromatic oils',
+    'general-veg-fruits': 'Rotate vegetable families every season to break pest and disease cycles',
     'citrus-tree': 'Feed citrus trees three times a year and keep mulch clear of the trunk',
+    'tropical-trees': 'Tropical trees need frost protection and regular micronutrients, especially magnesium and iron',
+    'fruit-trees': 'Prune fruit trees in dormancy and thin young fruit for larger, better-quality harvests',
+    'berry-trees': 'Berry trees and fruiting vines fruit on specific wood — prune lightly and feed after harvest',
     'shade-trees': 'Water shade trees at the drip line, not the trunk, and deep-soak monthly',
     'ornamental-trees': 'Prune ornamentals right after flowering to protect next season’s buds',
   };
@@ -209,7 +213,10 @@ export function getGardenRecommendations(a: GardenAnswers, pH?: number): string[
   if (a.sunlight === 'full_shade') recs.push('Full shade limits fruiting — prioritize foliage plants or add supplemental grow lighting');
 
   // Medium
-  if (a.soilType === 'native-compost') recs.push('Test native soil annually; compost alone can leave phosphorus and potassium gaps');
+  if (a.soilType === 'large-container') recs.push('Container trees dry fast — water deeply and feed lightly every few weeks in the growing season');
+  if (a.soilType === 'raised-berm') recs.push('Berms shed water quickly — build a shallow basin at the drip line to hold irrigation');
+  if (a.soilType === 'in-ground-native') recs.push('Test native soil before feeding and mulch out to the drip line, keeping mulch off the trunk');
+  if (a.soilType === 'amended-compost' || a.soilType === 'native-compost') recs.push('Test native soil annually; compost alone can leave phosphorus and potassium gaps');
   if (a.soilType === 'no-soil') recs.push('Soilless media need a complete nutrient solution including calcium and magnesium');
 
   if (typeof pH === 'number') {
