@@ -28,7 +28,20 @@ const LocationStep = ({ data, onUpdate }: LocationStepProps) => {
     { value: 'no-soil', label: 'No Soil', description: 'Coco coir, rockwool, clay pebbles', icon: HelpCircle, tile: 'from-cyan-100 to-sky-200', color: 'text-cyan-700', accent: 'bg-cyan-500', ring: 'ring-cyan-400 border-cyan-400' },
   ];
 
-  const soilTypes = data.planType === 'garden' ? gardenSoilTypes : lawnSoilTypes;
+  const treeSoilTypes = [
+    { value: 'in-ground-native', label: 'In-Ground / Native Soil', description: 'Tree planted directly in yard or garden soil', icon: Sprout, tile: 'from-emerald-100 to-green-200', color: 'text-emerald-700', accent: 'bg-emerald-500', ring: 'ring-emerald-400 border-emerald-400' },
+    { value: 'raised-berm', label: 'Raised Bed or Berm', description: 'Mounded or raised planting area', icon: Layers, tile: 'from-amber-100 to-orange-200', color: 'text-amber-700', accent: 'bg-amber-500', ring: 'ring-amber-400 border-amber-400' },
+    { value: 'large-container', label: 'Large Container or Pot', description: 'Patio, potted, or container-grown tree', icon: Waves, tile: 'from-rose-100 to-pink-200', color: 'text-rose-700', accent: 'bg-rose-500', ring: 'ring-rose-400 border-rose-400' },
+    { value: 'amended-compost', label: 'Amended Soil + Compost', description: 'Native soil mixed with compost or organic matter', icon: Trees, tile: 'from-lime-100 to-emerald-200', color: 'text-lime-700', accent: 'bg-lime-500', ring: 'ring-lime-400 border-lime-400' },
+    { value: 'unknown', label: 'Not Sure', description: "I'll figure it out or check later", icon: HelpCircle, tile: 'from-gray-100 to-slate-200', color: 'text-gray-600', accent: 'bg-gray-500', ring: 'ring-gray-400 border-gray-400' },
+  ];
+
+  const soilTypes =
+    data.planType === 'garden'
+      ? data.plantType === 'trees'
+        ? treeSoilTypes
+        : gardenSoilTypes
+      : lawnSoilTypes;
 
   return (
     <div className="space-y-10 px-4 max-w-5xl mx-auto">

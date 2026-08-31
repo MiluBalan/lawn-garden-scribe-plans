@@ -21,7 +21,7 @@ const plantTypes = [
   },
   {
     value: 'vegetables-fruits',
-    label: 'Vegetables / Fruits',
+    label: 'Vegetables & Fruits',
     description: 'Fresh produce, berries and edible harvests',
     icon: Carrot,
     gradient: 'from-orange-50 via-white to-amber-50/40',
