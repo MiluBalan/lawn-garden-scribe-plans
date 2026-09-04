@@ -4,12 +4,13 @@ import { Check, ArrowLeft, Sprout, Leaf, Trees, Package } from "lucide-react";
 import EnterpriseCard from "./EnterpriseCard";
 import { useEffect, useState } from "react";
 import {
-  PLANT_TYPE_MAP,
-  parseGardenDescription,
-  normalizeTag,
+  parseGardenSellingPlanDescription,
+  matchesGardenSellingPlan,
   groupGardenSubscriptionPlans,
   getProductQuantityMultiplier,
 } from "@/lib/garden";
+import { GROWING_SETUP_OPTIONS } from "./GardenSizeStep";
+import { VARIETIES_BY_PLANT_TYPE } from "./PlantVarietyStep";
 import type {
   IGardenProduct,
   IGardenSubscriptionPlan,
@@ -147,46 +148,37 @@ export default function GardenSubscriptionPlans({
           );
         });
 
-        const userPlantType = PLANT_TYPE_MAP[gardenData?.plantType] || "";
-        const userSize = gardenData?.gardenSize || "";
+        const growingSetupOption = GROWING_SETUP_OPTIONS.find(
+          (option) => option.value === gardenData?.growingSetup,
+        );
+        const varietyOption = VARIETIES_BY_PLANT_TYPE[
+          gardenData?.plantType
+        ]?.options.find((option) => option.value === gardenData?.plantSubtype);
 
-        const normalizedUserPlantType = normalizeTag(userPlantType);
-        const normalizedUserSize = normalizeTag(userSize);
+        const matchInput = {
+          growingSetup: gardenData?.growingSetup,
+          growingSetupLabel: growingSetupOption?.label,
+          plantType: gardenData?.plantType,
+          plantSubtype: gardenData?.plantSubtype,
+          plantSubtypeLabel: varietyOption?.label,
+          gardenStage: gardenData?.gardenStage,
+        };
 
-        console.log("🔍 Garden subscription filter:", {
-          selectedPlantType: gardenData?.plantType,
-          selectedGardenSize: gardenData?.gardenSize,
-          resolvedPlantType: userPlantType,
-          resolvedGardenSize: userSize,
-          normalizedPlantType: normalizedUserPlantType,
-          normalizedSize: normalizedUserSize,
-        });
+        console.log("🔍 Garden subscription match input (user's choices):", matchInput);
 
         const filtered = extracted
           .filter((product) => {
             if (product.price <= 0) return false;
 
-            const parsed = parseGardenDescription(product.description);
-            if (!parsed) return false;
+            const parsed = parseGardenSellingPlanDescription(product.description);
+            const matched = parsed ? matchesGardenSellingPlan(parsed, matchInput) : false;
 
-            const normalizedApiPlantType = normalizeTag(parsed.plantType);
-            const normalizedApiSize = normalizeTag(parsed.sizeRange);
-
-            console.log("  ├─ Product:", {
-              name: product.planName,
+            console.log(matched ? "  ✅ match" : "  ✗ no match", {
               description: product.description,
-              parsedPlantType: parsed.plantType,
-              parsedSizeRange: parsed.sizeRange,
-              normalizedApiPlantType,
-              normalizedApiSize,
-              plantMatch: normalizedApiPlantType === normalizedUserPlantType,
-              sizeMatch: normalizedApiSize === normalizedUserSize,
+              parsed,
             });
 
-            return (
-              normalizedApiPlantType === normalizedUserPlantType &&
-              normalizedApiSize === normalizedUserSize
-            );
+            return matched;
           })
           .sort((a, b) => a.discountPercentage - b.discountPercentage);
 
