@@ -36,8 +36,15 @@ import {
   label,
   getStageActions,
   getFeedingPlan,
-  getGardenRecommendations,
+  getGardenRecommendationGroups,
 } from '@/lib/gardenReport';
+
+const RECOMMENDATION_THEMES: Record<string, { icon: typeof Leaf; tile: string; color: string }> = {
+  plants: { icon: Sprout, tile: 'from-emerald-50 to-green-100', color: 'text-emerald-700' },
+  setup: { icon: Shovel, tile: 'from-amber-50 to-orange-100', color: 'text-amber-700' },
+  light: { icon: Sun, tile: 'from-yellow-50 to-amber-100', color: 'text-yellow-700' },
+  soil: { icon: Layers, tile: 'from-cyan-50 to-sky-100', color: 'text-cyan-700' },
+};
 
 interface GardenData {
   planType: string;
