@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowLeft, Sprout, Leaf, Trees, Package } from "lucide-react";
 import EnterpriseCard from "./EnterpriseCard";
+import PlanProductList from "./PlanProductList";
 import { useEffect, useState } from "react";
 import {
   parseGardenSellingPlanDescription,
