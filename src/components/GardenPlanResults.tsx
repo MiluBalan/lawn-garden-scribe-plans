@@ -36,8 +36,15 @@ import {
   label,
   getStageActions,
   getFeedingPlan,
-  getGardenRecommendations,
+  getGardenRecommendationGroups,
 } from '@/lib/gardenReport';
+
+const RECOMMENDATION_THEMES: Record<string, { icon: typeof Leaf; tile: string; color: string }> = {
+  plants: { icon: Sprout, tile: 'from-emerald-50 to-green-100', color: 'text-emerald-700' },
+  setup: { icon: Shovel, tile: 'from-amber-50 to-orange-100', color: 'text-amber-700' },
+  light: { icon: Sun, tile: 'from-yellow-50 to-amber-100', color: 'text-yellow-700' },
+  soil: { icon: Layers, tile: 'from-cyan-50 to-sky-100', color: 'text-cyan-700' },
+};
 
 interface GardenData {
   planType: string;
@@ -73,7 +80,7 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
 
   const stageActions = getStageActions(gardenData);
   const feeding = getFeedingPlan(gardenData);
-  const recommendations = getGardenRecommendations(gardenData, soilData?.properties.pH);
+  const recommendationGroups = getGardenRecommendationGroups(gardenData, soilData?.properties.pH);
 
   const summaryItems = [
     {
@@ -344,17 +351,42 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
 
         {/* Key Recommendations */}
         <Card className="mb-8 md:mb-12 border-0 shadow-[var(--shadow-card)] bg-white/90 backdrop-blur rounded-3xl">
-          <CardHeader>
-            <CardTitle className="text-xl md:text-2xl text-center">Key Recommendations</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl md:text-2xl">What To Do Next</CardTitle>
+            <p className="text-muted-foreground mt-2">
+              {recommendationGroups.reduce((n, g) => n + g.items.length, 0)} tips, grouped so you can act on one area at a time
+            </p>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4">
-              {recommendations.map((rec, index) => (
-                <div key={index} className="flex items-start space-x-3 p-4 bg-surface-green rounded-2xl border border-border/60">
-                  <CheckCircle className="h-5 w-5 text-brand mt-0.5 flex-shrink-0" />
-                  <p className="text-foreground/80">{rec}</p>
-                </div>
-              ))}
+            <div className="grid md:grid-cols-2 gap-5">
+              {recommendationGroups.map((group) => {
+                const theme = RECOMMENDATION_THEMES[group.key] ?? RECOMMENDATION_THEMES.plants;
+                const Icon = theme.icon;
+                return (
+                  <div
+                    key={group.key}
+                    className="rounded-2xl border border-border/60 bg-white overflow-hidden transition-shadow hover:shadow-[var(--shadow-card)]"
+                  >
+                    <div className={`flex items-center gap-3 px-5 py-4 bg-gradient-to-r ${theme.tile}`}>
+                      <div className="w-10 h-10 rounded-xl bg-white/80 flex items-center justify-center shadow-inner flex-shrink-0">
+                        <Icon className={`h-5 w-5 ${theme.color}`} />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-semibold text-foreground leading-tight">{group.title}</p>
+                        <p className="text-xs text-foreground/60">{group.subtitle}</p>
+                      </div>
+                    </div>
+                    <ul className="p-5 space-y-3">
+                      {group.items.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <CheckCircle className={`h-4 w-4 mt-1 flex-shrink-0 ${theme.color}`} />
+                          <span className="text-sm md:text-base text-foreground/80 leading-relaxed">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
