@@ -73,7 +73,7 @@ const GardenPlanResults = ({ gardenData, onBackToSteps, onRestart }: GardenPlanR
 
   const stageActions = getStageActions(gardenData);
   const feeding = getFeedingPlan(gardenData);
-  const recommendations = getGardenRecommendations(gardenData, soilData?.properties.pH);
+  const recommendationGroups = getGardenRecommendationGroups(gardenData, soilData?.properties.pH);
 
   const summaryItems = [
     {
