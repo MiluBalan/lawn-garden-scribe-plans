@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowLeft, Leaf, Sprout, Trees, Package } from "lucide-react";
 import EnterpriseCard from "./EnterpriseCard";
+import PlanProductList from "./PlanProductList";
 import { useEffect, useState } from "react";
 import {
   getNumericLawnSize,
@@ -282,29 +283,12 @@ export default function SubscriptionPlans({
                         <h2 className="text-lg font-bold">{plan.name}</h2>
                       </div>
 
-                      {isMultiProduct ? (
-                        <div className="space-y-1 mb-1">
-                          {plan.products.map((p, i) => (
-                            <p
-                              key={i}
-                              className="text-xs font-medium text-gray-700"
-                            >
-                              {p.productTitle}
-                            </p>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="text-xs font-medium text-gray-700 mb-1">
-                          {plan.products[0].productTitle}
-                        </p>
-                      )}
-
-                      <p className="text-xs text-gray-500">
-                        {plan.description}
-                      </p>
+                      <div className="mb-2">
+                        <PlanProductList products={plan.products} />
+                      </div>
 
                       {isMultiProduct && (
-                        <div className="flex items-center gap-1 mt-2 text-xs text-gray-400">
+                        <div className="flex items-center gap-1 text-xs text-gray-400">
                           <Package className="h-3 w-3" />
                           <span>Contains {productCount} products</span>
                         </div>
