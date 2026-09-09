@@ -228,3 +228,37 @@ export function getGardenRecommendations(a: GardenAnswers, pH?: number): string[
   recs.push('Apply 2-3 inches of mulch to hold moisture and steady root-zone temperature');
   return recs;
 }
+
+export interface RecommendationGroup {
+  key: string;
+  title: string;
+  subtitle: string;
+  items: string[];
+}
+
+/** Same recommendations, grouped into readable themes for the report page. */
+export function getGardenRecommendationGroups(a: GardenAnswers, pH?: number): RecommendationGroup[] {
+  const all = getGardenRecommendations(a, pH);
+
+  const groups: RecommendationGroup[] = [
+    { key: 'plants', title: 'Your plants', subtitle: 'Care specific to what you are growing', items: [] },
+    { key: 'setup', title: 'Your growing space', subtitle: 'Getting the most from your setup', items: [] },
+    { key: 'light', title: 'Light & water', subtitle: 'Balancing sun exposure and moisture', items: [] },
+    { key: 'soil', title: 'Soil & nutrition', subtitle: 'Feeding the root zone', items: [] },
+  ];
+  const g = (k: string) => groups.find((x) => x.key === k)!;
+
+  const lightWords = /(sun|shade|water|mulch|moisture|irrigat)/i;
+  const soilWords = /(soil|pH|compost|nutrient|potting|mix|reservoir|media|fertil)/i;
+  const setupWords = /(bed|container|pot|greenhouse|tunnel|frame|tier|reservoir|vent|drip irrigation)/i;
+
+  all.forEach((rec, i) => {
+    if (i === 0) return g('plants').items.push(rec);
+    if (soilWords.test(rec)) return g('soil').items.push(rec);
+    if (lightWords.test(rec)) return g('light').items.push(rec);
+    if (setupWords.test(rec)) return g('setup').items.push(rec);
+    g('plants').items.push(rec);
+  });
+
+  return groups.filter((grp) => grp.items.length > 0);
+}
