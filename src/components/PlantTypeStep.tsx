@@ -88,10 +88,18 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
                 <div className={`w-24 h-24 bg-gradient-to-br ${plant.tile} rounded-2xl flex items-center justify-center mb-5 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
                   <Icon className={`h-12 w-12 ${plant.iconColor}`} />
                 </div>
-                <span className="flex items-center justify-center text-center leading-tight min-h-[3.75rem] px-1 text-xl md:text-2xl font-bold text-gray-900">
+                <span
+                  className="flex items-center justify-center text-center leading-tight min-h-[3.75rem] px-1 text-xl md:text-2xl font-bold text-gray-900"
+                  style={{ textWrap: 'balance' }}
+                >
                   {plant.label}
                 </span>
-                <span className="flex items-start justify-center text-center text-gray-600 mt-2 text-sm min-h-[2.5rem] px-1">{plant.description}</span>
+                <span
+                  className="flex items-start justify-center text-center text-gray-600 mt-2 text-sm min-h-[2.5rem] px-1"
+                  style={{ textWrap: 'balance' }}
+                >
+                  {plant.description}
+                </span>
               </Label>
             </div>
           );
