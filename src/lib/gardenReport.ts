@@ -93,11 +93,11 @@ export function getStageActions(a: GardenAnswers): { title: string; steps: strin
           `Confirm drainage and pH suit ${variety} before transplanting`,
         ],
       };
-    case 'just-planted':
+    case 'seeds':
       return {
-        title: 'First Stage — keep it consistent',
+        title: 'Germination Phase — keep it consistent',
         steps: [
-          'Keep the top inch evenly moist — light, frequent watering beats deep soaking',
+          'Keep the surface evenly moist — light misting beats deep soaking',
           'Hold off on strong fertilizer; use a diluted starter at 1/4 strength only',
           'Maintain warmth and airflow to prevent damping-off',
           'Thin seedlings once true leaves appear to reduce competition',
@@ -111,6 +111,17 @@ export function getStageActions(a: GardenAnswers): { title: string; steps: strin
           'Apply a root-focused biostimulant every 2 weeks for the first 6 weeks',
           'Mulch lightly, keeping material off stems and trunks',
           `Shelter young ${variety} from wind and midday heat for the first 10-14 days`,
+        ],
+      };
+    case 'flowering-fruiting':
+      return {
+        title: 'Flowering & Fruiting Phase — feed the harvest',
+        steps: [
+          'Shift to a higher-potassium feed and ease off nitrogen to favour blooms and fruit',
+          'Feed every 10-14 days through the production window and keep doses consistent',
+          'Remove spent blooms regularly and support pollination where possible',
+          `Support ${variety} with staking or trellising as fruit sets and adds weight`,
+          'Keep moisture steady — swings drive blossom drop, fruit cracking and early drop',
         ],
       };
     case 'established-growing':
