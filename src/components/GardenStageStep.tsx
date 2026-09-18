@@ -99,14 +99,18 @@ const GardenStageStep = ({ data, onUpdate }: GardenStageStepProps) => {
                 <div className={`absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${isSelected ? `${option.accent} scale-100 opacity-100` : 'scale-0 opacity-0'}`}>
                   <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${option.tile} flex items-center justify-center shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 flex-shrink-0`}>
-                    <Icon className={`h-7 w-7 ${option.color}`} />
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-4">
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${option.tile} flex items-center justify-center shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 flex-shrink-0`}>
+                      <Icon className={`h-7 w-7 ${option.color}`} />
+                    </div>
+                    <h4 className="flex-1 pr-6 font-semibold text-gray-900 leading-tight" style={{ textWrap: 'balance' }}>
+                      {option.label}
+                    </h4>
                   </div>
-                  <div className="flex-1 pr-6">
-                    <h4 className="font-semibold text-gray-900">{option.label}</h4>
-                    <p className="text-gray-600 text-sm">{option.description}</p>
-                  </div>
+                  <p className="text-gray-600 text-sm leading-snug" style={{ textWrap: 'pretty' }}>
+                    {option.description}
+                  </p>
                 </div>
               </CardContent>
             </Card>
