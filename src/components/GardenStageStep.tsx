@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Check, Shovel, Sprout, Leaf, TreeDeciduous } from 'lucide-react';
+import { Check, Shovel, Sprout, Leaf, TreeDeciduous, Flower2 } from 'lucide-react';
 
 interface GardenStageStepProps {
   data: any;
@@ -9,8 +9,8 @@ interface GardenStageStepProps {
 const stageOptions = [
   {
     value: 'preparing',
-    label: "I'm preparing to plant or repot",
-    description: 'Getting the soil and growing environment ready',
+    label: 'Preparing to Plant',
+    description: 'Getting soil or growing media ready',
     icon: Shovel,
     tile: 'from-amber-100 to-orange-200',
     color: 'text-amber-700',
@@ -18,9 +18,9 @@ const stageOptions = [
     ring: 'ring-amber-400 border-amber-400',
   },
   {
-    value: 'just-planted',
-    label: 'I just planted, seeded, or repotted',
-    description: 'Helping plants through their first stage',
+    value: 'seeds',
+    label: 'Seeds & Germination',
+    description: 'Starting seeds and supporting early germination',
     icon: Sprout,
     tile: 'from-emerald-100 to-green-200',
     color: 'text-emerald-700',
@@ -29,8 +29,8 @@ const stageOptions = [
   },
   {
     value: 'establishing',
-    label: 'My plants are newly planted and establishing',
-    description: 'Supporting root development and early growth',
+    label: 'Newly Planted & Establishing',
+    description: 'Young plants, transplants and saplings developing roots',
     icon: Leaf,
     tile: 'from-lime-100 to-emerald-200',
     color: 'text-lime-700',
@@ -39,13 +39,23 @@ const stageOptions = [
   },
   {
     value: 'established-growing',
-    label: 'My plants are established and actively growing',
-    description: 'Regular nutrition for healthy growth and flowering',
+    label: 'Established & Actively Growing',
+    description: 'Regular nutrition for healthy growth',
     icon: TreeDeciduous,
     tile: 'from-sky-100 to-emerald-200',
     color: 'text-sky-700',
     accent: 'bg-sky-500',
     ring: 'ring-sky-400 border-sky-400',
+  },
+  {
+    value: 'flowering-fruiting',
+    label: 'Flowering & Fruiting',
+    description: 'Supporting blooms, fruit development and production',
+    icon: Flower2,
+    tile: 'from-pink-100 to-rose-200',
+    color: 'text-rose-700',
+    accent: 'bg-rose-500',
+    ring: 'ring-rose-400 border-rose-400',
   },
 ];
 
@@ -73,14 +83,14 @@ const GardenStageStep = ({ data, onUpdate }: GardenStageStepProps) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         {stageOptions.map((option) => {
           const Icon = option.icon;
           const isSelected = data.gardenStage === option.value;
           return (
             <Card
               key={option.value}
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ring-2 ring-transparent rounded-2xl overflow-hidden ${
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ring-2 ring-transparent rounded-2xl overflow-hidden w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.7rem)] ${
                 isSelected ? `bg-gradient-to-br from-white to-gray-50 ${option.ring}` : 'border-gray-200 hover:border-gray-300'
               }`}
               onClick={() => onUpdate({ gardenStage: option.value })}

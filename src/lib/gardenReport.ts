@@ -21,9 +21,9 @@ export const SETUP_LABELS: Record<string, string> = {
 };
 
 export const PLANT_TYPE_LABELS: Record<string, string> = {
-  flowers: 'Flowers',
-  'vegetables-fruits': 'Vegetables & Fruits',
-  trees: 'Trees',
+  flowers: 'Flowers & Ornamentals',
+  'vegetables-fruits': 'Vegetables, Herbs & Fruits',
+  trees: 'Trees, Shrubs & Bushes',
 };
 
 export const VARIETY_LABELS: Record<string, string> = {
@@ -46,10 +46,12 @@ export const VARIETY_LABELS: Record<string, string> = {
 };
 
 export const STAGE_LABELS: Record<string, string> = {
-  preparing: 'Preparing to plant or repot',
-  'just-planted': 'Just planted, seeded, or repotted',
-  establishing: 'Newly planted and establishing',
-  'established-growing': 'Established and actively growing',
+  preparing: 'Preparing to Plant',
+  seeds: 'Seeds & Germination',
+  'just-planted': 'Seeds & Germination',
+  establishing: 'Newly Planted & Establishing',
+  'established-growing': 'Established & Actively Growing',
+  'flowering-fruiting': 'Flowering & Fruiting',
 };
 
 export const SUNLIGHT_LABELS: Record<string, string> = {
