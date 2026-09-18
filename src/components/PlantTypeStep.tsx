@@ -80,7 +80,7 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
               <RadioGroupItem value={plant.value} id={plant.value} className="peer sr-only" />
               <Label
                 htmlFor={plant.value}
-                className={`group relative flex flex-col items-center justify-center w-full rounded-2xl cursor-pointer overflow-hidden bg-gradient-to-br ${plant.gradient} border-2 border-gray-200 ring-2 ring-transparent ${plant.ring} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-10 min-h-[240px]`}
+                className={`group relative flex flex-col items-center w-full rounded-2xl cursor-pointer overflow-hidden bg-gradient-to-br ${plant.gradient} border-2 border-gray-200 ring-2 ring-transparent ${plant.ring} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-10 min-h-[240px]`}
               >
                 <div className={`absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${isSelected ? `${plant.accent} scale-100 opacity-100` : 'scale-0 opacity-0'}`}>
                   <Check className="h-4 w-4 text-white" strokeWidth={3} />
