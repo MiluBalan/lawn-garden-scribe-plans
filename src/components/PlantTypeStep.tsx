@@ -80,7 +80,7 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
               <RadioGroupItem value={plant.value} id={plant.value} className="peer sr-only" />
               <Label
                 htmlFor={plant.value}
-                className={`group relative flex flex-col items-center justify-center w-full rounded-2xl cursor-pointer overflow-hidden bg-gradient-to-br ${plant.gradient} border-2 border-gray-200 ring-2 ring-transparent ${plant.ring} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-10 min-h-[240px]`}
+                className={`group relative flex flex-col items-center w-full rounded-2xl cursor-pointer overflow-hidden bg-gradient-to-br ${plant.gradient} border-2 border-gray-200 ring-2 ring-transparent ${plant.ring} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-10 min-h-[240px]`}
               >
                 <div className={`absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${isSelected ? `${plant.accent} scale-100 opacity-100` : 'scale-0 opacity-0'}`}>
                   <Check className="h-4 w-4 text-white" strokeWidth={3} />
@@ -88,8 +88,18 @@ const PlantTypeStep = ({ selectedType, onTypeChange }: PlantTypeStepProps) => {
                 <div className={`w-24 h-24 bg-gradient-to-br ${plant.tile} rounded-2xl flex items-center justify-center mb-5 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>
                   <Icon className={`h-12 w-12 ${plant.iconColor}`} />
                 </div>
-                <span className="text-2xl font-bold text-gray-900">{plant.label}</span>
-                <span className="text-gray-600 text-center mt-2 text-sm">{plant.description}</span>
+                <span
+                  className="flex items-center justify-center text-center leading-tight min-h-[3.75rem] px-1 text-xl md:text-2xl font-bold text-gray-900"
+                  style={{ textWrap: 'balance' }}
+                >
+                  {plant.label}
+                </span>
+                <span
+                  className="flex items-start justify-center text-center text-gray-600 mt-2 text-sm min-h-[2.5rem] px-1"
+                  style={{ textWrap: 'balance' }}
+                >
+                  {plant.description}
+                </span>
               </Label>
             </div>
           );
