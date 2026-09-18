@@ -90,12 +90,12 @@ const GardenStageStep = ({ data, onUpdate }: GardenStageStepProps) => {
           return (
             <Card
               key={option.value}
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ring-2 ring-transparent rounded-2xl overflow-hidden w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.7rem)] ${
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-2 ring-2 ring-transparent rounded-2xl overflow-hidden flex flex-col w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.7rem)] ${
                 isSelected ? `bg-gradient-to-br from-white to-gray-50 ${option.ring}` : 'border-gray-200 hover:border-gray-300'
               }`}
               onClick={() => onUpdate({ gardenStage: option.value })}
             >
-              <CardContent className="p-5 relative">
+              <CardContent className="p-5 relative flex-1">
                 <div className={`absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${isSelected ? `${option.accent} scale-100 opacity-100` : 'scale-0 opacity-0'}`}>
                   <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
                 </div>
