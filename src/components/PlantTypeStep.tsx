@@ -10,8 +10,8 @@ interface PlantTypeStepProps {
 const plantTypes = [
   {
     value: 'flowers',
-    label: 'Flowers',
-    description: 'Beautiful blooms and ornamental plants',
+    label: 'Flowers & Ornamentals',
+    description: 'Beautiful blooms, indoor plants and ornamental foliage',
     icon: Flower,
     gradient: 'from-pink-50 via-white to-rose-50/40',
     tile: 'from-pink-100 to-rose-200',
@@ -21,8 +21,8 @@ const plantTypes = [
   },
   {
     value: 'vegetables-fruits',
-    label: 'Vegetables & Fruits',
-    description: 'Fresh produce, berries and edible harvests',
+    label: 'Vegetables, Herbs & Fruits',
+    description: 'Fresh produce, herbs, berries and edible harvests',
     icon: Carrot,
     gradient: 'from-orange-50 via-white to-amber-50/40',
     tile: 'from-orange-100 to-amber-200',
@@ -32,8 +32,8 @@ const plantTypes = [
   },
   {
     value: 'trees',
-    label: 'Trees',
-    description: 'Shade, citrus and ornamental trees',
+    label: 'Trees, Shrubs & Bushes',
+    description: 'Shade, citrus, ornamental trees and shrubs',
     icon: Trees,
     gradient: 'from-emerald-50 via-white to-green-50/40',
     tile: 'from-emerald-100 to-green-200',

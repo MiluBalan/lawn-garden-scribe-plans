@@ -54,8 +54,12 @@ const PLANT_TYPE_DESCRIPTION_TOKENS: Record<string, string> = {
   trees: "Trees",
 };
 
-const INITIAL_GARDEN_STAGES = new Set(["preparing", "just-planted"]);
-const SECONDARY_GARDEN_STAGES = new Set(["establishing", "established-growing"]);
+const INITIAL_GARDEN_STAGES = new Set(["preparing", "seeds", "just-planted"]);
+const SECONDARY_GARDEN_STAGES = new Set([
+  "establishing",
+  "established-growing",
+  "flowering-fruiting",
+]);
 
 function normalizeGardenToken(value?: string): string {
   return (value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
