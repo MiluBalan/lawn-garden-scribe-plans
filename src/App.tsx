@@ -13,6 +13,14 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+  const [questionnaireKey, setQuestionnaireKey] = useState(0);
+
+  const startPlan = () => {
+    setQuestionnaireKey((k) => k + 1);
+    setShowQuestionnaire(true);
+    window.scrollTo(0, 0);
+  };
+
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -20,13 +28,16 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Header onStartPlan={() => setShowQuestionnaire(true)} />
+          <Header onStartPlan={startPlan} />
           <main className="pt-16">
             {showQuestionnaire ? (
-              <LawnQuestionnaire onBack={() => setShowQuestionnaire(false)} />
+              <LawnQuestionnaire
+                key={questionnaireKey}
+                onBack={() => setShowQuestionnaire(false)}
+              />
             ) : (
               <Routes>
-                <Route path="/" element={<Index onStartPlan={() => setShowQuestionnaire(true)} />} />
+                <Route path="/" element={<Index onStartPlan={startPlan} />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             )}

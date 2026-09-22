@@ -29,7 +29,6 @@ const Header = ({ onStartPlan }: HeaderProps) => {
   };
 
   const navLinks = [
-    { label: 'Custom Plan', onClick: () => { onStartPlan?.(); setMobileOpen(false); } },
     { label: 'Shop', onClick: () => { handleShopClick(); setMobileOpen(false); } },
     { label: 'Contact Us', onClick: () => { handleContactClick(); setMobileOpen(false); } },
   ];
