@@ -13,6 +13,14 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [showQuestionnaire, setShowQuestionnaire] = useState(false);
+  const [questionnaireKey, setQuestionnaireKey] = useState(0);
+
+  const startPlan = () => {
+    setQuestionnaireKey((k) => k + 1);
+    setShowQuestionnaire(true);
+    window.scrollTo(0, 0);
+  };
+
 
   return (
     <QueryClientProvider client={queryClient}>
