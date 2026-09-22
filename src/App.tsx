@@ -28,13 +28,16 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Header onStartPlan={() => setShowQuestionnaire(true)} />
+          <Header onStartPlan={startPlan} />
           <main className="pt-16">
             {showQuestionnaire ? (
-              <LawnQuestionnaire onBack={() => setShowQuestionnaire(false)} />
+              <LawnQuestionnaire
+                key={questionnaireKey}
+                onBack={() => setShowQuestionnaire(false)}
+              />
             ) : (
               <Routes>
-                <Route path="/" element={<Index onStartPlan={() => setShowQuestionnaire(true)} />} />
+                <Route path="/" element={<Index onStartPlan={startPlan} />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             )}
