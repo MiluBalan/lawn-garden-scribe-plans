@@ -92,7 +92,7 @@ export default function SubscriptionPlans({
     let cancelled = false;
 
     fetch(
-      "https://api.dev.anarix.ai/api/integrations/shopify/subscription-products",
+      "https://api.dev.anarix.ai/api/integrations/shopify/lawn-subscription-products",
     )
       .then((res) => res.json())
       .then((res) => {
@@ -158,7 +158,10 @@ export default function SubscriptionPlans({
 
         // Only lawn plans that advertise a parseable size bucket.
         const lawnProducts = extracted
-          .map((p) => ({ product: p, bucket: parseLawnSizeBucket(p.description) }))
+          .map((p) => ({
+            product: p,
+            bucket: parseLawnSizeBucket(p.description),
+          }))
           .filter((entry) => entry.bucket !== null && entry.product.price > 0);
 
         const bucket = selectLawnSizeBucket(
@@ -296,7 +299,9 @@ export default function SubscriptionPlans({
                     </div>
 
                     <div className="mb-4">
-                      <span className={`text-4xl font-bold ${tier.colors.text}`}>
+                      <span
+                        className={`text-4xl font-bold ${tier.colors.text}`}
+                      >
                         ${plan.totalPrice.toFixed(2)}
                       </span>
                       {!isMultiProduct && plan.products[0].multiplier > 1 && (

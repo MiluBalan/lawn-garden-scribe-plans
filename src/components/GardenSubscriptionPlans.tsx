@@ -162,7 +162,6 @@ export default function GardenSubscriptionPlans({
           plantType: gardenData?.plantType,
           plantSubtype: gardenData?.plantSubtype,
           plantSubtypeLabel: varietyOption?.label,
-          gardenStage: gardenData?.gardenStage,
         };
 
         console.log("🔍 Garden subscription match input (user's choices):", matchInput);

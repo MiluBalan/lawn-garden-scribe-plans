@@ -38,14 +38,13 @@ export const GARDEN_SIZE_DISPLAY: Record<string, string> = {
   "extra-large": "20,000 – 25,000 sq ft",
 };
 
-// Selling plan descriptions follow "<GrowingSetup>-<PlantType>-<Variety>-<Stage>",
-// e.g. "Hydroponics-Flowers-IndoorFlowering-InitialStage" or "Null-Trees-CitrusTrees-Secondary".
+// Selling plan descriptions follow "<GrowingSetup>-<PlantType>-<Variety>",
+// e.g. "Hydroponics-Flowers-IndoorFlowering" or "Null-Trees-CitrusTrees".
 // "Null" for GrowingSetup means that dimension is a wildcard for the plan.
 export interface GardenSellingPlanDescription {
   growingSetup: string;
   plantType: string;
   variety: string;
-  stage: string;
 }
 
 const PLANT_TYPE_DESCRIPTION_TOKENS: Record<string, string> = {
@@ -53,13 +52,6 @@ const PLANT_TYPE_DESCRIPTION_TOKENS: Record<string, string> = {
   "vegetables-fruits": "Vegetables&Fruits",
   trees: "Trees",
 };
-
-const INITIAL_GARDEN_STAGES = new Set(["preparing", "seeds", "just-planted"]);
-const SECONDARY_GARDEN_STAGES = new Set([
-  "establishing",
-  "established-growing",
-  "flowering-fruiting",
-]);
 
 function normalizeGardenToken(value?: string): string {
   return (value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -87,12 +79,12 @@ function gardenTokenMatches(apiSegment: string, ...candidates: (string | undefin
 export function parseGardenSellingPlanDescription(description: string): GardenSellingPlanDescription | null {
   const allParts = (description || "").split("-");
   // Descriptions carry a leading "Garden-" prefix (needed for the API call) before
-  // the actual "<GrowingSetup>-<PlantType>-<Variety>-<Stage>" segments.
+  // the actual "<GrowingSetup>-<PlantType>-<Variety>" segments.
   const parts = allParts[0] === "Garden" ? allParts.slice(1) : allParts;
-  if (parts.length !== 4) return null;
+  if (parts.length !== 3) return null;
 
-  const [growingSetup, plantType, variety, stage] = parts;
-  return { growingSetup, plantType, variety, stage };
+  const [growingSetup, plantType, variety] = parts;
+  return { growingSetup, plantType, variety };
 }
 
 export interface GardenSellingPlanMatchInput {
@@ -101,7 +93,6 @@ export interface GardenSellingPlanMatchInput {
   plantType?: string;
   plantSubtype?: string;
   plantSubtypeLabel?: string;
-  gardenStage?: string;
 }
 
 export function matchesGardenSellingPlan(
@@ -121,17 +112,7 @@ export function matchesGardenSellingPlan(
     return false;
   }
 
-  if (!gardenTokenMatches(parsed.variety, gardenData.plantSubtype, gardenData.plantSubtypeLabel)) {
-    return false;
-  }
-
-  if (INITIAL_GARDEN_STAGES.has(gardenData.gardenStage || "")) {
-    return normalizeGardenToken(parsed.stage) === "initialstage";
-  }
-  if (SECONDARY_GARDEN_STAGES.has(gardenData.gardenStage || "")) {
-    return normalizeGardenToken(parsed.stage) === "secondary";
-  }
-  return false;
+  return gardenTokenMatches(parsed.variety, gardenData.plantSubtype, gardenData.plantSubtypeLabel);
 }
 
 export function getProductQuantityMultiplier(productName: string): number {
