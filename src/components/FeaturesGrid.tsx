@@ -1,64 +1,68 @@
-import { Card, CardContent } from '@/components/ui/card';
-import featureGrass from '@/assets/feature-grass-type.png';
-import featureLocation from '@/assets/feature-location.png';
-import featureProblems from '@/assets/feature-problems.png';
-import featureWatering from '@/assets/feature-watering.png';
+import { Sprout, MapPin, ShieldCheck, Droplets } from 'lucide-react';
 
 const features = [
   {
-    image: featureGrass,
+    icon: Sprout,
     title: 'Grass Type Analysis',
-    description: 'Identify your grass type for targeted care recommendations',
-    gradient: 'from-emerald-50 via-white to-emerald-50/40',
-    tileBg: 'bg-gradient-to-br from-emerald-100 to-emerald-200',
-    ring: 'group-hover:ring-emerald-300/60',
+    description: "Understand your lawn's specific needs for better, organic growth.",
+    iconBg: 'bg-gradient-to-br from-emerald-100/80 to-emerald-50/40 ring-emerald-100/80',
+    iconColor: 'text-emerald-600',
+    hoverBg: 'group-hover:bg-emerald-600',
+    hoverColor: 'group-hover:text-white',
+    hoverBorder: 'hover:border-emerald-200/70',
+    glow: 'group-hover:shadow-emerald-200/40',
   },
   {
-    image: featureLocation,
+    icon: MapPin,
     title: 'Location Based',
-    description: 'Climate-specific recommendations for your region',
-    gradient: 'from-sky-50 via-white to-sky-50/40',
-    tileBg: 'bg-gradient-to-br from-sky-100 to-sky-200',
-    ring: 'group-hover:ring-sky-300/60',
+    description: 'Get customized nutrient blends tailored to your local soil composition.',
+    iconBg: 'bg-gradient-to-br from-sky-100/80 to-sky-50/40 ring-sky-100/80',
+    iconColor: 'text-[#0c8aeb]',
+    hoverBg: 'group-hover:bg-[#0c8aeb]',
+    hoverColor: 'group-hover:text-white',
+    hoverBorder: 'hover:border-sky-200/70',
+    glow: 'group-hover:shadow-sky-200/40',
   },
   {
-    image: featureProblems,
+    icon: ShieldCheck,
     title: 'Problem Areas',
-    description: 'Target weeds, pests, and disease issues effectively',
-    gradient: 'from-amber-50 via-white to-amber-50/40',
-    tileBg: 'bg-gradient-to-br from-amber-100 to-amber-200',
-    ring: 'group-hover:ring-amber-300/60',
+    description: 'Identify and treat brown spots or weeds with precision organic care.',
+    iconBg: 'bg-gradient-to-br from-emerald-100/80 to-emerald-50/40 ring-emerald-100/80',
+    iconColor: 'text-emerald-600',
+    hoverBg: 'group-hover:bg-emerald-600',
+    hoverColor: 'group-hover:text-white',
+    hoverBorder: 'hover:border-emerald-200/70',
+    glow: 'group-hover:shadow-emerald-200/40',
   },
   {
-    image: featureWatering,
+    icon: Droplets,
     title: 'Watering Schedule',
-    description: 'Optimal watering times and frequency for your lawn',
-    gradient: 'from-cyan-50 via-white to-cyan-50/40',
-    tileBg: 'bg-gradient-to-br from-cyan-100 to-cyan-200',
-    ring: 'group-hover:ring-cyan-300/60',
+    description: 'Smart timing recommendations for optimal hydration and conservation.',
+    iconBg: 'bg-gradient-to-br from-emerald-100/80 to-sky-50/40 ring-emerald-100/60',
+    iconColor: 'text-emerald-600',
+    hoverBg: 'group-hover:bg-emerald-600',
+    hoverColor: 'group-hover:text-white',
+    hoverBorder: 'hover:border-emerald-200/70',
+    glow: 'group-hover:shadow-emerald-200/40',
   },
 ];
 
 const FeaturesGrid = () => {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-24">
       {features.map((feature) => (
-        <Card
+        <div
           key={feature.title}
-          className={`border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br ${feature.gradient} overflow-hidden group ring-2 ring-transparent ${feature.ring} rounded-2xl`}
+          className={`group relative flex flex-col items-center text-center rounded-3xl border border-muted bg-card p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${feature.hoverBorder} ${feature.glow}`}
         >
-          <CardContent className="p-6 text-center">
-            <div className={`w-24 h-24 mx-auto mb-5 rounded-2xl ${feature.tileBg} flex items-center justify-center p-3 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-inner`}>
-              <img
-                src={feature.image}
-                alt={feature.title}
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
-          </CardContent>
-        </Card>
+          <div
+            className={`flex h-16 w-16 items-center justify-center rounded-2xl ring-1 ring-inset backdrop-blur-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] transition-all duration-300 group-hover:scale-105 group-hover:rotate-3 ${feature.iconBg} ${feature.iconColor} ${feature.hoverBg} ${feature.hoverColor}`}
+          >
+            <feature.icon size={32} strokeWidth={2} />
+          </div>
+          <h3 className="mt-6 text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+        </div>
       ))}
     </div>
   );
