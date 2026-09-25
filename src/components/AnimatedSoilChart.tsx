@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import usMapBg from '@/assets/us-map-bg.jpg';
 
 const AnimatedSoilChart = () => {
   const [animatedValues, setAnimatedValues] = useState({ ph: 0, organic: 0, nitrogen: 0 });
