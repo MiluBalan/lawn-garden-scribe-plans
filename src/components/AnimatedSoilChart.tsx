@@ -1,6 +1,4 @@
 import { useEffect, useState, useRef } from 'react';
-import { MapPin } from 'lucide-react';
-import usMapBg from '@/assets/us-map-bg.jpg';
 
 const AnimatedSoilChart = () => {
   const [animatedValues, setAnimatedValues] = useState({ ph: 0, organic: 0, nitrogen: 0 });
@@ -14,7 +12,7 @@ const AnimatedSoilChart = () => {
           if (entry.isIntersecting && !hasAnimated) {
             setHasAnimated(true);
             setTimeout(() => {
-              setAnimatedValues({ ph: 68, organic: 32, nitrogen: 60 });
+              setAnimatedValues({ ph: 85, organic: 62, nitrogen: 78 });
             }, 200);
           }
         });
@@ -29,65 +27,66 @@ const AnimatedSoilChart = () => {
     return () => observer.disconnect();
   }, [hasAnimated]);
 
+  const metrics = [
+    { label: 'Soil pH Balance', value: '6.8 Optimal', width: animatedValues.ph },
+    { label: 'Organic Matter', value: '3.2% Healthy', width: animatedValues.organic },
+    { label: 'Available Nitrogen', value: 'Medium', width: animatedValues.nitrogen },
+  ];
+
   return (
-    <div 
-      ref={chartRef} 
-      className="relative rounded-lg p-6 shadow-md bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: `url(${usMapBg})` }}
+    <div
+      ref={chartRef}
+      className="relative h-full flex flex-col rounded-[1.75rem] bg-emerald-950 p-8 lg:p-10 overflow-hidden"
     >
-      {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-white/20"></div>
-      
-      {/* Content */}
-      <div className="relative z-10">
-      <div className="text-center mb-6">
-        <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-        <h4 className="font-semibold text-gray-900 mb-2">Soil Data Analysis</h4>
-        <p className="text-sm text-gray-600 mb-4">
-          Real soil composition data from your location
-        </p>
-      </div>
-      
-      <div className="space-y-4">
-        <div>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-600">pH Level:</span>
-            <span className="text-sm font-medium">6.8 (Optimal)</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div 
-              className="bg-green-500 h-3 rounded-full transition-all duration-1000 ease-out"
-              style={{ width: `${animatedValues.ph}%` }}
-            ></div>
-          </div>
+      {/* Ambient glows */}
+      <div className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl" />
+
+      <div className="relative z-10 flex h-full flex-col">
+        <div className="mb-6 flex items-end justify-between gap-4">
+          <h4 className="text-lg font-medium text-white">Regional Soil Health Index</h4>
+          <span className="font-mono text-[11px] uppercase tracking-widest text-emerald-400/80">
+            US Soil Data
+          </span>
         </div>
-        
-        <div>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-600">Organic Matter:</span>
-            <span className="text-sm font-medium">3.2%</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div 
-              className="bg-yellow-500 h-3 rounded-full transition-all duration-1000 ease-out delay-200"
-              style={{ width: `${animatedValues.organic}%` }}
-            ></div>
-          </div>
+
+        {/* Map tile */}
+        <div className="relative mb-6 flex aspect-[16/10] w-full items-center justify-center overflow-hidden rounded-2xl border border-emerald-800/80 bg-emerald-900/50">
+          <img
+            src="/us-map.svg"
+            alt="Map of the United States"
+            className="h-full w-full object-contain opacity-40 mix-blend-screen"
+            style={{ filter: 'invert(1) brightness(1.6)' }}
+            loading="lazy"
+          />
+          <span className="absolute inline-flex h-3 w-3 items-center justify-center">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span>
+            <span className="relative inline-flex h-3 w-3 rounded-full border-2 border-white bg-emerald-500 shadow-[0_0_16px_rgba(52,211,153,0.7)]"></span>
+          </span>
         </div>
-        
-        <div>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-600">Nitrogen:</span>
-            <span className="text-sm font-medium">Medium</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div 
-              className="bg-blue-500 h-3 rounded-full transition-all duration-1000 ease-out delay-400"
-              style={{ width: `${animatedValues.nitrogen}%` }}
-            ></div>
-          </div>
+
+        {/* Frosted-glass metric cards */}
+        <div className="mt-auto space-y-3">
+          {metrics.map((metric) => (
+            <div
+              key={metric.label}
+              className="rounded-2xl border border-white/10 bg-white/10 p-4 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.4)] backdrop-blur-md"
+            >
+              <div className="mb-2 flex items-center justify-between gap-3 text-sm">
+                <span className="text-[11px] font-medium uppercase tracking-widest text-emerald-100/70">
+                  {metric.label}
+                </span>
+                <span className="font-semibold text-white">{metric.value}</span>
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-emerald-900/80">
+                <div
+                  className="h-full rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)] transition-all duration-1000 ease-out"
+                  style={{ width: `${metric.width}%` }}
+                ></div>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
       </div>
     </div>
   );
