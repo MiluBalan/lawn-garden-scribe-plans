@@ -54,10 +54,10 @@ const AnimatedSoilChart = () => {
         {/* Map tile */}
         <div className="relative mb-6 flex aspect-[16/10] w-full items-center justify-center overflow-hidden rounded-2xl border border-emerald-800/80 bg-emerald-900/50">
           <img
-            src="/us-map.svg"
+            src={usMapBg}
             alt="Map of the United States"
-            className="h-full w-full object-contain opacity-40 mix-blend-screen"
-            style={{ filter: 'invert(1) brightness(1.6)' }}
+            className="h-full w-full object-cover opacity-50 mix-blend-screen"
+            style={{ filter: 'invert(1) brightness(1.4) contrast(1.1)' }}
             loading="lazy"
           />
           <span className="absolute inline-flex h-3 w-3 items-center justify-center">
