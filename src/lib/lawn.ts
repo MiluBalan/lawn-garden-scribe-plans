@@ -170,51 +170,60 @@ export interface IPlanVariant {
   price: number;
 }
 
+// Shopify's default handle: lowercase, strip anything but letters/digits/space/hyphen,
+// then collapse whitespace/hyphen runs into a single hyphen.
+function slugifyProductTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/[\s-]+/g, "-");
+}
+
 /**
  * Seal plans can be attached to specific variants (e.g. only 250 ml).
  * The subscription feed doesn't say which, so read the public storefront
  * product JSON and map each selling plan → a variant that accepts it.
+ *
+ * Some bundle SKUs that carry these plans (e.g. "x 2 Bottles") are hidden
+ * from `/products.json` and collection listings even though they're live
+ * and directly reachable by handle, so we derive the handle from the
+ * product title instead of depending on that listing.
+ *
  * Keep unavailable allocations too: Shopify still exposes the authoritative
  * plan-to-variant relationship for sold-out products, and dropping those
  * allocations causes the cart to receive an incompatible fallback variant.
  */
 export async function fetchSellingPlanVariants(
-  productIds: string[],
+  products: { id: string; title: string }[],
 ): Promise<Record<string, IPlanVariant>> {
   const result: Record<string, IPlanVariant> = {};
-  try {
-    const res = await fetch(`${STORE_URL}/products.json?limit=250`);
-    const data = await res.json();
-    const handles = new Map<string, string>();
-    (data?.products || []).forEach((p: any) =>
-      handles.set(String(p.id), p.handle),
-    );
 
-    const unique = Array.from(new Set(productIds));
-    await Promise.all(
-      unique.map(async (id) => {
-        const handle = handles.get(id);
-        if (!handle) return;
-        try {
-          const r = await fetch(`${STORE_URL}/products/${handle}.js`);
-          const product = await r.json();
-          (product?.variants || []).forEach((v: any) => {
-            (v?.selling_plan_allocations || []).forEach((a: any) => {
-              const key = String(a.selling_plan_id);
-              const current = result[key];
-              const shouldUseVariant = !current || v?.available === true;
-              if (shouldUseVariant) {
-                result[key] = { variantId: String(v.id), price: v.price / 100 };
-              }
-            });
+  const uniqueTitles = Array.from(
+    new Map(products.map((p) => [p.id, p.title])).values(),
+  );
+
+  await Promise.all(
+    uniqueTitles.map(async (title) => {
+      const handle = slugifyProductTitle(title);
+      try {
+        const r = await fetch(`${STORE_URL}/products/${handle}.js`);
+        const product = await r.json();
+        (product?.variants || []).forEach((v: any) => {
+          (v?.selling_plan_allocations || []).forEach((a: any) => {
+            const key = String(a.selling_plan_id);
+            const current = result[key];
+            const shouldUseVariant = !current || v?.available === true;
+            if (shouldUseVariant) {
+              result[key] = { variantId: String(v.id), price: v.price / 100 };
+            }
           });
-        } catch {
-          /* ignore single product failures */
-        }
-      }),
-    );
-  } catch {
-    /* fall back to feed variants */
-  }
+        });
+      } catch {
+        /* ignore single product failures */
+      }
+    }),
+  );
+
   return result;
 }

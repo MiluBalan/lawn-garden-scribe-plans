@@ -10,6 +10,7 @@ import {
   groupGardenSubscriptionPlans,
   getProductQuantityMultiplier,
 } from "@/lib/garden";
+import { fetchSellingPlanVariants } from "@/lib/lawn";
 import { GROWING_SETUP_OPTIONS } from "./GardenSizeStep";
 import { VARIETIES_BY_PLANT_TYPE } from "./PlantVarietyStep";
 import type {
@@ -95,8 +96,15 @@ export default function GardenSubscriptionPlans({
       "https://api.dev.anarix.ai/api/integrations/shopify/garden-subscription-products",
     )
       .then((res) => res.json())
-      .then((res) => {
+      .then(async (res) => {
         const edges = res?.data?.data?.products?.edges || [];
+
+        const planVariants = await fetchSellingPlanVariants(
+          edges.map((p: any) => ({
+            id: extractId(p.node.id) as string,
+            title: p.node.title,
+          })),
+        );
 
         const extracted: IGardenProduct[] = edges.flatMap((product: any) => {
           const variant = product.node.variants.edges?.[0]?.node;
@@ -106,7 +114,10 @@ export default function GardenSubscriptionPlans({
 
           return product.node.sellingPlanGroups.edges.flatMap((group: any) =>
             group.node.sellingPlans.edges.map((plan: any) => {
-              const price = Number(variant.price);
+              const planId = extractId(plan.node.id) as string;
+              const linked = planVariants[planId];
+              const variantId = linked?.variantId ?? (extractId(variant.id) as string);
+              const price = linked?.price ?? Number(variant.price);
               const billingInterval =
                 plan.node.billingPolicy?.intervalCount || 1;
               const deliveryInterval =
@@ -136,8 +147,8 @@ export default function GardenSubscriptionPlans({
                 sellingPlanName: plan.node.name,
                 productTitle: product.node.title,
                 description: plan.node.description || "",
-                variantId: extractId(variant.id),
-                sellingPlanId: extractId(plan.node.id),
+                variantId,
+                sellingPlanId: planId,
                 price: finalPrice,
                 multiplier: getProductQuantityMultiplier(product.node.title),
                 deliveries,

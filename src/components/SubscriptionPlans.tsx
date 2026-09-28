@@ -103,7 +103,10 @@ export default function SubscriptionPlans({
         const size = getNumericLawnSize(lawnData?.size);
 
         const planVariants = await fetchSellingPlanVariants(
-          edges.map((p: any) => extractId(p.node.id)),
+          edges.map((p: any) => ({
+            id: extractId(p.node.id),
+            title: p.node.title,
+          })),
         );
         if (cancelled) return;
 
