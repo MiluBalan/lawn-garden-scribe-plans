@@ -10,6 +10,7 @@ import {
   selectLawnSizeBucket,
   groupLawnSubscriptionPlans,
   getProductQuantityMultiplier,
+  fetchSellingPlanVariants,
   type ILawnProduct,
   type ILawnSubscriptionPlan,
 } from "@/lib/lawn";
@@ -95,11 +96,16 @@ export default function SubscriptionPlans({
       "https://api.dev.anarix.ai/api/integrations/shopify/lawn-subscription-products",
     )
       .then((res) => res.json())
-      .then((res) => {
+      .then(async (res) => {
         if (cancelled) return;
 
         const edges = res?.data?.data?.products?.edges || [];
         const size = getNumericLawnSize(lawnData?.size);
+
+        const planVariants = await fetchSellingPlanVariants(
+          edges.map((p: any) => extractId(p.node.id)),
+        );
+        if (cancelled) return;
 
         const extracted: ILawnProduct[] = edges.flatMap((product: any) => {
           const variant = product.node.variants.edges?.[0]?.node;
@@ -108,7 +114,10 @@ export default function SubscriptionPlans({
 
           return product.node.sellingPlanGroups.edges.flatMap((group: any) =>
             group.node.sellingPlans.edges.map((plan: any) => {
-              const price = Number(variant.price);
+              const planId = extractId(plan.node.id);
+              const linked = planVariants[planId];
+              const variantId = linked?.variantId ?? extractId(variant.id);
+              const price = linked?.price ?? Number(variant.price);
               const billingInterval =
                 plan.node.billingPolicy?.intervalCount || 1;
               const deliveryInterval =
@@ -137,8 +146,8 @@ export default function SubscriptionPlans({
                 planName: group.node.name,
                 productTitle: product.node.title,
                 description: plan.node.description || "",
-                variantId: extractId(variant.id),
-                sellingPlanId: extractId(plan.node.id),
+                variantId,
+                sellingPlanId: planId,
                 price: finalPrice,
                 multiplier: getProductQuantityMultiplier(product.node.title),
                 deliveries,
