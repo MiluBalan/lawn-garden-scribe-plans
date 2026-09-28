@@ -173,7 +173,10 @@ export interface IPlanVariant {
 /**
  * Seal plans can be attached to specific variants (e.g. only 250 ml).
  * The subscription feed doesn't say which, so read the public storefront
- * product JSON and map each selling plan → the first variant that accepts it.
+ * product JSON and map each selling plan → a variant that accepts it.
+ * Keep unavailable allocations too: Shopify still exposes the authoritative
+ * plan-to-variant relationship for sold-out products, and dropping those
+ * allocations causes the cart to receive an incompatible fallback variant.
  */
 export async function fetchSellingPlanVariants(
   productIds: string[],
@@ -196,10 +199,11 @@ export async function fetchSellingPlanVariants(
           const r = await fetch(`${STORE_URL}/products/${handle}.js`);
           const product = await r.json();
           (product?.variants || []).forEach((v: any) => {
-            if (v?.available === false) return;
             (v?.selling_plan_allocations || []).forEach((a: any) => {
               const key = String(a.selling_plan_id);
-              if (!result[key]) {
+              const current = result[key];
+              const shouldUseVariant = !current || v?.available === true;
+              if (shouldUseVariant) {
                 result[key] = { variantId: String(v.id), price: v.price / 100 };
               }
             });
