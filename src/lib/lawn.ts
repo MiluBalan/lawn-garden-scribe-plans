@@ -5,6 +5,7 @@ export interface ILawnProduct {
   productTitle: string;
   description: string;
   variantId: string;
+  variantTitle: string;
   sellingPlanId: string;
   price: number;
   multiplier: number;
@@ -167,6 +168,7 @@ const STORE_URL = "https://biogrowthorganics.com";
 
 export interface IPlanVariant {
   variantId: string;
+  variantTitle: string;
   price: number;
 }
 
@@ -215,7 +217,11 @@ export async function fetchSellingPlanVariants(
             const current = result[key];
             const shouldUseVariant = !current || v?.available === true;
             if (shouldUseVariant) {
-              result[key] = { variantId: String(v.id), price: v.price / 100 };
+              result[key] = {
+                variantId: String(v.id),
+                variantTitle: v.title || "",
+                price: v.price / 100,
+              };
             }
           });
         });

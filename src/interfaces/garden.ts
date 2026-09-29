@@ -4,6 +4,7 @@ export interface IGardenProduct {
   productTitle: string;
   description: string;
   variantId: string;
+  variantTitle: string;
   sellingPlanId: string;
   price: number;
   multiplier: number;

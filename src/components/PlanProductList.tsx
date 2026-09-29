@@ -7,7 +7,11 @@ import {
 } from "@/lib/productImages";
 
 interface PlanProductListProps {
-  products: { productTitle: string; multiplier: number }[];
+  products: {
+    productTitle: string;
+    multiplier: number;
+    variantTitle?: string;
+  }[];
 }
 
 export default function PlanProductList({ products }: PlanProductListProps) {
@@ -50,6 +54,11 @@ export default function PlanProductList({ products }: PlanProductListProps) {
             >
               {shortenProductTitle(product.productTitle)}
             </p>
+            {product.variantTitle && (
+              <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-gray-500 border border-gray-200">
+                {product.variantTitle}
+              </span>
+            )}
             {product.multiplier > 1 && (
               <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-gray-500 border border-gray-200">
                 ×{product.multiplier}
