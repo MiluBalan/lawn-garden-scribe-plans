@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowLeft, Sprout, Leaf, Trees, Package } from "lucide-react";
+import { ArrowLeft, Sprout, Leaf, Trees, Package } from "lucide-react";
 import EnterpriseCard from "./EnterpriseCard";
 import PlanProductList from "./PlanProductList";
 import { useEffect, useState } from "react";
@@ -82,6 +82,30 @@ const planTiers = [
 
 const extractId = (gid: string) => gid.split("/").pop();
 
+const deliveryIntervalLabel = (plan: {
+  deliveries: number;
+  billingInterval: number;
+}) => {
+  const interval = plan.billingInterval / plan.deliveries;
+  return interval === 1
+    ? "Delivered monthly"
+    : `Delivered every ${interval} months`;
+};
+
+const bottlesSummary = (plan: IGardenSubscriptionPlan) => {
+  const total = plan.products.reduce((sum, p) => sum + p.multiplier, 0);
+  const sizes = Array.from(
+    new Set(plan.products.map((p) => p.variantTitle).filter(Boolean)),
+  );
+  const word = total === 1 ? "bottle" : "bottles";
+  if (sizes.length === 1) return `${total} × ${sizes[0]} ${word}`;
+  if (sizes.length > 1)
+    return `${plan.products
+      .map((p) => `${p.multiplier} × ${p.variantTitle || "bottle"}`)
+      .join(" + ")} ${word}`;
+  return `${total} ${word}`;
+};
+
 export default function GardenSubscriptionPlans({
   gardenData,
   onBack,
@@ -117,6 +141,7 @@ export default function GardenSubscriptionPlans({
               const planId = extractId(plan.node.id) as string;
               const linked = planVariants[planId];
               const variantId = linked?.variantId ?? (extractId(variant.id) as string);
+              const variantTitle = linked?.variantTitle ?? variant.title ?? "";
               const price = linked?.price ?? Number(variant.price);
               const billingInterval =
                 plan.node.billingPolicy?.intervalCount || 1;
@@ -148,6 +173,7 @@ export default function GardenSubscriptionPlans({
                 productTitle: product.node.title,
                 description: plan.node.description || "",
                 variantId,
+                variantTitle,
                 sellingPlanId: planId,
                 price: finalPrice,
                 multiplier: getProductQuantityMultiplier(product.node.title),
@@ -316,25 +342,19 @@ export default function GardenSubscriptionPlans({
                     </div>
 
                     <p className="text-sm text-gray-500 mb-1">
-                      {plan.deliveries} delivery every {plan.billingInterval}{" "}
-                      months
+                      {deliveryIntervalLabel(plan)}
+                    </p>
+
+                    <p className="text-sm font-medium text-gray-700 mb-1">
+                      {bottlesSummary(plan)} delivered
                     </p>
 
                     <p className={`text-sm ${tier.colors.text} mb-6`}>
                       {plan.discountLabel}
                     </p>
 
-                    <ul className="space-y-3 mb-8 flex-1">
-                      {tier.features.map((f, i) => (
-                        <li key={i} className="flex items-center gap-2">
-                          <Check className={`h-4 w-4 ${tier.colors.check}`} />
-                          <span className="text-sm">{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-
                     <Button
-                      className={`w-full ${tier.colors.button} text-white`}
+                      className={`w-full ${tier.colors.button} text-white mt-auto`}
                       onClick={() => handleSubscribe(plan)}
                     >
                       Subscribe
