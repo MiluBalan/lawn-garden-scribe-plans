@@ -126,8 +126,11 @@ export function selectLawnSizeBucket(
 
   if (containing.length) return containing[0];
 
-  // Above every bucket → use the largest one available.
-  return list.sort((a, b) => b.max - a.max || b.min - a.min)[0];
+  // No bucket contains the size (gap between rules or outside all rules) →
+  // use the closest bucket by distance to its range.
+  const distance = (b: ISizeBucket) =>
+    size < b.min ? b.min - size : size > b.max ? size - b.max : 0;
+  return list.sort((a, b) => distance(a) - distance(b) || bucketWidth(a) - bucketWidth(b))[0];
 }
 
 export function groupLawnSubscriptionPlans(
