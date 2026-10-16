@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import PlanTypeStep from "./PlanTypeStep";
 import LawnSizeStep from "./LawnSizeStep";
 import GrassTypeStep from "./GrassTypeStep";
@@ -22,43 +22,81 @@ interface LawnQuestionnaireProps {
   onBack: () => void;
 }
 
-const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
-  const [currentStep, setCurrentStep] = useState(0); // Start at 0 for plan type selection
-  const [showAnalysis, setShowAnalysis] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [showReportLoading, setShowReportLoading] = useState(false);
-  const [planData, setPlanData] = useState({
-    planType: "", // 'lawn' or 'garden'
-    // Lawn specific fields
-    size: "",
-    grassType: "",
-    location: "",
-    problems: [] as string[],
-    sunlight: "",
-    soilType: "",
-    sprinklerSystem: "",
-    sprinklerFrequency: "",
-    // Garden specific fields
-    plantType: "",
-    gardenSize: "",
-    growingSetup: "",
-    gardenStage: "",
-    growthStage: "",
-    plantingSeason: "",
-    plantSubtype: "",
-    plantSpacing: "",
-    plantGoal: "",
-    plantIssues: "",
-  });
+const STORAGE_KEY = "biogrowth-plan-data";
 
-  const getTotalSteps = () => {
-    if (planData.planType === "lawn") {
-      return 6; // Plan type + 5 lawn steps
-    } else if (planData.planType === "garden") {
-      return 6; // Plan type + 5 garden steps
+const STEP_SLUGS: Record<string, string[]> = {
+  lawn: ["size", "grass-type", "location", "problems", "sprinklers"],
+  garden: ["size", "plant-type", "variety", "stage", "location"],
+};
+
+const EMPTY_PLAN = {
+  planType: "",
+  size: "",
+  grassType: "",
+  location: "",
+  problems: [] as string[],
+  sunlight: "",
+  soilType: "",
+  sprinklerSystem: "",
+  sprinklerFrequency: "",
+  plantType: "",
+  gardenSize: "",
+  growingSetup: "",
+  gardenStage: "",
+  growthStage: "",
+  plantingSeason: "",
+  plantSubtype: "",
+  plantSpacing: "",
+  plantGoal: "",
+  plantIssues: "",
+};
+
+export const clearSavedPlan = () => {
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+  } catch {
+    /* ignore */
+  }
+};
+
+const loadPlan = (): typeof EMPTY_PLAN => {
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw) return { ...EMPTY_PLAN, ...JSON.parse(raw) };
+  } catch {
+    /* ignore */
+  }
+  return { ...EMPTY_PLAN };
+};
+
+const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [planData, setPlanData] = useState(loadPlan);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(planData));
+    } catch {
+      /* ignore */
     }
-    return 1; // Just plan type selection
-  };
+  }, [planData]);
+
+  // Parse URL: /plan, /plan/:type/:slug
+  const parts = location.pathname.replace(/^\/plan\/?/, "").split("/").filter(Boolean);
+  const urlType = parts[0] || "";
+  const urlSlug = parts[1] || "";
+  const slugs = STEP_SLUGS[urlType];
+  const view: "step" | "analysis" | "results" =
+    urlSlug === "results" ? "results" : urlSlug === "analyzing" ? "analysis" : "step";
+  const stepIndex = slugs ? slugs.indexOf(urlSlug) : -1;
+  const currentStep = !urlType ? 0 : stepIndex >= 0 ? stepIndex + 1 : view === "step" ? -1 : 6;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  const getTotalSteps = () => (planData.planType ? 6 : 1);
 
   const progress =
     getTotalSteps() > 1 ? ((currentStep + 1) / getTotalSteps()) * 100 : 0;
@@ -67,70 +105,93 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     setPlanData((prev) => ({ ...prev, ...data }));
   };
 
+  const stepPath = (step: number) =>
+    step === 0 ? "/plan" : `/plan/${planData.planType}/${STEP_SLUGS[planData.planType][step - 1]}`;
+
   const nextStep = () => {
-    const totalSteps = getTotalSteps();
-    if (currentStep < totalSteps - 1) {
-      setCurrentStep(currentStep + 1);
-      window.scrollTo(0, 0);
+    if (currentStep < getTotalSteps() - 1) {
+      navigate(stepPath(currentStep + 1));
+    } else if (planData.planType === "garden") {
+      navigate("/plan/garden/analyzing");
     } else {
-      if (planData.planType === "garden") {
-        setShowReportLoading(true);
-        setTimeout(() => {
-          setShowReportLoading(false);
-          setShowResults(true);
-        }, 1500);
-      } else {
-        setShowAnalysis(true);
-      }
+      navigate("/plan/lawn/analyzing");
     }
   };
 
   const prevStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-      window.scrollTo(0, 0);
-    }
+    if (currentStep > 0) navigate(stepPath(currentStep - 1));
   };
 
   const handleAnalysisComplete = () => {
-    setShowAnalysis(false);
-    setShowResults(true);
+    navigate(`/plan/${planData.planType}/results`, { replace: true });
   };
 
   const handleBackToSteps = () => {
-    setShowResults(false);
+    navigate(stepPath(5));
   };
 
   const handleRestart = () => {
-    setShowResults(false);
-    setShowAnalysis(false);
-    setCurrentStep(0);
-    setPlanData({
-      planType: "",
-      size: "",
-      grassType: "",
-      location: "",
-      problems: [],
-      sunlight: "",
-      soilType: "",
-      sprinklerSystem: "",
-      sprinklerFrequency: "",
-      plantType: "",
-      gardenSize: "",
-      growingSetup: "",
-      gardenStage: "",
-      growthStage: "",
-      plantingSeason: "",
-      plantSubtype: "",
-      plantSpacing: "",
-      plantGoal: "",
-      plantIssues: "",
-    });
+    setPlanData({ ...EMPTY_PLAN });
+    clearSavedPlan();
+    navigate("/plan");
   };
 
-  if (showResults) {
+  // Garden loading screen timer
+  useEffect(() => {
+    if (view === "analysis" && urlType === "garden") {
+      const t = setTimeout(handleAnalysisComplete, 1500);
+      return () => clearTimeout(t);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, urlType]);
+
+  // Route guards
+  if (urlType && (!slugs || urlType !== planData.planType || currentStep === -1)) {
+    return <Navigate to="/plan" replace />;
+  }
+  for (let s = 0; s < Math.min(currentStep, 6); s++) {
+    if (!canProceedAt(s)) {
+      return <Navigate to={stepPath(s)} replace />;
+    }
+  }
+
+  function canProceedAt(step: number): boolean {
+    if (step === 0) return planData.planType !== "";
     if (planData.planType === "lawn") {
-      console.log("Lawn Plan Data:", planData);
+      switch (step) {
+        case 1:
+          return !!planData.location && !!planData.size;
+        case 2:
+          return planData.grassType !== "";
+        case 3:
+          return planData.sunlight !== "";
+        case 4:
+          return true;
+        case 5:
+          return (
+            planData.sprinklerSystem !== "" &&
+            (planData.sprinklerSystem === "no" || planData.sprinklerFrequency !== "")
+          );
+      }
+    } else if (planData.planType === "garden") {
+      switch (step) {
+        case 1:
+          return planData.growingSetup !== "" && planData.location !== "";
+        case 2:
+          return planData.plantType !== "";
+        case 3:
+          return planData.plantSubtype !== "";
+        case 4:
+          return planData.gardenStage !== "";
+        case 5:
+          return planData.sunlight !== "" && planData.soilType !== "";
+      }
+    }
+    return false;
+  }
+
+  if (view === "results") {
+    if (planData.planType === "lawn") {
       return <LawnPlanResults lawnData={planData} onRestart={handleRestart} />;
     } else {
       return (
@@ -143,11 +204,11 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     }
   }
 
-  if (showAnalysis) {
+  if (view === "analysis" && planData.planType === "lawn") {
     return <AnalysisAnimation onComplete={handleAnalysisComplete} />;
   }
 
-  if (showReportLoading) {
+  if (view === "analysis") {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center space-y-6">
@@ -253,55 +314,8 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     return "";
   };
 
-  const canProceed = () => {
-    if (currentStep === 0) {
-      return planData.planType !== "";
-    }
+  const canProceed = () => canProceedAt(currentStep);
 
-    if (planData.planType === "lawn") {
-      switch (currentStep) {
-        case 1: {
-          const hasLocation = !!planData.location;
-
-          const hasSize =
-            !!planData.size && planData.size !== "" && planData.size !== null;
-
-          return hasLocation && hasSize;
-        }
-        case 2:
-          return planData.grassType !== "";
-        case 3:
-          return planData.sunlight !== "";
-        case 4:
-          return true; // Problems are optional
-        case 5:
-          return (
-            planData.sprinklerSystem !== "" &&
-            (planData.sprinklerSystem === "no" ||
-              planData.sprinklerFrequency !== "")
-          );
-        default:
-          return false;
-      }
-    } else if (planData.planType === "garden") {
-      switch (currentStep) {
-        case 1:
-          return planData.growingSetup !== "" && planData.location !== "";
-        case 2:
-          return planData.plantType !== "";
-        case 3:
-          return planData.plantSubtype !== "";
-        case 4:
-          return planData.gardenStage !== "";
-        case 5:
-          return planData.sunlight !== "" && planData.soilType !== "";
-        default:
-          return false;
-      }
-    }
-
-    return false;
-  };
 
   const getPlanTitle = () => {
     if (planData.planType === "lawn") {
