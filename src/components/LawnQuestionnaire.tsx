@@ -314,55 +314,8 @@ const LawnQuestionnaire = ({ onBack }: LawnQuestionnaireProps) => {
     return "";
   };
 
-  const canProceed = () => {
-    if (currentStep === 0) {
-      return planData.planType !== "";
-    }
+  const canProceed = () => canProceedAt(currentStep);
 
-    if (planData.planType === "lawn") {
-      switch (currentStep) {
-        case 1: {
-          const hasLocation = !!planData.location;
-
-          const hasSize =
-            !!planData.size && planData.size !== "" && planData.size !== null;
-
-          return hasLocation && hasSize;
-        }
-        case 2:
-          return planData.grassType !== "";
-        case 3:
-          return planData.sunlight !== "";
-        case 4:
-          return true; // Problems are optional
-        case 5:
-          return (
-            planData.sprinklerSystem !== "" &&
-            (planData.sprinklerSystem === "no" ||
-              planData.sprinklerFrequency !== "")
-          );
-        default:
-          return false;
-      }
-    } else if (planData.planType === "garden") {
-      switch (currentStep) {
-        case 1:
-          return planData.growingSetup !== "" && planData.location !== "";
-        case 2:
-          return planData.plantType !== "";
-        case 3:
-          return planData.plantSubtype !== "";
-        case 4:
-          return planData.gardenStage !== "";
-        case 5:
-          return planData.sunlight !== "" && planData.soilType !== "";
-        default:
-          return false;
-      }
-    }
-
-    return false;
-  };
 
   const getPlanTitle = () => {
     if (planData.planType === "lawn") {
